@@ -27,6 +27,12 @@ export enum GameTestErrorType {
     Waiting = "Waiting",
 }
 
+export enum LookDuration {
+    Continuous = "Continuous",
+    Instant = "Instant",
+    UntilMove = "UntilMove",
+}
+
 export class FenceConnectivity {
     private constructor();
     readonly east: boolean;
@@ -45,6 +51,12 @@ export class GameTestSequence {
     thenSucceed(): void;
     thenWait(callback: () => void): GameTestSequence;
     thenWaitAfter(delayTicks: number, callback: () => void): GameTestSequence;
+}
+
+export class NavigationResult {
+    private constructor();
+    readonly isFullPath: boolean;
+    getPath(): minecraftserver.Vector3[];
 }
 
 export class RegistrationBuilder {
@@ -88,23 +100,25 @@ export class SimulatedPlayer extends minecraftserver.Player {
     interactWithBlock(blockLocation: minecraftserver.Vector3, direction?: minecraftserver.Direction): boolean;
     interactWithEntity(entity: minecraftserver.Entity): boolean;
     jump(): boolean;
-    lookAtBlock(blockLocation: minecraftserver.Vector3): void;
-    lookAtEntity(entity: minecraftserver.Entity): void;
-    lookAtLocation(location: minecraftserver.Vector3): void;
+    lookAtBlock(blockLocation: minecraftserver.Vector3, duration?: LookDuration): void;
+    lookAtEntity(entity: minecraftserver.Entity, duration?: LookDuration): void;
+    lookAtLocation(location: minecraftserver.Vector3, duration?: LookDuration): void;
     move(westEast: number, northSouth: number, speed?: number): void;
     moveRelative(leftRight: number, backwardForward: number, speed?: number): void;
-    moveToBlock(blockLocation: minecraftserver.Vector3, speed?: number): void;
-    moveToLocation(location: minecraftserver.Vector3, speed?: number): void;
-    navigateToBlock(blockLocation: minecraftserver.Vector3, speed?: number): minecraftserver.NavigationResult;
-    navigateToEntity(entity: minecraftserver.Entity, speed?: number): minecraftserver.NavigationResult;
-    navigateToLocation(location: minecraftserver.Vector3, speed?: number): minecraftserver.NavigationResult;
+    moveToBlock(blockLocation: minecraftserver.Vector3, options?: MoveToOptions): void;
+    moveToLocation(location: minecraftserver.Vector3, options?: MoveToOptions): void;
+    navigateToBlock(blockLocation: minecraftserver.Vector3, speed?: number): NavigationResult;
+    navigateToEntity(entity: minecraftserver.Entity, speed?: number): NavigationResult;
+    navigateToLocation(location: minecraftserver.Vector3, speed?: number): NavigationResult;
     navigateToLocations(locations: minecraftserver.Vector3[], speed?: number): void;
     respawn(): boolean;
     rotateBody(angleInDegrees: number): void;
     setBodyRotation(angleInDegrees: number): void;
     setGameMode(gameMode: minecraftserver.GameMode): void;
     setItem(itemStack: minecraftserver.ItemStack, slot: number, selectSlot?: boolean): boolean;
+    startBuild(slot?: number): void;
     stopBreakingBlock(): void;
+    stopBuild(): void;
     stopFlying(): void;
     stopGliding(): void;
     stopInteracting(): void;
@@ -204,6 +218,11 @@ export interface GameTestErrorContext {
     absolutePosition: minecraftserver.Vector3,
     relativePosition: minecraftserver.Vector3,
     tickCount: number,
+}
+
+export interface MoveToOptions {
+    faceTarget?: boolean,
+    speed?: number,
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes

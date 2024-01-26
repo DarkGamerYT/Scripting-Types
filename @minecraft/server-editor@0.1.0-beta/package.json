@@ -1,0 +1,6 @@
+{
+    "name": "@minecraft/server-editor",
+    "version": "0.1.0-beta",
+    "license": "MIT",
+    "exports": "./index.d.ts"
+}

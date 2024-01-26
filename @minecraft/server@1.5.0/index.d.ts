@@ -2118,7 +2118,7 @@ export class ItemComponent extends Component {
 
 export class ItemReleaseUseAfterEvent {
     private constructor();
-    readonly itemStack: ItemStack;
+    readonly itemStack?: ItemStack;
     readonly source: Player;
     readonly useDuration: number;
 }
@@ -2705,7 +2705,7 @@ export class ProjectileHitEntityAfterEventSignal {
 
 export class Scoreboard {
     private constructor();
-    addObjective(objectiveId: string, displayName: string): ScoreboardObjective;
+    addObjective(objectiveId: string, displayName?: string): ScoreboardObjective;
     clearObjectiveAtDisplaySlot(displaySlotId: DisplaySlotId): ScoreboardObjective | undefined;
     getObjective(objectiveId: string): ScoreboardObjective | undefined;
     getObjectiveAtDisplaySlot(displaySlotId: DisplaySlotId): ScoreboardObjectiveDisplayOptions | undefined;
@@ -3625,16 +3625,13 @@ export interface RGB {
 }
 
 /** Represents a fully customizable color within Minecraft. */
-export interface RGBA {
+export interface RGBA extends RGB {
     /**
      * @remarks
      * Determines a color's alpha (opacity) component.
      * Valid values are between 0 (transparent) and 1.0 (opaque).
      */
     alpha: number,
-    blue: number,
-    green: number,
-    red: number,
 }
 
 /** Contains additional options for how a scoreboard should be displayed within its display slot. */
