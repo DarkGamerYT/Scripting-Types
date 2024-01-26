@@ -1,0 +1,6 @@
+{
+    "name": "@minecraft/server-admin",
+    "version": "1.0.0-beta",
+    "license": "MIT",
+    "exports": "./index.d.ts"
+}
