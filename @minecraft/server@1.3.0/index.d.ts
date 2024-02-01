@@ -139,6 +139,7 @@ export enum EntityDamageCause {
     piston = "piston",
     /** @remarks Damage caused by a projectile. */
     projectile = "projectile",
+    selfDestruct = "selfDestruct",
     /**
      * @remarks Damage caused by a falling Stalactite block.
      *
@@ -1820,7 +1821,7 @@ export class ItemStack {
      * const item = new ItemStack("minecraft:dirt", 8);
      * ```
      */
-    constructor(itemType: ItemType | string, amount: number);
+    constructor(itemType: ItemType | string, amount?: number);
     /**
      * @remarks Gets a component (that represents additional capabilities) for an item stack.
      *

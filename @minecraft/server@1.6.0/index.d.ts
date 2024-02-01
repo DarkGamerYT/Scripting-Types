@@ -202,6 +202,7 @@ export enum EntityDamageCause {
     /** @remarks Damage caused by a projectile. */
     projectile = "projectile",
     ramAttack = "ramAttack",
+    selfDestruct = "selfDestruct",
     sonicBoom = "sonicBoom",
     soulCampfire = "soulCampfire",
     /**
@@ -2532,7 +2533,7 @@ export class ItemStack {
      * const item = new ItemStack("minecraft:dirt", 8);
      * ```
      */
-    constructor(itemType: ItemType | string, amount: number);
+    constructor(itemType: ItemType | string, amount?: number);
     /**
      * @remarks Creates an exact copy of the item stack, including any custom data or properties.
      *
@@ -2757,7 +2758,6 @@ export class MinecraftDimensionTypes {
 
 /** Contains a set of additional variable values for further defining how rendering and animations function. */
 export class MolangVariableMap {
-    constructor();
     /**
      * @remarks
      * Adds the following variables to Molang:

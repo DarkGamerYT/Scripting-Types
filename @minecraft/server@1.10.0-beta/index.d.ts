@@ -268,6 +268,7 @@ export enum EntityComponentTypes {
     SkinId = "minecraft:skin_id",
     Strength = "minecraft:strength",
     Tameable = "minecraft:tameable",
+    TypeFamily = "minecraft:type_family",
     UnderwaterMovement = "minecraft:underwater_movement",
     Variant = "minecraft:variant",
     WantsJockey = "minecraft:wants_jockey",
@@ -400,6 +401,7 @@ export enum EntityDamageCause {
     /** @remarks Damage caused by a projectile. */
     projectile = "projectile",
     ramAttack = "ramAttack",
+    selfDestruct = "selfDestruct",
     sonicBoom = "sonicBoom",
     soulCampfire = "soulCampfire",
     /**
@@ -756,6 +758,7 @@ export type EntityComponentTypeMap = {
     riding: EntityComponent;
     strength: EntityComponent;
     tameable: EntityComponent;
+    type_family: EntityComponent;
     can_climb: EntityComponent;
     can_fly: EntityComponent;
     can_power_jump: EntityComponent;
@@ -819,6 +822,7 @@ export type EntityComponentTypeMap = {
     "minecraft:riding": EntityComponent;
     "minecraft:strength": EntityComponent;
     "minecraft:tameable": EntityComponent;
+    "minecraft:type_family": EntityComponent;
     "minecraft:can_climb": EntityComponent;
     "minecraft:can_fly": EntityComponent;
     "minecraft:can_power_jump": EntityComponent;
@@ -1343,11 +1347,7 @@ export class BlockAreaSize {
     /** @remarks Z size (south to north) of this block area size. */
     z: number;
     /** @remarks Creates a new BlockAreaSize object. */
-    constructor(
-        x: number, 
-        y: number, 
-        z: number
-    );
+    constructor(x: number, y: number, z: number);
     /** @remarks Tests whether this block area size is equal to another BlockAreaSize object. */
     equals(other: BlockAreaSize): boolean;
 }
@@ -1914,20 +1914,26 @@ export class BlockTypes {
     static getAll(): BlockType[];
 }
 
-export class BlockVolumeUtils {
+// @ts-ignore Class inheritance allowed for native defined classes
+export class BlockVolume extends BlockVolumeBase {
+    from: Vector3;
+    to: Vector3;
+    constructor(from: Vector3, to: Vector3);
+    doesLocationTouchFaces(pos: Vector3): boolean;
+    doesVolumeTouchFaces(other: BlockVolume): boolean;
+    intersects(other: BlockVolume): BlockVolumeIntersection;
+}
+
+export class BlockVolumeBase {
     private constructor();
-    static doesLocationTouchFaces(volume: BlockVolume, pos: Vector3): boolean;
-    static doesVolumeTouchFaces(volume: BlockVolume, other: BlockVolume): boolean;
-    static equals(volume: BlockVolume, other: BlockVolume): boolean;
-    static getBlockLocationIterator(volume: BlockVolume): BlockLocationIterator;
-    static getBoundingBox(volume: BlockVolume): BoundingBox;
-    static getCapacity(volume: BlockVolume): number;
-    static getMax(volume: BlockVolume): Vector3;
-    static getMin(volume: BlockVolume): Vector3;
-    static getSpan(volume: BlockVolume): Vector3;
-    static intersects(volume: BlockVolume, other: BlockVolume): BlockVolumeIntersection;
-    static isInside(volume: BlockVolume, pos: Vector3): boolean;
-    static translate(volume: BlockVolume, delta: Vector3): BlockVolume;
+    getBlockLocationIterator(): BlockLocationIterator;
+    getBoundingBox(): BoundingBox;
+    getCapacity(): number;
+    getMax(): Vector3;
+    getMin(): Vector3;
+    getSpan(): Vector3;
+    isInside(pos: Vector3): boolean;
+    translate(delta: Vector3): void;
 }
 
 /**
@@ -3154,7 +3160,10 @@ export class Entity {
      * ```
      */
     applyKnockback(directionX: number, directionZ: number, horizontalStrength: number, verticalStrength: number): void;
-    /** @throws This function can throw errors. */
+    /**
+     * @remarks Clears all dynamic properties that have been set on this entity.
+     * @throws This function can throw errors.
+     */
     clearDynamicProperties(): void;
     /**
      * @remarks
@@ -3290,7 +3299,20 @@ export class Entity {
      * ```
      */
     getDynamicProperty(identifier: string): boolean | number | string | Vector3 | undefined;
+    /**
+     * @remarks Returns the available set of dynamic property identifiers that have been used on this entity.
+     * @returns A string array of the dynamic properties set on this entity.
+     * @throws This function can throw errors.
+     */
     getDynamicPropertyIds(): string[];
+    /**
+     * @remarks
+     * Returns the total size, in bytes, of all the dynamic properties that are currently stored for this entity.
+     * This includes the size of both the key and the value.
+     * This can be useful for diagnosing performance warning signs - if, for example, an entity has many megabytes of associated dynamic properties, it may be slow to load on various devices.
+     *
+     * @throws This function can throw errors.
+     */
     getDynamicPropertyTotalByteCount(): number;
     /**
      * @remarks Returns the effect for the specified EffectType on the entity, undefined if the effect is not present, or throws an error if the effect does not exist.
@@ -4450,6 +4472,14 @@ export class EntityType {
     readonly id: string;
 }
 
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityTypeFamilyComponent extends EntityComponent {
+    private constructor();
+    static readonly componentId = "minecraft:type_family";
+    getTypeFamilies(): string[];
+    hasTypeFamily(typeFamily: string): boolean;
+}
+
 /**
  * @beta
  * An iterator that loops through available entity types.
@@ -5007,7 +5037,7 @@ export class ItemStack {
      * const item = new ItemStack("minecraft:dirt", 8);
      * ```
      */
-    constructor(itemType: ItemType | string, amount: number);
+    constructor(itemType: ItemType | string, amount?: number);
     clearDynamicProperties(): void;
     /**
      * @remarks Creates an exact copy of the item stack, including any custom data or properties.
@@ -5095,6 +5125,7 @@ export class ItemStack {
      * @returns True if the Item Stack is stackable with the itemStack passed in.
      */
     isStackableWith(itemStack: ItemStack): boolean;
+    matches(itemName: string, states?: Record<string, boolean | number | string>): boolean;
     setCanDestroy(blockIdentifiers?: string[]): void;
     setCanPlaceOn(blockIdentifiers?: string[]): void;
     setDynamicProperty(identifier: string, value?: boolean | number | string | Vector3): void;
@@ -5272,7 +5303,6 @@ export class MinecraftDimensionTypes {
 
 /** Contains a set of additional variable values for further defining how rendering and animations function. */
 export class MolangVariableMap {
-    constructor();
     /**
      * @remarks
      * Adds the following variables to Molang:
@@ -6518,11 +6548,7 @@ export class Vector {
      * @param z
      * Z component of the vector.
      */
-    constructor(
-        x: number, 
-        y: number, 
-        z: number
-    );
+    constructor(x: number, y: number, z: number);
     /**
      * @remarks Compares this vector and another vector to one another.
      *
@@ -7239,30 +7265,6 @@ export interface BlockRaycastOptions {
     includePassableBlocks?: boolean,
     /** @remarks Maximum distance, in blocks, to process the raycast. */
     maxDistance?: number,
-}
-
-/**
- * @beta
- * A BlockVolume is a simple interface to an object which represents a 3D rectangle of a given size (in blocks) at a world block location.
- * Note that these are not analogous to "min" and "max" values,
- *  in that the vector components are not guaranteed to be in any order.
- * In addition, these vector positions are not interchangeable with BlockLocation.
- * If you want to get this volume represented as range of of BlockLocations,
- *  you can use the getBoundingBox utility function.
- * This volume class will maintain the ordering of the corner indexes as initially set.
- * imagine that each corner is assigned in Editor - as you move the corner around
- *  (potentially inverting the min/max relationship of the bounds)
- *  - what you had originally selected as the top/left corner would traditionally become the bottom/right.
- * When manually editing these kinds of volumes, you need to maintain the identity of the corner as you edit - the BlockVolume utility functions do this.
- *
- * Important to note that this measures block sizes (to/from) - a normal AABB (0,0,0) to (0,0,0) would traditionally be of size (0,0,0)
- * However, because we're measuring blocks - the size or span of a BlockVolume would actually be (1,1,1)
- */
-export interface BlockVolume {
-    /** @remarks A world block location that represents a corner in a 3D rectangle */
-    from: Vector3,
-    /** @remarks A world block location that represents the opposite corner in a 3D rectangle */
-    to: Vector3,
 }
 
 /**

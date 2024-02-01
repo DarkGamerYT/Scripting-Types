@@ -45,7 +45,6 @@ export enum FormRejectReason {
  * ```
  */
 export class ActionFormData {
-    constructor();
     /** @remarks Method that sets the body text for the modal form. */
     body(bodyText: minecraftserver.RawMessage | string): ActionFormData;
     /** @remarks Adds a button to this form with an icon from a resource pack. */
@@ -100,7 +99,6 @@ export class FormResponse {
  * ```
  */
 export class MessageFormData {
-    constructor();
     /** @remarks Method that sets the body text for the modal form. */
     body(bodyText: minecraftserver.RawMessage | string): MessageFormData;
     /** @remarks Method that sets the text for the first button of the dialog. */
@@ -153,7 +151,6 @@ export class MessageFormResponse extends FormResponse {
  * ```
  */
 export class ModalFormData {
-    constructor();
     /** @remarks Adds a dropdown with choices to the form. */
     dropdown(label: minecraftserver.RawMessage | string, options: (minecraftserver.RawMessage | string)[], defaultValueIndex?: number): ModalFormData;
     /**

@@ -14,6 +14,13 @@
  * ```
  */
 import * as minecraftcommon from "@minecraft/common";
+export enum BlockPistonState {
+    Expanded = "Expanded",
+    Expanding = "Expanding",
+    Retracted = "Retracted",
+    Retracting = "Retracting",
+}
+
 /** A general purpose relative direction enumeration. */
 export enum Direction {
     /** @remarks Returns the {@link Block} beneath (y - 1) of this item. */
@@ -238,6 +245,7 @@ export enum EntityDamageCause {
     /** @remarks Damage caused by a projectile. */
     projectile = "projectile",
     ramAttack = "ramAttack",
+    selfDestruct = "selfDestruct",
     sonicBoom = "sonicBoom",
     soulCampfire = "soulCampfire",
     /**
@@ -879,6 +887,29 @@ export class BlockPermutation {
      * ```
      */
     static resolve(blockName: string, states?: Record<string, boolean | number | string>): BlockPermutation;
+}
+
+/**
+ * @beta
+ * When present, this block has piston-like behavior.
+ * Contains additional properties for discovering block piston state.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class BlockPistonComponent extends BlockComponent {
+    private constructor();
+    /**
+     * @remarks Whether the piston is in the process of expanding or retracting.
+     * @throws This property can throw when used.
+     */
+    readonly isMoving: boolean;
+    readonly state: BlockPistonState;
+    static readonly componentId = "minecraft:piston";
+    /**
+     * @remarks Retrieves a set of blocks that this piston is connected with.
+     * @throws This function can throw errors.
+     */
+    getAttachedBlocks(): Block[];
+    getAttachedBlocksLocations(): Vector3[];
 }
 
 /** Represents a block that can display text on it. */
@@ -1992,7 +2023,10 @@ export class Entity {
      * ```
      */
     applyKnockback(directionX: number, directionZ: number, horizontalStrength: number, verticalStrength: number): void;
-    /** @throws This function can throw errors. */
+    /**
+     * @remarks Clears all dynamic properties that have been set on this entity.
+     * @throws This function can throw errors.
+     */
     clearDynamicProperties(): void;
     /**
      * @remarks
@@ -2128,7 +2162,20 @@ export class Entity {
      * ```
      */
     getDynamicProperty(identifier: string): boolean | number | string | Vector3 | undefined;
+    /**
+     * @remarks Returns the available set of dynamic property identifiers that have been used on this entity.
+     * @returns A string array of the dynamic properties set on this entity.
+     * @throws This function can throw errors.
+     */
     getDynamicPropertyIds(): string[];
+    /**
+     * @remarks
+     * Returns the total size, in bytes, of all the dynamic properties that are currently stored for this entity.
+     * This includes the size of both the key and the value.
+     * This can be useful for diagnosing performance warning signs - if, for example, an entity has many megabytes of associated dynamic properties, it may be slow to load on various devices.
+     *
+     * @throws This function can throw errors.
+     */
     getDynamicPropertyTotalByteCount(): number;
     /**
      * @remarks Returns the effect for the specified EffectType on the entity, undefined if the effect is not present, or throws an error if the effect does not exist.
@@ -2222,6 +2269,7 @@ export class Entity {
      */
     kill(): boolean;
     matches(options: EntityQueryOptions): boolean;
+    playAnimation(animationName: string, options?: PlayAnimationOptions): void;
     /**
      * @remarks
      * Immediately removes the entity from the world.
@@ -3240,6 +3288,37 @@ export class ItemDurabilityComponent extends ItemComponent {
     getDamageChanceRange(): minecraftcommon.NumberRange;
 }
 
+/**
+ * @beta
+ * When present on an item, this item is consumable by entities.
+ * Note that this component only applies to data-driven items.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class ItemFoodComponent extends ItemComponent {
+    private constructor();
+    /**
+     * @remarks If true, the player can always eat this item (even when not hungry).
+     * @throws This property can throw when used.
+     */
+    readonly canAlwaysEat: boolean;
+    /**
+     * @remarks Represents how much nutrition this food item will give an entity when eaten.
+     * @throws This property can throw when used.
+     */
+    readonly nutrition: number;
+    /**
+     * @remarks When an item is eaten, this value is used according to this formula (nutrition * saturation_modifier * 2) to apply a saturation buff.
+     * @throws This property can throw when used.
+     */
+    readonly saturationModifier: number;
+    /**
+     * @remarks When specified, converts the active item to the one specified by this property.
+     * @throws This property can throw when used.
+     */
+    readonly usingConvertsTo: string;
+    static readonly componentId = "minecraft:food";
+}
+
 export class ItemReleaseUseAfterEvent {
     private constructor();
     readonly itemStack?: ItemStack;
@@ -3329,7 +3408,7 @@ export class ItemStack {
      * const item = new ItemStack("minecraft:dirt", 8);
      * ```
      */
-    constructor(itemType: ItemType | string, amount: number);
+    constructor(itemType: ItemType | string, amount?: number);
     /**
      * @remarks Creates an exact copy of the item stack, including any custom data or properties.
      *
@@ -3554,7 +3633,6 @@ export class MinecraftDimensionTypes {
 
 /** Contains a set of additional variable values for further defining how rendering and animations function. */
 export class MolangVariableMap {
-    constructor();
     /**
      * @remarks
      * Adds the following variables to Molang:
@@ -3603,6 +3681,19 @@ export class MolangVariableMap {
      * @throws This function can throw errors.
      */
     setVector3(variableName: string, vector: Vector3): void;
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class PistonActivateAfterEvent extends BlockEvent {
+    private constructor();
+    readonly isExpanding: boolean;
+    readonly piston: BlockPistonComponent;
+}
+
+export class PistonActivateAfterEventSignal {
+    private constructor();
+    subscribe(callback: (arg: PistonActivateAfterEvent) => void): (arg: PistonActivateAfterEvent) => void;
+    unsubscribe(callback: (arg: PistonActivateAfterEvent) => void): void;
 }
 
 /** Represents a player within the world. */
@@ -4818,6 +4909,11 @@ export class WorldAfterEvents {
     readonly itemUseOn: ItemUseOnAfterEventSignal;
     /** @remarks A lever has been pulled. */
     readonly leverAction: LeverActionAfterEventSignal;
+    /**
+     * @beta
+     * @remarks This event fires when a piston expands or retracts.
+     */
+    readonly pistonActivate: PistonActivateAfterEventSignal;
     /** @remarks This event fires before a block is broken by a player. */
     readonly playerBreakBlock: PlayerBreakBlockAfterEventSignal;
     /** @remarks Fires when a player moved to a different dimension. */
@@ -5143,6 +5239,23 @@ export interface MusicOptions {
     loop?: boolean,
     /** @remarks Relative volume level of the music. */
     volume?: number,
+}
+
+/**
+ * @beta
+ * Contains additional options for how an animation is played.
+ */
+export interface PlayAnimationOptions {
+    /** @remarks Amount of time to fade out after an animation stops. */
+    blendOutTime?: number,
+    /** @remarks Specifies a controller to use that has been defined on the entity. */
+    controller?: string,
+    /** @remarks Specifies the state to transition to. */
+    nextState?: string,
+    /** @remarks A list of players the animation will be visible to. */
+    players?: string[],
+    /** @remarks Specifies a Molang expression for when this animation should complete. */
+    stopExpression?: string,
 }
 
 /** Additional options for how a sound plays for a player. */

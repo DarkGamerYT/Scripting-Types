@@ -134,6 +134,7 @@ export class ExtensionContextAfterEvents {
     private constructor();
     readonly cursorPropertyChange: CursorPropertyChangeAfterEventSignal;
     readonly modeChange: ModeChangeAfterEventSignal;
+    readonly primarySelectionChange: PrimarySelectionChangeAfterEventSignal;
 }
 
 export class GraphicsSettings {
@@ -176,6 +177,17 @@ export class PlaytestManager {
     getPlaytestSessionAvailability(): PlaytestSessionResult;
 }
 
+export class PrimarySelectionChangeAfterEventSignal {
+    private constructor();
+    subscribe(callback: (arg: SelectionEventAfterEvent) => void): (arg: SelectionEventAfterEvent) => void;
+    unsubscribe(callback: (arg: SelectionEventAfterEvent) => void): void;
+}
+
+export class PrimarySelectionChangedEvent {
+    private constructor();
+    readonly volume?: minecraftserver.CompoundBlockVolume;
+}
+
 export class Selection {
     private constructor();
     readonly isEmpty: boolean;
@@ -194,6 +206,11 @@ export class Selection {
     set(other: minecraftserver.CompoundBlockVolume | Selection): void;
     setFillColor(color: minecraftserver.RGBA): void;
     setOutlineColor(color: minecraftserver.RGBA): void;
+}
+
+export class SelectionEventAfterEvent {
+    private constructor();
+    readonly selectionEvent: PrimarySelectionChangedEvent;
 }
 
 export class SelectionManager {

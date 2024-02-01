@@ -47,13 +47,13 @@ export enum EntityDamageCause {
     piston = "piston",
     projectile = "projectile",
     ramAttack = "ram_attack",
+    selfDestruct = "self_destruct",
     sonicBoom = "sonic_boom",
     soulCampfire = "soul_campfire",
     stalactite = "stalactite",
     stalagmite = "stalagmite",
     starve = "starve",
     suffocation = "suffocation",
-    suicide = "suicide",
     temperature = "temperature",
     thorns = "thorns",
     void = "void",
@@ -133,11 +133,7 @@ export class BlockAreaSize {
     x: number;
     y: number;
     z: number;
-    constructor(
-        x: number, 
-        y: number, 
-        z: number
-    );
+    constructor(x: number, y: number, z: number);
     equals(other: BlockAreaSize): boolean;
 }
 
@@ -185,11 +181,7 @@ export class BlockLocation {
     x: number;
     y: number;
     z: number;
-    constructor(
-        x: number, 
-        y: number, 
-        z: number
-    );
+    constructor(x: number, y: number, z: number);
     above(): BlockLocation;
     blocksBetween(other: BlockLocation): BlockLocation[];
     equals(other: BlockLocation): boolean;
@@ -227,7 +219,6 @@ export class BlockRaycastOptions {
     includeLiquidBlocks?: boolean;
     includePassableBlocks?: boolean;
     maxDistance?: number;
-    constructor();
 }
 
 export class BlockRecordPlayerComponent {
@@ -275,12 +266,7 @@ export class Color {
     blue: number;
     green: number;
     red: number;
-    constructor(
-        red: number, 
-        green: number, 
-        blue: number, 
-        alpha: number
-    );
+    constructor(red: number, green: number, blue: number, alpha: number);
 }
 
 export class Component {
@@ -319,7 +305,6 @@ export class DefinitionModifier {
     readonly componentGroupsToAdd: string[];
     readonly componentGroupsToRemove: string[];
     triggers: Trigger[];
-    constructor();
 }
 
 export class Dimension {
@@ -340,7 +325,6 @@ export class Dimension {
 }
 
 export class DynamicPropertiesDefinition {
-    constructor();
     defineBoolean(identifier: string, defaultValue?: boolean): DynamicPropertiesDefinition;
     defineNumber(identifier: string, defaultValue?: number): DynamicPropertiesDefinition;
     defineString(identifier: string, maxLength: number, defaultValue?: string): DynamicPropertiesDefinition;
@@ -478,7 +462,6 @@ export class EntityDataDrivenTriggerEventOptions {
     entities?: Entity[];
     entityTypes?: string[];
     eventTypes?: string[];
-    constructor();
 }
 
 export class EntityDefinitionFeedItem {
@@ -490,7 +473,6 @@ export class EntityDefinitionFeedItem {
 export class EntityEventOptions {
     entities?: Entity[];
     entityTypes?: string[];
-    constructor();
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes
@@ -816,7 +798,6 @@ export class EntityQueryOptions {
     tags?: string[];
     type?: string;
     volume?: BlockAreaSize;
-    constructor();
 }
 
 export class EntityQueryScoreOptions {
@@ -824,12 +805,10 @@ export class EntityQueryScoreOptions {
     maxScore?: number;
     minScore?: number;
     objective?: string;
-    constructor();
 }
 
 export class EntityRaycastOptions {
     maxDistance?: number;
-    constructor();
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes
@@ -934,7 +913,6 @@ export class ExplosionOptions {
     breaksBlocks?: boolean;
     causesFire?: boolean;
     source?: Entity;
-    constructor();
 }
 
 export class FeedItem {
@@ -1057,11 +1035,7 @@ export class ItemStack {
     data: number;
     readonly id: string;
     nameTag?: string;
-    constructor(
-        itemType: ItemType | string, 
-        amount: number, 
-        data: number
-    );
+    constructor(itemType: ItemType | string, amount?: number, data?: number);
     getComponent(componentId: string): ItemComponent | undefined;
     getComponents(): ItemComponent[];
     getLore(): string[];
@@ -1125,11 +1099,7 @@ export class Location {
     x: number;
     y: number;
     z: number;
-    constructor(
-        x: number, 
-        y: number, 
-        z: number
-    );
+    constructor(x: number, y: number, z: number);
     equals(other: Location): boolean;
     isNear(other: Location, epsilon: number): boolean;
 }
@@ -1167,7 +1137,6 @@ export class MinecraftItemTypes {
 }
 
 export class MolangVariableMap {
-    constructor();
     setColorRGB(variableName: string, color: Color): void;
     setColorRGBA(variableName: string, color: Color): void;
     setSpeedAndDirection(variableName: string, speed: number, direction: Vector): MolangVariableMap;
@@ -1178,7 +1147,6 @@ export class MusicOptions {
     fade?: number;
     loop?: boolean;
     volume?: number;
-    constructor();
 }
 
 export class NumberRange {
@@ -1289,7 +1257,6 @@ export class SoundOptions {
     location?: Location;
     pitch?: number;
     volume?: number;
-    constructor();
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes
@@ -1328,11 +1295,7 @@ export class Vector {
     static readonly right: Vector;
     static readonly up: Vector;
     static readonly zero: Vector;
-    constructor(
-        x: number, 
-        y: number, 
-        z: number
-    );
+    constructor(x: number, y: number, z: number);
     equals(other: Vector): boolean;
     length(): number;
     normalized(): Vector;

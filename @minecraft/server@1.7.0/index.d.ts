@@ -202,6 +202,7 @@ export enum EntityDamageCause {
     /** @remarks Damage caused by a projectile. */
     projectile = "projectile",
     ramAttack = "ramAttack",
+    selfDestruct = "selfDestruct",
     sonicBoom = "sonicBoom",
     soulCampfire = "soulCampfire",
     /**
@@ -1476,7 +1477,10 @@ export class Entity {
      * ```
      */
     applyKnockback(directionX: number, directionZ: number, horizontalStrength: number, verticalStrength: number): void;
-    /** @throws This function can throw errors. */
+    /**
+     * @remarks Clears all dynamic properties that have been set on this entity.
+     * @throws This function can throw errors.
+     */
     clearDynamicProperties(): void;
     /**
      * @remarks
@@ -1581,7 +1585,20 @@ export class Entity {
      * ```
      */
     getDynamicProperty(identifier: string): boolean | number | string | Vector3 | undefined;
+    /**
+     * @remarks Returns the available set of dynamic property identifiers that have been used on this entity.
+     * @returns A string array of the dynamic properties set on this entity.
+     * @throws This function can throw errors.
+     */
     getDynamicPropertyIds(): string[];
+    /**
+     * @remarks
+     * Returns the total size, in bytes, of all the dynamic properties that are currently stored for this entity.
+     * This includes the size of both the key and the value.
+     * This can be useful for diagnosing performance warning signs - if, for example, an entity has many megabytes of associated dynamic properties, it may be slow to load on various devices.
+     *
+     * @throws This function can throw errors.
+     */
     getDynamicPropertyTotalByteCount(): number;
     /**
      * @remarks Returns the effect for the specified EffectType on the entity, undefined if the effect is not present, or throws an error if the effect does not exist.
@@ -2707,7 +2724,7 @@ export class ItemStack {
      * const item = new ItemStack("minecraft:dirt", 8);
      * ```
      */
-    constructor(itemType: ItemType | string, amount: number);
+    constructor(itemType: ItemType | string, amount?: number);
     /**
      * @remarks Creates an exact copy of the item stack, including any custom data or properties.
      *
@@ -2932,7 +2949,6 @@ export class MinecraftDimensionTypes {
 
 /** Contains a set of additional variable values for further defining how rendering and animations function. */
 export class MolangVariableMap {
-    constructor();
     /**
      * @remarks
      * Adds the following variables to Molang:
