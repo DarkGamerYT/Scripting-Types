@@ -1,6 +1,13 @@
 {
     "name": "@minecraft/common",
     "version": "1.0.0",
+    "description": "",
     "license": "MIT",
-    "exports": "./index.d.ts"
+    "contributors": [
+        {
+            "name": "xKingDark",
+            "url": "https://github.com/DarkGamerYT"
+        }
+    ],
+    "dependencies": {}
 }

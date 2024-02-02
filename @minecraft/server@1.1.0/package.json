@@ -1,6 +1,15 @@
 {
     "name": "@minecraft/server",
     "version": "1.1.0",
+    "description": "Contains many types related to manipulating a Minecraft world, including entities, blocks, dimensions, and more.",
     "license": "MIT",
-    "exports": "./index.d.ts"
+    "contributors": [
+        {
+            "name": "xKingDark",
+            "url": "https://github.com/DarkGamerYT"
+        }
+    ],
+    "dependencies": {
+        "@minecraft/common": "^1.0.0"
+    }
 }

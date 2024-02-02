@@ -1,6 +1,15 @@
 {
     "name": "@minecraft/server-admin",
     "version": "1.0.0-beta",
+    "description": "Contains types related to administering a Bedrock Dedicated Server.\nThese types allow for the configuration of variables and secrets in JSON files in the Bedrock Dedicated Server folder.\nThese types cannot be used on Minecraft clients.",
     "license": "MIT",
-    "exports": "./index.d.ts"
+    "contributors": [
+        {
+            "name": "xKingDark",
+            "url": "https://github.com/DarkGamerYT"
+        }
+    ],
+    "dependencies": {
+        "@minecraft/common": "^1.0.0"
+    }
 }

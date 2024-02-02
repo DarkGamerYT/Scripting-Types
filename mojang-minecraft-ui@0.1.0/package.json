@@ -1,6 +1,16 @@
 {
     "name": "mojang-minecraft-ui",
     "version": "0.1.0",
+    "description": "",
     "license": "MIT",
-    "exports": "./index.d.ts"
+    "contributors": [
+        {
+            "name": "xKingDark",
+            "url": "https://github.com/DarkGamerYT"
+        }
+    ],
+    "dependencies": {
+        "@minecraft/common": "^1.0.0",
+        "mojang-minecraft": "^0.1.0"
+    }
 }

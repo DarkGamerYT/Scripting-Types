@@ -192,10 +192,7 @@ export class Test {
     spawnItem(itemStack: minecraftserver.ItemStack, location: minecraftserver.Vector3): minecraftserver.Entity;
     spawnSimulatedPlayer(blockLocation: minecraftserver.Vector3, name: string, gameMode?: minecraftserver.GameMode): SimulatedPlayer;
     spawnWithoutBehaviors(entityTypeIdentifier: string, blockLocation: minecraftserver.Vector3): minecraftserver.Entity;
-    spawnWithoutBehaviorsAtLocation(
-        entityTypeIdentifier: string, 
-        location: minecraftserver.Vector3,
-    ): minecraftserver.Entity;
+    spawnWithoutBehaviorsAtLocation(entityTypeIdentifier: string, location: minecraftserver.Vector3): minecraftserver.Entity;
     spreadFromFaceTowardDirection(blockLocation: minecraftserver.Vector3, fromFace: minecraftserver.Direction, direction: minecraftserver.Direction): void;
     startSequence(): GameTestSequence;
     succeed(): void;
@@ -233,13 +230,5 @@ export class GameTestError extends Error {
     readonly type: GameTestErrorType;
 }
 
-export function register(
-        testClassName: string, 
-        testName: string, 
-        testFunction: (arg: Test) => void
-    ): RegistrationBuilder;
-export function registerAsync(
-        testClassName: string, 
-        testName: string, 
-        testFunction: (arg: Test) => promise
-    ): RegistrationBuilder;
+export function register(testClassName: string, testName: string, testFunction: (arg: Test) => void): RegistrationBuilder;
+export function registerAsync(testClassName: string, testName: string, testFunction: (arg: Test) => promise): RegistrationBuilder;
