@@ -231,4 +231,4 @@ export class GameTestError extends Error {
 }
 
 export function register(testClassName: string, testName: string, testFunction: (arg: Test) => void): RegistrationBuilder;
-export function registerAsync(testClassName: string, testName: string, testFunction: (arg: Test) => promise): RegistrationBuilder;
+export function registerAsync(testClassName: string, testName: string, testFunction: (arg: Test) => Promise<void>): RegistrationBuilder;

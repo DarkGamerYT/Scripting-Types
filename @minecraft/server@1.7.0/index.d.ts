@@ -846,10 +846,10 @@ export class Camera {
     setCamera(
         cameraPreset: string, 
         setOptions?: 
-            | CameraDefaultOptions 
-            | CameraSetFacingOptions 
-            | CameraSetLocationOptions 
-            | CameraSetPosOptions 
+            | CameraDefaultOptions
+            | CameraSetFacingOptions
+            | CameraSetLocationOptions
+            | CameraSetPosOptions
             | CameraSetRotOptions,
     ): void;
 }
