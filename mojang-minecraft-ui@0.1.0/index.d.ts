@@ -50,7 +50,13 @@ export class ModalFormData {
     dropdown(label: string, options: string[], defaultValueIndex?: number): ModalFormData;
     icon(iconPath: string): ModalFormData;
     show(player: mojangminecraft.Player): Promise<ModalFormResponse>;
-    slider(label: string, minimumValue: number, maximumValue: number, valueStep: number, defaultValue?: number): ModalFormData;
+    slider(
+        label: string,
+        minimumValue: number,
+        maximumValue: number,
+        valueStep: number,
+        defaultValue?: number,
+    ): ModalFormData;
     textField(label: string, placeholderText: string, defaultValue?: string): ModalFormData;
     title(titleText: string): ModalFormData;
     toggle(label: string, defaultValue?: boolean): ModalFormData;

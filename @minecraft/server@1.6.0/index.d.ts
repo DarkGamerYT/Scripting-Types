@@ -357,24 +357,24 @@ export enum ItemLockMode {
  *  the chance skeletons and zombies have to spawn with armor, as well as the chance for spiders to spawn with certain status effects.
  */
 export enum MoonPhase {
-    /** @remarks The phase following the Waxing Crescent. */
-    FirstQuarter = 2,
     /**
      * @remarks
      * The brightest moon phase.
      * During this phase, cats have a 50% chance of spawning as black cats.
      */
     FullMoon = 0,
-    /** @remarks The phase following the Waning Gibbous. */
-    LastQuarter = 6,
-    /** @remarks The darkest moon phase. */
-    NewMoon = 4,
-    /** @remarks The phase following the Last Quarter. */
-    WaningCrescent = 3,
     /** @remarks The phase following the Full Moon. */
     WaningGibbous = 1,
+    /** @remarks The phase following the Waxing Crescent. */
+    FirstQuarter = 2,
+    /** @remarks The phase following the Last Quarter. */
+    WaningCrescent = 3,
+    /** @remarks The darkest moon phase. */
+    NewMoon = 4,
     /** @remarks The phase following the New Moon. */
     WaxingCrescent = 5,
+    /** @remarks The phase following the Waning Gibbous. */
+    LastQuarter = 6,
     /** @remarks The phase following the First Quarter. */
     WaxingGibbous = 7,
 }
@@ -417,16 +417,16 @@ export enum ScriptEventSource {
 export enum TimeOfDay {
     /** @remarks Sets the time to the start of the day, which is time of the day 1,000 (or the equivalent of 7am) in Minecraft. */
     Day = 1000,
-    /** @remarks Sets the time to midnight, which is time of the day 18,000 (or the equivalent of 12:00am) in Minecraft. */
-    Midnight = 18000,
-    /** @remarks Sets the time to night, which is time of the day 13,000 (or the equivalent of 7:00pm) in Minecraft. */
-    Night = 13000,
     /** @remarks Sets the time to noon, which is time of the day 6,000 in Minecraft. */
     Noon = 6000,
-    /** @remarks Sets the time to sunrise, which is time of the day 23,000 (or the equivalent of 5am) in Minecraft. */
-    Sunrise = 23000,
     /** @remarks Sets the time to sunset, which is time of the day 12,000 (or the equivalent of 6pm) in Minecraft. */
     Sunset = 12000,
+    /** @remarks Sets the time to night, which is time of the day 13,000 (or the equivalent of 7:00pm) in Minecraft. */
+    Night = 13000,
+    /** @remarks Sets the time to midnight, which is time of the day 18,000 (or the equivalent of 12:00am) in Minecraft. */
+    Midnight = 18000,
+    /** @remarks Sets the time to sunrise, which is time of the day 23,000 (or the equivalent of 5am) in Minecraft. */
+    Sunrise = 23000,
 }
 
 /** Used to specify the type of weather condition within the world. */
@@ -754,7 +754,7 @@ export class Camera {
      * ```
      */
     setCamera(
-        cameraPreset: string, 
+        cameraPreset: string,
         setOptions?: 
             | CameraDefaultOptions
             | CameraSetFacingOptions
@@ -1800,7 +1800,7 @@ export class EntityDieAfterEventSignal {
      * @returns Returns the closure that can be used in future downstream calls to unsubscribe.
      */
     subscribe(
-        callback: (arg: EntityDieAfterEvent) => void, 
+        callback: (arg: EntityDieAfterEvent) => void,
         options?: EntityEventOptions,
     ): (arg: EntityDieAfterEvent) => void;
     /**
@@ -1904,7 +1904,7 @@ export class EntityHealthChangedAfterEvent {
 export class EntityHealthChangedAfterEventSignal {
     private constructor();
     subscribe(
-        callback: (arg: EntityHealthChangedAfterEvent) => void, 
+        callback: (arg: EntityHealthChangedAfterEvent) => void,
         options?: EntityEventOptions,
     ): (arg: EntityHealthChangedAfterEvent) => void;
     unsubscribe(callback: (arg: EntityHealthChangedAfterEvent) => void): void;
@@ -1927,7 +1927,7 @@ export class EntityHitBlockAfterEvent {
 export class EntityHitBlockAfterEventSignal {
     private constructor();
     subscribe(
-        callback: (arg: EntityHitBlockAfterEvent) => void, 
+        callback: (arg: EntityHitBlockAfterEvent) => void,
         options?: EntityEventOptions,
     ): (arg: EntityHitBlockAfterEvent) => void;
     unsubscribe(callback: (arg: EntityHitBlockAfterEvent) => void): void;
@@ -1942,7 +1942,7 @@ export class EntityHitEntityAfterEvent {
 export class EntityHitEntityAfterEventSignal {
     private constructor();
     subscribe(
-        callback: (arg: EntityHitEntityAfterEvent) => void, 
+        callback: (arg: EntityHitEntityAfterEvent) => void,
         options?: EntityEventOptions,
     ): (arg: EntityHitEntityAfterEvent) => void;
     unsubscribe(callback: (arg: EntityHitEntityAfterEvent) => void): void;
@@ -1958,7 +1958,7 @@ export class EntityHurtAfterEvent {
 export class EntityHurtAfterEventSignal {
     private constructor();
     subscribe(
-        callback: (arg: EntityHurtAfterEvent) => void, 
+        callback: (arg: EntityHurtAfterEvent) => void,
         options?: EntityEventOptions,
     ): (arg: EntityHurtAfterEvent) => void;
     unsubscribe(callback: (arg: EntityHurtAfterEvent) => void): void;
@@ -2212,7 +2212,7 @@ export class EntityRemoveAfterEvent {
 export class EntityRemoveAfterEventSignal {
     private constructor();
     subscribe(
-        callback: (arg: EntityRemoveAfterEvent) => void, 
+        callback: (arg: EntityRemoveAfterEvent) => void,
         options?: EntityEventOptions,
     ): (arg: EntityRemoveAfterEvent) => void;
     unsubscribe(callback: (arg: EntityRemoveAfterEvent) => void): void;
@@ -3052,7 +3052,7 @@ export class PlayerBreakBlockAfterEvent extends BlockEvent {
 export class PlayerBreakBlockAfterEventSignal {
     private constructor();
     subscribe(
-        callback: (arg: PlayerBreakBlockAfterEvent) => void, 
+        callback: (arg: PlayerBreakBlockAfterEvent) => void,
         options?: BlockEventOptions,
     ): (arg: PlayerBreakBlockAfterEvent) => void;
     unsubscribe(callback: (arg: PlayerBreakBlockAfterEvent) => void): void;
@@ -3069,7 +3069,7 @@ export class PlayerBreakBlockBeforeEvent extends BlockEvent {
 export class PlayerBreakBlockBeforeEventSignal {
     private constructor();
     subscribe(
-        callback: (arg: PlayerBreakBlockBeforeEvent) => void, 
+        callback: (arg: PlayerBreakBlockBeforeEvent) => void,
         options?: BlockEventOptions,
     ): (arg: PlayerBreakBlockBeforeEvent) => void;
     unsubscribe(callback: (arg: PlayerBreakBlockBeforeEvent) => void): void;
@@ -3132,7 +3132,7 @@ export class PlayerPlaceBlockAfterEvent extends BlockEvent {
 export class PlayerPlaceBlockAfterEventSignal {
     private constructor();
     subscribe(
-        callback: (arg: PlayerPlaceBlockAfterEvent) => void, 
+        callback: (arg: PlayerPlaceBlockAfterEvent) => void,
         options?: BlockEventOptions,
     ): (arg: PlayerPlaceBlockAfterEvent) => void;
     unsubscribe(callback: (arg: PlayerPlaceBlockAfterEvent) => void): void;
@@ -3230,7 +3230,7 @@ export class Scoreboard {
     getParticipants(): ScoreboardIdentity[];
     removeObjective(objectiveId: ScoreboardObjective | string): boolean;
     setObjectiveAtDisplaySlot(
-        displaySlotId: DisplaySlotId, 
+        displaySlotId: DisplaySlotId,
         objectiveDisplaySetting: ScoreboardObjectiveDisplayOptions,
     ): ScoreboardObjective | undefined;
 }
@@ -3404,7 +3404,7 @@ export class ScriptEventCommandMessageAfterEventSignal {
      * This function can't be called in read-only mode. 
      */
     subscribe(
-        callback: (arg: ScriptEventCommandMessageAfterEvent) => void, 
+        callback: (arg: ScriptEventCommandMessageAfterEvent) => void,
         options?: ScriptEventMessageFilterOptions,
     ): (arg: ScriptEventCommandMessageAfterEvent) => void;
     /**
@@ -3919,151 +3919,151 @@ export class WorldBeforeEvents {
 /** Contains optional parameters for registering a block event. */
 export interface BlockEventOptions {
     /** @remarks If this value is set, this event will only fire if the impacted block's type matches this parameter. */
-    blockTypes?: string[],
+    blockTypes?: string[];
     /** @remarks If this value is set, this event will only fire if the impacted block's permutation matches this parameter. */
-    permutations?: BlockPermutation[],
+    permutations?: BlockPermutation[];
 }
 
 /** Contains more information for events where a block is hit. */
 export interface BlockHitInformation {
     /** @remarks Block that was hit. */
-    block: Block,
+    block: Block;
     /** @remarks Face of the block that was hit. */
-    face: Direction,
+    face: Direction;
     /** @remarks Location relative to the bottom north-west corner of the block. */
-    faceLocation: Vector3,
+    faceLocation: Vector3;
 }
 
 /** Contains information for block raycast hit results. */
 export interface BlockRaycastHit {
     /** @remarks Block that was hit. */
-    block: Block,
+    block: Block;
     /** @remarks Face of the block that was hit. */
-    face: Direction,
+    face: Direction;
     /** @remarks Hit location relative to the bottom north-west corner of the block. */
-    faceLocation: Vector3,
+    faceLocation: Vector3;
 }
 
 /** Contains additional options for configuring a block raycast query. */
 export interface BlockRaycastOptions {
     /** @remarks If true, liquid blocks will be considered as blocks that 'stop' the raycast. */
-    includeLiquidBlocks?: boolean,
+    includeLiquidBlocks?: boolean;
     /** @remarks If true, passable blocks like vines and flowers will be considered as blocks that 'stop' the raycast. */
-    includePassableBlocks?: boolean,
+    includePassableBlocks?: boolean;
     /** @remarks Maximum distance, in blocks, to process the raycast. */
-    maxDistance?: number,
+    maxDistance?: number;
 }
 
 export interface CameraDefaultOptions {
-    easeOptions: CameraEaseOptions,
+    easeOptions: CameraEaseOptions;
 }
 
 /** Contains options associated with a camera ease operation. */
 export interface CameraEaseOptions {
     /** @remarks Time for the ease operation. */
-    easeTime?: number,
+    easeTime?: number;
     /** @remarks Type of ease operation to use. */
-    easeType?: EasingType,
+    easeType?: EasingType;
 }
 
 /** Used to initiate a full-screen color fade. */
 export interface CameraFadeOptions {
     /** @remarks Fade color to use. */
-    fadeColor?: RGB,
+    fadeColor?: RGB;
     /** @remarks Time in seconds for the fade-in, hold, and fade-out seconds. */
-    fadeTime?: CameraFadeTimeOptions,
+    fadeTime?: CameraFadeTimeOptions;
 }
 
 /** Contains timings for a fade transition. */
 export interface CameraFadeTimeOptions {
     /** @remarks Time, in seconds, for a fade-in. */
-    fadeInTime: number,
+    fadeInTime: number;
     /** @remarks Time, in seconds, for a fade-out. */
-    fadeOutTime: number,
+    fadeOutTime: number;
     /** @remarks Time, in seconds, to hold the full screen color. */
-    holdTime: number,
+    holdTime: number;
 }
 
 export interface CameraSetFacingOptions {
-    easeOptions?: CameraEaseOptions,
-    facingEntity: Entity,
-    location?: Vector3,
+    easeOptions?: CameraEaseOptions;
+    facingEntity: Entity;
+    location?: Vector3;
 }
 
 export interface CameraSetLocationOptions {
-    easeOptions?: CameraEaseOptions,
-    location: Vector3,
+    easeOptions?: CameraEaseOptions;
+    location: Vector3;
 }
 
 export interface CameraSetPosOptions {
-    easeOptions?: CameraEaseOptions,
-    facingLocation: Vector3,
-    location?: Vector3,
+    easeOptions?: CameraEaseOptions;
+    facingLocation: Vector3;
+    location?: Vector3;
 }
 
 export interface CameraSetRotOptions {
-    easeOptions?: CameraEaseOptions,
-    location?: Vector3,
-    rotation: Vector2,
+    easeOptions?: CameraEaseOptions;
+    location?: Vector3;
+    rotation: Vector2;
 }
 
 /** An exact coordinate within the world, including its dimension and location. */
 export interface DimensionLocation {
     /** @remarks Dimension that this coordinate is associated with. */
-    dimension: Dimension,
+    dimension: Dimension;
     /** @remarks X component of this dimension-location. */
-    x: number,
+    x: number;
     /** @remarks Y component of this dimension-location. */
-    y: number,
+    y: number;
     /** @remarks Z component of this dimension-location. */
-    z: number,
+    z: number;
 }
 
 /** Additional options for when damage has been applied via a projectile. */
 export interface EntityApplyDamageByProjectileOptions {
     /** @remarks Optional entity that fired the projectile. */
-    damagingEntity?: Entity,
+    damagingEntity?: Entity;
     /** @remarks Projectile that caused damage. */
-    damagingProjectile: Entity,
+    damagingProjectile: Entity;
 }
 
 /** Additional descriptions and metadata for a damage event. */
 export interface EntityApplyDamageOptions {
     /** @remarks Underlying cause of the damage. */
-    cause: EntityDamageCause,
-    damagingEntity?: Entity,
+    cause: EntityDamageCause;
+    damagingEntity?: Entity;
 }
 
 /** Provides information about how damage has been applied to an entity. */
 export interface EntityDamageSource {
     /** @remarks Cause enumeration of damage. */
-    cause: EntityDamageCause,
+    cause: EntityDamageCause;
     /** @remarks Optional entity that caused the damage. */
-    damagingEntity?: Entity,
+    damagingEntity?: Entity;
     /** @remarks Optional projectile that may have caused damage. */
-    damagingProjectile?: Entity,
+    damagingProjectile?: Entity;
 }
 
 /** Contains additional options for entity effects. */
 export interface EntityEffectOptions {
     /** @remarks The strength of the effect. */
-    amplifier?: number,
+    amplifier?: number;
     /** @remarks If true, will show particles when effect is on the entity. */
-    showParticles?: boolean,
+    showParticles?: boolean;
 }
 
 /** Contains optional parameters for registering an entity event. */
 export interface EntityEventOptions {
     /** @remarks If this value is set, this event will only fire for entities that match the entities within this collection. */
-    entities?: Entity[],
+    entities?: Entity[];
     /** @remarks If this value is set, this event will only fire if the impacted entities' type matches this parameter. */
-    entityTypes?: string[],
+    entityTypes?: string[];
 }
 
 /** Contains additional information about an entity that was hit. */
 export interface EntityHitInformation {
     /** @remarks Entity that was hit. */
-    entity?: Entity,
+    entity?: Entity;
 }
 
 /** Contains options for selecting entities within an area. */
@@ -4073,129 +4073,129 @@ export interface EntityQueryOptions {
      * Limits the number of entities to return, opting for the closest N entities as specified by this property.
      * The location value must also be specified on the query options object.
      */
-    closest?: number,
+    closest?: number;
     /** @remarks Excludes entities that match one or more of the specified families. */
-    excludeFamilies?: string[],
+    excludeFamilies?: string[];
     /** @remarks Excludes entities if have a specific gamemode that matches the specified gamemode. */
-    excludeGameModes?: GameMode[],
+    excludeGameModes?: GameMode[];
     /** @remarks Excludes entities that have a name that match one of the specified values. */
-    excludeNames?: string[],
+    excludeNames?: string[];
     /** @remarks Excludes entities with a tag that matches one of the specified values. */
-    excludeTags?: string[],
+    excludeTags?: string[];
     /** @remarks Excludes entities if they are one of the specified types. */
-    excludeTypes?: string[],
+    excludeTypes?: string[];
     /** @remarks If specified, includes entities that match all of the specified families. */
-    families?: string[],
+    families?: string[];
     /**
      * @remarks
      * Limits the number of entities to return, opting for the farthest N entities as specified by this property.
      * The location value must also be specified on the query options object.
      */
-    farthest?: number,
+    farthest?: number;
     /** @remarks If specified, includes entities with a gamemode that matches the specified gamemode. */
-    gameMode?: GameMode,
+    gameMode?: GameMode;
     /** @remarks Adds a seed location to the query that is used in conjunction with closest, farthest, limit, volume, and distance properties. */
-    location?: Vector3,
+    location?: Vector3;
     /** @remarks If specified, includes entities that are less than this distance away from the location specified in the location property. */
-    maxDistance?: number,
+    maxDistance?: number;
     /** @remarks If specified, will only include entities that have at most this horizontal rotation. */
-    maxHorizontalRotation?: number,
+    maxHorizontalRotation?: number;
     /** @remarks If defined, only players that have at most this level are returned. */
-    maxLevel?: number,
+    maxLevel?: number;
     /** @remarks If specified, only entities that have at most this vertical rotation are returned. */
-    maxVerticalRotation?: number,
+    maxVerticalRotation?: number;
     /** @remarks If specified, includes entities that are least this distance away from the location specified in the location property. */
-    minDistance?: number,
+    minDistance?: number;
     /** @remarks If specified, will only include entities that have at a minimum this horizontal rotation. */
-    minHorizontalRotation?: number,
+    minHorizontalRotation?: number;
     /** @remarks If defined, only players that have at least this level are returned. */
-    minLevel?: number,
+    minLevel?: number;
     /** @remarks If specified, will only include entities that have at least this vertical rotation. */
-    minVerticalRotation?: number,
+    minVerticalRotation?: number;
     /** @remarks Includes entities with the specified name. */
-    name?: string,
+    name?: string;
     /** @remarks Gets/sets a collection of EntityQueryScoreOptions objects with filters for specific scoreboard objectives. */
-    scoreOptions?: EntityQueryScoreOptions[],
+    scoreOptions?: EntityQueryScoreOptions[];
     /** @remarks Includes entities that match all of the specified tags. */
-    tags?: string[],
+    tags?: string[];
     /** @remarks If defined, entities that match this type are included. */
-    type?: string,
+    type?: string;
 }
 
 /** Contains additional options for filtering players based on their score for an objective. */
 export interface EntityQueryScoreOptions {
     /** @remarks If set to true, entities and players within this score range are excluded from query results. */
-    exclude?: boolean,
+    exclude?: boolean;
     /** @remarks If defined, only players that have a score equal to or under maxScore are included. */
-    maxScore?: number,
+    maxScore?: number;
     /** @remarks If defined, only players that have a score equal to or over minScore are included. */
-    minScore?: number,
+    minScore?: number;
     /** @remarks Identifier of the scoreboard objective to filter on. */
-    objective?: string,
+    objective?: string;
 }
 
 /** Contains information for entity raycast hit results. */
 export interface EntityRaycastHit {
     /** @remarks Distance from ray origin to entity bounds. */
-    distance: number,
+    distance: number;
     /** @remarks Entity that was hit. */
-    entity: Entity,
+    entity: Entity;
 }
 
 /** Contains additional options for an entity raycast operation. */
 export interface EntityRaycastOptions {
     /** @remarks Maximum distance, in blocks, to process the raycast. */
-    maxDistance?: number,
+    maxDistance?: number;
 }
 
 /** Additional configuration options for {@link World.playMusic}/{@link World.queueMusic} methods. */
 export interface MusicOptions {
     /** @remarks Specifies a fade overlap for music at the end of play. */
-    fade?: number,
+    fade?: number;
     /** @remarks If set to true, this music track will play repeatedly. */
-    loop?: boolean,
+    loop?: boolean;
     /** @remarks Relative volume level of the music. */
-    volume?: number,
+    volume?: number;
 }
 
 /** Additional options for how a sound plays for a player. */
 export interface PlayerSoundOptions {
     /** @remarks Location of the sound; if not specified, the sound is played near a player. */
-    location?: Vector3,
+    location?: Vector3;
     /** @remarks Optional pitch of the sound. */
-    pitch?: number,
+    pitch?: number;
     /** @remarks Optional volume of the sound. */
-    volume?: number,
+    volume?: number;
 }
 
 /** Defines a JSON structure that is used for more flexible. */
 export interface RawMessage {
     /** @remarks Provides a raw-text equivalent of the current message. */
-    rawtext?: RawMessage[],
+    rawtext?: RawMessage[];
     /** @remarks Provides a token that will get replaced with the value of a score. */
-    score?: RawMessageScore,
+    score?: RawMessageScore;
     /** @remarks Provides a string literal value to use. */
-    text?: string,
+    text?: string;
     /**
      * @remarks
      * Provides a translation token where, if the client has an available resource in the players' language which matches the token,
      *  will get translated on the client.
      */
-    translate?: string,
+    translate?: string;
     /**
      * @remarks
      * Arguments for the translation token.
      * Can be either an array of strings or RawMessage containing an array of raw text objects.
      */
-    with?: string[] | RawMessage,
+    with?: string[] | RawMessage;
 }
 
 /** Provides a description of a score token to use within a raw message. */
 export interface RawMessageScore {
     /** @remarks Name of the score value to match. */
-    name?: string,
+    name?: string;
     /** @remarks Name of the score value to match. */
-    objective?: string,
+    objective?: string;
 }
 
 /** Represents a fully customizable color within Minecraft. */
@@ -4205,19 +4205,19 @@ export interface RGB {
      * Determines a color's blue component.
      * Valid values are between 0 and 1.0.
      */
-    blue: number,
+    blue: number;
     /**
      * @remarks
      * Determines a color's green component.
      * Valid values are between 0 and 1.0.
      */
-    green: number,
+    green: number;
     /**
      * @remarks
      * Determines a color's red component.
      * Valid values are between 0 and 1.0.
      */
-    red: number,
+    red: number;
 }
 
 /** Represents a fully customizable color within Minecraft. */
@@ -4227,39 +4227,39 @@ export interface RGBA extends RGB {
      * Determines a color's alpha (opacity) component.
      * Valid values are between 0 (transparent) and 1.0 (opaque).
      */
-    alpha: number,
+    alpha: number;
 }
 
 /** Contains additional options for how a scoreboard should be displayed within its display slot. */
 export interface ScoreboardObjectiveDisplayOptions {
     /** @remarks Objective to be displayed. */
-    objective: ScoreboardObjective,
+    objective: ScoreboardObjective;
     /** @remarks The sort order to display the objective items within. */
-    sortOrder?: ObjectiveSortOrder,
+    sortOrder?: ObjectiveSortOrder;
 }
 
 /** Contains additional options for registering a script event event callback. */
 export interface ScriptEventMessageFilterOptions {
     /** @remarks Optional list of namespaces to filter inbound script event messages. */
-    namespaces: string[],
+    namespaces: string[];
 }
 
 /** Contains additional options for teleporting an entity. */
 export interface TeleportOptions {
     /** @remarks Whether to check whether blocks will block the entity after teleport. */
-    checkForBlocks?: boolean,
+    checkForBlocks?: boolean;
     /**
      * @remarks
      * Dimension to potentially move the entity to.
      * If not specified, the entity is teleported within the dimension that they reside.
      */
-    dimension?: Dimension,
+    dimension?: Dimension;
     /** @remarks Location that the entity should be facing after teleport. */
-    facingLocation?: Vector3,
+    facingLocation?: Vector3;
     /** @remarks Whether to retain the entities velocity after teleport. */
-    keepVelocity?: boolean,
+    keepVelocity?: boolean;
     /** @remarks Rotation of the entity after teleport. */
-    rotation?: Vector2,
+    rotation?: Vector2;
 }
 
 /** Contains additional options for displaying a title and optional subtitle. */
@@ -4270,49 +4270,49 @@ export interface TitleDisplayOptions {
      * There are 20 ticks per second.
      * Use {@link TicksPerSecond} constant to convert between ticks and seconds.
      */
-    fadeInDuration: number,
+    fadeInDuration: number;
     /**
      * @remarks
      * Fade-out time for the title and subtitle, in ticks.
      * There are 20 ticks per second.
      * Use {@link TicksPerSecond} constant to convert between ticks and seconds.
      */
-    fadeOutDuration: number,
+    fadeOutDuration: number;
     /**
      * @remarks
      * Amount of time for the title and subtitle to stay in place, in ticks.
      * There are 20 ticks per second.
      * Use {@link TicksPerSecond} constant to convert between ticks and seconds.
      */
-    stayDuration: number,
+    stayDuration: number;
     /** @remarks Optional subtitle text. */
-    subtitle?: (RawMessage | string)[] | RawMessage | string,
+    subtitle?: (RawMessage | string)[] | RawMessage | string;
 }
 
 /** Represents a two-directional vector. */
 export interface Vector2 {
     /** @remarks X component of the two-dimensional vector. */
-    x: number,
+    x: number;
     /** @remarks Y component of the two-dimensional vector. */
-    y: number,
+    y: number;
 }
 
 /** Contains a description of a vector. */
 export interface Vector3 {
     /** @remarks X component of this vector. */
-    x: number,
+    x: number;
     /** @remarks Y component of this vector. */
-    y: number,
+    y: number;
     /** @remarks Z component of this vector. */
-    z: number,
+    z: number;
 }
 
 /** Contains additional options for a world-level playSound occurrence. */
 export interface WorldSoundOptions {
     /** @remarks Pitch of the sound played at the world level. */
-    pitch?: number,
+    pitch?: number;
     /** @remarks Relative volume and space by which this sound is heard. */
-    volume?: number,
+    volume?: number;
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes

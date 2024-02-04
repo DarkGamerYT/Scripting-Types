@@ -161,7 +161,11 @@ export class MessageFormResponse extends FormResponse {
  */
 export class ModalFormData {
     /** @remarks Adds a dropdown with choices to the form. */
-    dropdown(label: minecraftserver.RawMessage | string, options: (minecraftserver.RawMessage | string)[], defaultValueIndex?: number): ModalFormData;
+    dropdown(
+        label: minecraftserver.RawMessage | string,
+        options: (minecraftserver.RawMessage | string)[],
+        defaultValueIndex?: number,
+    ): ModalFormData;
     /**
      * @remarks
      * Creates and shows this modal popup form.
@@ -175,9 +179,19 @@ export class ModalFormData {
      */
     show(player: minecraftserver.Player): Promise<ModalFormResponse>;
     /** @remarks Adds a numeric slider to the form. */
-    slider(label: minecraftserver.RawMessage | string, minimumValue: number, maximumValue: number, valueStep: number, defaultValue?: number): ModalFormData;
+    slider(
+        label: minecraftserver.RawMessage | string,
+        minimumValue: number,
+        maximumValue: number,
+        valueStep: number,
+        defaultValue?: number,
+    ): ModalFormData;
     /** @remarks Adds a textbox to the form. */
-    textField(label: minecraftserver.RawMessage | string, placeholderText: minecraftserver.RawMessage | string, defaultValue?: minecraftserver.RawMessage | string): ModalFormData;
+    textField(
+        label: minecraftserver.RawMessage | string,
+        placeholderText: minecraftserver.RawMessage | string,
+        defaultValue?: minecraftserver.RawMessage | string,
+    ): ModalFormData;
     /** @remarks This builder method sets the title for the modal dialog. */
     title(titleText: minecraftserver.RawMessage | string): ModalFormData;
     /** @remarks Adds a toggle checkbox button to the form. */

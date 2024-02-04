@@ -15,11 +15,11 @@
 import * as minecraftcommon from "@minecraft/common";
 export enum Direction {
     down = 0,
-    east = 5,
+    up = 1,
     north = 2,
     south = 3,
-    up = 1,
     west = 4,
+    east = 5,
 }
 
 export enum EntityDamageCause {
@@ -61,16 +61,16 @@ export enum EntityDamageCause {
 }
 
 export enum GameMode {
-    adventure = 2,
-    creative = 1,
-    spectator = 6,
     survival = 0,
+    creative = 1,
+    adventure = 2,
+    spectator = 6,
 }
 
 export enum ScoreboardIdentityType {
+    player = 1,
     entity = 2,
     fakePlayer = 3,
-    player = 1,
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes
@@ -295,7 +295,7 @@ export class DataDrivenEntityTriggerEvent {
 export class DataDrivenEntityTriggerEventSignal {
     private constructor();
     subscribe(
-        callback: (arg: DataDrivenEntityTriggerEvent) => void, 
+        callback: (arg: DataDrivenEntityTriggerEvent) => void,
         options?: EntityDataDrivenTriggerEventOptions,
     ): (arg: DataDrivenEntityTriggerEvent) => void;
     unsubscribe(callback: (arg: DataDrivenEntityTriggerEvent) => void): void;
@@ -1209,7 +1209,7 @@ export class PlayerLeaveEventSignal {
 export class PropertyRegistry {
     private constructor();
     registerEntityTypeDynamicProperties(
-        propertiesDefinition: DynamicPropertiesDefinition, 
+        propertiesDefinition: DynamicPropertiesDefinition,
         entityTypeOrId: EntityType | string,
     ): void;
     registerWorldDynamicProperties(propertiesDefinition: DynamicPropertiesDefinition): void;

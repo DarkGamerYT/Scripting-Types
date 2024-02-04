@@ -15,9 +15,9 @@
 /** Represents a min/max structure for expressing a potential range of numbers. */
 export interface NumberRange {
     /** @remarks Maximum value within a range. */
-    max: number,
+    max: number;
     /** @remarks Minimum value within a range. */
-    min: number,
+    min: number;
 }
 
 /** This type of error is thrown when a parameter to a method or property is out of expected bounds. */

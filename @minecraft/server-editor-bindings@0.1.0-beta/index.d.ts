@@ -29,10 +29,10 @@ export enum ClipboardRotation {
 }
 
 export enum CursorControlMode {
-    Fixed = 3,
     Keyboard = 0,
-    KeyboardAndMouse = 2,
     Mouse = 1,
+    KeyboardAndMouse = 2,
+    Fixed = 3,
 }
 
 export enum CursorTargetMode {
@@ -50,18 +50,18 @@ export enum GraphicsSettingsProperty {
 }
 
 export enum PlaytestSessionResult {
-    EditorSystemFailure = 7,
-    InvalidLevelId = 8,
-    InvalidSessionHandle = 1,
     OK = 0,
-    PlayerNotFound = 9,
-    ResponseTimeout = 10,
+    InvalidSessionHandle = 1,
     SessionInfoNotFound = 2,
     TooManyPlayers = 3,
-    UnspecifiedError = 11,
-    UnsupportedScenario = 6,
-    WorldExportBusy = 5,
     WorldExportFailed = 4,
+    WorldExportBusy = 5,
+    UnsupportedScenario = 6,
+    EditorSystemFailure = 7,
+    InvalidLevelId = 8,
+    PlayerNotFound = 9,
+    ResponseTimeout = 10,
+    UnspecifiedError = 11,
 }
 
 export class ClipboardItem {
@@ -69,7 +69,7 @@ export class ClipboardItem {
     readonly isEmpty: boolean;
     clear(): void;
     getPredictedWriteAsCompoundBlockVolume(
-        location: minecraftserver.Vector3, 
+        location: minecraftserver.Vector3,
         options?: ClipboardWriteOptions,
     ): minecraftserver.CompoundBlockVolume;
     getPredictedWriteAsSelection(location: minecraftserver.Vector3, options?: ClipboardWriteOptions): Selection;
@@ -157,7 +157,12 @@ export class MinecraftEditor {
     private constructor();
     readonly log: Logger;
     readonly simulation: SimulationState;
-    registerExtension_Internal(extensionName: string, activationFunction: (arg: ExtensionContext) => void, shutdownFunction: (arg: ExtensionContext) => void, options?: ExtensionOptionalParameters): Extension;
+    registerExtension_Internal(
+        extensionName: string,
+        activationFunction: (arg: ExtensionContext) => void,
+        shutdownFunction: (arg: ExtensionContext) => void,
+        options?: ExtensionOptionalParameters,
+    ): Extension;
 }
 
 export class ModeChangeAfterEvent {
@@ -232,11 +237,15 @@ export class SimulationState {
 
 export class TransactionManager {
     private constructor();
-    addUserDefinedOperation(transactionHandlerId: UserDefinedTransactionHandlerId, operationData: string, operationName?: string): void;
+    addUserDefinedOperation(
+        transactionHandlerId: UserDefinedTransactionHandlerId,
+        operationData: string,
+        operationName?: string,
+    ): void;
     commitOpenTransaction(): boolean;
     commitTrackedChanges(): number;
     createUserDefinedTransactionHandler(
-        undoClosure: (arg: string) => void, 
+        undoClosure: (arg: string) => void,
         redoClosure: (arg: string) => void,
     ): UserDefinedTransactionHandlerId;
     discardOpenTransaction(): boolean;
@@ -275,7 +284,7 @@ export interface ClipboardWriteOptions {
      * `(-1 <= X/Y/Z <=1)`
      *
      */
-    anchor?: minecraftserver.Vector3,
+    anchor?: minecraftserver.Vector3;
     /**
      * @remarks
      * An enum which represents the axis (or combination of axis')
@@ -285,21 +294,21 @@ export interface ClipboardWriteOptions {
      * - XZ
      *
      */
-    mirror?: ClipboardMirrorAxis,
+    mirror?: ClipboardMirrorAxis;
     /**
      * @remarks
      * A position offset which should be applied to the paste
      * location while the clipboard item is being written
      *
      */
-    offset?: minecraftserver.Vector3,
+    offset?: minecraftserver.Vector3;
     /**
      * @remarks
      * An enum representing the rotation around the Y-Axis which
      * should be applied while the clipboard item is being written
      *
      */
-    rotation?: ClipboardRotation,
+    rotation?: ClipboardRotation;
 }
 
 /**
@@ -334,7 +343,7 @@ export interface CursorProperties {
      *
      *
      */
-    controlMode?: CursorControlMode,
+    controlMode?: CursorControlMode;
     /**
      * @remarks
      * The fixed distance from the players feet at which the cursor
@@ -342,15 +351,15 @@ export interface CursorProperties {
      * This is only used when [controlMode] is set to `Fixed`
      *
      */
-    fixedModeDistance?: number,
+    fixedModeDistance?: number;
     /**
      * @remarks
      * A [Color] Property representing the color of the block
      * cursor object outline
      *
      */
-    outlineColor?: minecraftserver.RGBA,
-    projectThroughLiquid?: boolean,
+    outlineColor?: minecraftserver.RGBA;
+    projectThroughLiquid?: boolean;
     /**
      * @remarks
      * An enum representing the cursor target mode
@@ -361,14 +370,14 @@ export interface CursorProperties {
      * face of the collision point of the selected block
      *
      */
-    targetMode?: CursorTargetMode,
+    targetMode?: CursorTargetMode;
     /**
      * @remarks
      * Boolean flag controlling the visibility of the 3D block
      * cursor
      *
      */
-    visible?: boolean,
+    visible?: boolean;
 }
 
 /**
@@ -389,7 +398,7 @@ export interface ExtensionOptionalParameters {
      * The length of the string is capped to 256 characters
      *
      */
-    description?: string,
+    description?: string;
     /**
      * @remarks
      * Optional notes for the extension being registered.
@@ -401,8 +410,8 @@ export interface ExtensionOptionalParameters {
      * The length of this string is capped to 1024 characters
      *
      */
-    notes?: string,
-    toolGroupId?: string,
+    notes?: string;
+    toolGroupId?: string;
 }
 
 /**
@@ -421,25 +430,25 @@ export interface LogProperties {
      * specified, then all players will receive the message
      *
      */
-    player?: minecraftserver.Player,
+    player?: minecraftserver.Player;
     /**
      * @remarks
      * Add additional tags to the log message which can be used by
      * the client session to filter/search in the log window
      *
      */
-    tags?: string[],
+    tags?: string[];
 }
 
 export interface PlaytestGameOptions {
-    alwaysDay?: boolean,
-    difficulty?: minecraftserver.Difficulty,
-    disableWeather?: boolean,
-    gameMode?: minecraftserver.GameMode,
-    showCoordinates?: boolean,
-    spawnPosition?: minecraftserver.Vector3,
-    timeOfDay?: number,
-    weather?: number,
+    alwaysDay?: boolean;
+    difficulty?: minecraftserver.Difficulty;
+    disableWeather?: boolean;
+    gameMode?: minecraftserver.GameMode;
+    showCoordinates?: boolean;
+    spawnPosition?: minecraftserver.Vector3;
+    timeOfDay?: number;
+    weather?: number;
 }
 
 export const editor: MinecraftEditor;
