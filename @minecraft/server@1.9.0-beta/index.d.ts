@@ -9,11 +9,111 @@
  * ```json
  * {
  *     "module_name": "@minecraft/server",
- *     "version": "1.6.0"
+ *     "version": "1.9.0-beta"
  * }
  * ```
  */
 import * as minecraftcommon from "@minecraft/common";
+/** @beta */
+export enum BlockComponentTypes {
+    Inventory = "minecraft:inventory",
+    LavaContainer = "minecraft:lavaContainer",
+    Piston = "minecraft:piston",
+    PotionContainer = "minecraft:potionContainer",
+    RecordPlayer = "minecraft:recordPlayer",
+    Sign = "minecraft:sign",
+    SnowContainer = "minecraft:snowContainer",
+    WaterContainer = "minecraft:waterContainer",
+}
+
+/** An enumeration describing the state of a block piston. */
+export enum BlockPistonState {
+    /** @remarks Whether the piston is fully expanded. */
+    Expanded = "Expanded",
+    /** @remarks Whether the piston is in the process of expanding. */
+    Expanding = "Expanding",
+    /** @remarks Whether the piston is fully retracted. */
+    Retracted = "Retracted",
+    /** @remarks Whether the piston is in the process of retracting. */
+    Retracting = "Retracting",
+}
+
+/** @beta Description of the resulting intersection test on two BlockVolume objects */
+export enum BlockVolumeIntersection {
+    /**
+     * @beta
+     * @remarks Volume B has no intersection points with Volume A
+     */
+    Disjoint = 0,
+    /**
+     * @beta
+     * @remarks Volume B resides completely inside Volume A
+     */
+    Contains = 1,
+    /**
+     * @beta
+     * @remarks Volume B partially intersects Volume A
+     */
+    Intersects = 2,
+}
+
+/** @beta The Action enum determines how the CompoundBlockVolume considers the associated CompoundBlockVolumeItem when performing inside/outside calculations. */
+export enum CompoundBlockVolumeAction {
+    /**
+     * @beta
+     * @remarks
+     * The associated BlockVolume is considered a positive space, and any intersection tests are considered hits
+     */
+    Add = 0,
+    /**
+     * @beta
+     * @remarks
+     * The associated BlockVolume is considered a negative or void space, and any intersection tests are considered misses.
+     * Using the Subtract action, it is possible to `punch holes` in block volumes so that any intersection tests may pass through such spaces
+     */
+    Subtract = 1,
+}
+
+/** @beta An enum describing the relativity of the CompoundBlockVolumeItem, relative to the parent CompoundVolume. */
+export enum CompoundBlockVolumePositionRelativity {
+    /**
+     * @beta
+     * @remarks
+     * The locations within the associated BlockVolume are relative to the CompoundBlockVolume to which they were added
+     */
+    Relative = 0,
+    /**
+     * @beta
+     * @remarks
+     * The locations within the associated BlockVolume are in absolute world space
+     */
+    Absolute = 1,
+}
+
+/** @beta An enumeration for the various difficulty levels of Minecraft.*/
+export enum Difficulty {
+    /**
+     * @beta
+     * @remarks Peaceful difficulty level.
+     */
+    Peaceful = 0,
+    /**
+     * @beta
+     * @remarks Easy difficulty level.
+     */
+    Easy = 1,
+    /**
+     * @beta
+     * @remarks Normal difficulty level.
+     */
+    Normal = 2,
+    /**
+     * @beta
+     * @remarks Hard difficulty level.
+     */
+    Hard = 3,
+}
+
 /** A general purpose relative direction enumeration. */
 export enum Direction {
     /** @remarks Returns the {@link Block} beneath (y - 1) of this item. */
@@ -38,6 +138,42 @@ export enum DisplaySlotId {
     List = "List",
     /** @remarks Displays the score on the side of the player's screen. */
     Sidebar = "Sidebar",
+}
+
+/** Specifies different colors for use as dye. */
+export enum DyeColor {
+    /** @remarks Black dye color. */
+    Black = "Black",
+    /** @remarks Blue dye color. */
+    Blue = "Blue",
+    /** @remarks Brown dye color. */
+    Brown = "Brown",
+    /** @remarks Cyan dye color. */
+    Cyan = "Cyan",
+    /** @remarks Gray dye color. */
+    Gray = "Gray",
+    /** @remarks Green dye color. */
+    Green = "Green",
+    /** @remarks Light blue dye color. */
+    LightBlue = "LightBlue",
+    /** @remarks Lime dye color. */
+    Lime = "Lime",
+    /** @remarks Magenta dye color. */
+    Magenta = "Magenta",
+    /** @remarks Orange dye color. */
+    Orange = "Orange",
+    /** @remarks Pink dye color. */
+    Pink = "Pink",
+    /** @remarks Purple dye color. */
+    Purple = "Purple",
+    /** @remarks Red dye color. */
+    Red = "Red",
+    /** @remarks Silver dye color. */
+    Silver = "Silver",
+    /** @remarks White dye color. */
+    White = "White",
+    /** @remarks Yellow dye color. */
+    Yellow = "Yellow",
 }
 
 export enum EasingType {
@@ -73,6 +209,73 @@ export enum EasingType {
     OutQuint = "OutQuint",
     OutSine = "OutSine",
     Spring = "Spring",
+}
+
+/** @beta */
+export enum EntityComponentTypes {
+    AddRider = "minecraft:addrider",
+    Ageable = "minecraft:ageable",
+    Breathable = "minecraft:breathable",
+    CanClimb = "minecraft:can_climb",
+    CanFly = "minecraft:can_fly",
+    CanPowerJump = "minecraft:can_power_jump",
+    Color = "minecraft:color",
+    Equippable = "minecraft:equippable",
+    FireImmune = "minecraft:fire_immune",
+    FloatsInLiquid = "minecraft:floats_in_liquid",
+    FlyingSpeed = "minecraft:flying_speed",
+    FrictionModifier = "minecraft:friction_modifier",
+    GroundOffset = "minecraft:ground_offset",
+    Healable = "minecraft:healable",
+    Health = "minecraft:health",
+    Inventory = "minecraft:inventory",
+    IsBaby = "minecraft:is_baby",
+    IsCharged = "minecraft:is_charged",
+    IsChested = "minecraft:is_chested",
+    IsDyeable = "minecraft:is_dyeable",
+    IsHiddenWhenInvisible = "minecraft:is_hidden_when_invisible",
+    IsIgnited = "minecraft:is_ignited",
+    IsIllagerCaptain = "minecraft:is_illager_captain",
+    IsSaddled = "minecraft:is_saddled",
+    IsShaking = "minecraft:is_shaking",
+    IsSheared = "minecraft:is_sheared",
+    IsStackable = "minecraft:is_stackable",
+    IsStunned = "minecraft:is_stunned",
+    IsTamed = "minecraft:is_tamed",
+    Item = "minecraft:item",
+    LavaMovement = "minecraft:lava_movement",
+    Leashable = "minecraft:leashable",
+    MarkVariant = "minecraft:mark_variant",
+    MountTaming = "minecraft:tamemount",
+    Movement = "minecraft:movement",
+    MovementAmphibious = "minecraft:movement.amphibious",
+    MovementBasic = "minecraft:movement.basic",
+    MovementFly = "minecraft:movement.fly",
+    MovementGeneric = "minecraft:movement.generic",
+    MovementGlide = "minecraft:movement.glide",
+    MovementHover = "minecraft:movement.hover",
+    MovementJump = "minecraft:movement.jump",
+    MovementSkip = "minecraft:movement.skip",
+    MovementSway = "minecraft:movement.sway",
+    NavigationClimb = "minecraft:navigation.climb",
+    NavigationFloat = "minecraft:navigation.float",
+    NavigationFly = "minecraft:navigation.fly",
+    NavigationGeneric = "minecraft:navigation.generic",
+    NavigationHover = "minecraft:navigation.hover",
+    NavigationWalk = "minecraft:navigation.walk",
+    Npc = "minecraft:npc",
+    OnFire = "minecraft:onfire",
+    Projectile = "minecraft:projectile",
+    PushThrough = "minecraft:push_through",
+    Rideable = "minecraft:rideable",
+    Riding = "minecraft:riding",
+    Scale = "minecraft:scale",
+    SkinId = "minecraft:skin_id",
+    Strength = "minecraft:strength",
+    Tameable = "minecraft:tameable",
+    UnderwaterMovement = "minecraft:underwater_movement",
+    Variant = "minecraft:variant",
+    WantsJockey = "minecraft:wants_jockey",
 }
 
 /** Describes the source of damage from an Entity. */
@@ -265,6 +468,27 @@ export enum EntityInitializationCause {
 }
 
 /**
+ * @beta
+ * Describes the lifetime state of an Entity.
+ * For example, Entities can be loaded or unloaded depending on whether their chunks are loaded or when they move across dimensions.
+ */
+export enum EntityLifetimeState {
+    /**
+     * @beta
+     * @remarks Corresponding object is loaded.
+     */
+    Loaded = "Loaded",
+    /**
+     * @beta
+     * @remarks
+     * Corresponding object is now unloaded.
+     * Unloaded entities cannot be manipulated.
+     * However, if an unloaded Entity later reloads, it becomes valid and can once again be manipulated.
+     */
+    Unloaded = "Unloaded",
+}
+
+/**
  * The equipment slot of the mob.
  * This includes armor, offhand and mainhand slots.
  */
@@ -307,6 +531,18 @@ export enum EquipmentSlot {
     Offhand = "Offhand",
 }
 
+/** Represents the type of fluid for use within a fluid containing block, like a cauldron. */
+export enum FluidType {
+    /** @remarks Represents lava as a type of fluid. */
+    Lava = "Lava",
+    /** @remarks Represents a potion as a type of fluid. */
+    Potion = "Potion",
+    /** @remarks Represents powder snow as a type of fluid. */
+    PowderSnow = "PowderSnow",
+    /** @remarks Represents water as a type of fluid. */
+    Water = "Water",
+}
+
 /** Represents a game mode for the current world experience. */
 export enum GameMode {
     /** @remarks World is in a more locked-down experience, where blocks may not be manipulated. */
@@ -336,6 +572,14 @@ export enum GameMode {
      * Activities can, over time, chip away at player health and hunger bar.
      */
     survival = "survival",
+}
+
+/** @beta */
+export enum ItemComponentTypes {
+    Cooldown = "minecraft:cooldown",
+    Durability = "minecraft:durability",
+    Enchantable = "minecraft:enchantable",
+    Food = "minecraft:food",
 }
 
 /** Describes how an an item can be moved within a container. */
@@ -412,6 +656,14 @@ export enum ScriptEventSource {
     Server = "Server",
 }
 
+/** Represents a side of a sign. */
+export enum SignSide {
+    /** @remarks The back of the sign. */
+    Back = "Back",
+    /** @remarks The front of the sign. */
+    Front = "Front",
+}
+
 /** Provides numeric values for common periods in the Minecraft day. */
 export enum TimeOfDay {
     /** @remarks Sets the time to the start of the day, which is time of the day 1,000 (or the equivalent of 7am) in Minecraft. */
@@ -428,6 +680,20 @@ export enum TimeOfDay {
     Sunrise = 23000,
 }
 
+/** @beta An enumeration with the reason that a watchdog is deciding to terminate execution of a behavior packs' script. */
+export enum WatchdogTerminateReason {
+    /**
+     * @beta
+     * @remarks Script runtime for a behavior pack is terminated due to non-responsiveness from script (a hang or infinite loop).
+     */
+    Hang = "Hang",
+    /**
+     * @beta
+     * @remarks Script runtime for a behavior pack is terminated due to a stack overflow (a long, and potentially infinite) chain of function calls.
+     */
+    StackOverflow = "StackOverflow",
+}
+
 /** Used to specify the type of weather condition within the world. */
 export enum WeatherType {
     /** @remarks Specifies a clear weather condition. */
@@ -436,6 +702,179 @@ export enum WeatherType {
     Rain = "Rain",
     /** @remarks Specifies a rain and thunder weather condition. */
     Thunder = "Thunder",
+}
+
+/** @beta */
+export type BlockComponentTypeMap = {
+    inventory: BlockInventoryComponent;
+    piston: BlockPistonComponent;
+    sign: BlockSignComponent;
+    lavaContainer: BlockLavaContainerComponent;
+    potionContainer: BlockPotionContainerComponent;
+    snowContainer: BlockSnowContainerComponent;
+    waterContainer: BlockWaterContainerComponent;
+    recordPlayer: BlockRecordPlayerComponent;
+    "minecraft:inventory": BlockInventoryComponent;
+    "minecraft:piston": BlockPistonComponent;
+    "minecraft:sign": BlockSignComponent;
+    "minecraft:lavaContainer": BlockLavaContainerComponent;
+    "minecraft:potionContainer": BlockPotionContainerComponent;
+    "minecraft:snowContainer": BlockSnowContainerComponent;
+    "minecraft:waterContainer": BlockWaterContainerComponent;
+    "minecraft:recordPlayer": BlockRecordPlayerComponent;
+};
+
+/** @beta */
+export type EntityComponentTypeMap = {
+    addrider: EntityAddRiderComponent;
+    ageable: EntityAgeableComponent;
+    breathable: EntityBreathableComponent;
+    equippable: EntityEquippableComponent;
+    healable: EntityHealableComponent;
+    inventory: EntityInventoryComponent;
+    item: EntityItemComponent;
+    leashable: EntityLeashableComponent;
+    tamemount: EntityMountTamingComponent;
+    npc: EntityNpcComponent;
+    onfire: EntityOnFireComponent;
+    projectile: EntityProjectileComponent;
+    rideable: EntityRideableComponent;
+    riding: EntityRidingComponent;
+    strength: EntityStrengthComponent;
+    tameable: EntityTameableComponent;
+    can_climb: EntityCanClimbComponent;
+    can_fly: EntityCanFlyComponent;
+    can_power_jump: EntityCanPowerJumpComponent;
+    fire_immune: EntityFireImmuneComponent;
+    floats_in_liquid: EntityFloatsInLiquidComponent;
+    is_baby: EntityIsBabyComponent;
+    is_charged: EntityIsChargedComponent;
+    is_chested: EntityIsChestedComponent;
+    is_dyeable: EntityIsDyeableComponent;
+    is_hidden_when_invisible: EntityIsHiddenWhenInvisibleComponent;
+    is_ignited: EntityIsIgnitedComponent;
+    is_illager_captain: EntityIsIllagerCaptainComponent;
+    is_saddled: EntityIsSaddledComponent;
+    is_shaking: EntityIsShakingComponent;
+    is_sheared: EntityIsShearedComponent;
+    is_stackable: EntityIsStackableComponent;
+    is_stunned: EntityIsStunnedComponent;
+    is_tamed: EntityIsTamedComponent;
+    wants_jockey: EntityWantsJockeyComponent;
+    color: EntityColorComponent;
+    flying_speed: EntityFlyingSpeedComponent;
+    friction_modifier: EntityFrictionModifierComponent;
+    ground_offset: EntityGroundOffsetComponent;
+    mark_variant: EntityMarkVariantComponent;
+    push_through: EntityPushThroughComponent;
+    scale: EntityScaleComponent;
+    skin_id: EntitySkinIdComponent;
+    variant: EntityVariantComponent;
+    health: EntityHealthComponent;
+    lava_movement: EntityLavaMovementComponent;
+    "movement.amphibious": EntityMovementAmphibiousComponent;
+    "movement.basic": EntityMovementBasicComponent;
+    movement: EntityMovementComponent;
+    "movement.fly": EntityMovementFlyComponent;
+    "movement.generic": EntityMovementGenericComponent;
+    "movement.glide": EntityMovementGlideComponent;
+    "movement.hover": EntityMovementHoverComponent;
+    "movement.jump": EntityMovementJumpComponent;
+    "movement.skip": EntityMovementSkipComponent;
+    "movement.sway": EntityMovementSwayComponent;
+    "navigation.climb": EntityNavigationClimbComponent;
+    "navigation.float": EntityNavigationFloatComponent;
+    "navigation.fly": EntityNavigationFlyComponent;
+    "navigation.generic": EntityNavigationGenericComponent;
+    "navigation.hover": EntityNavigationHoverComponent;
+    "navigation.walk": EntityNavigationWalkComponent;
+    underwater_movement: EntityUnderwaterMovementComponent;
+    "minecraft:addrider": EntityAddRiderComponent;
+    "minecraft:ageable": EntityAgeableComponent;
+    "minecraft:breathable": EntityBreathableComponent;
+    "minecraft:equippable": EntityEquippableComponent;
+    "minecraft:healable": EntityHealableComponent;
+    "minecraft:inventory": EntityInventoryComponent;
+    "minecraft:item": EntityItemComponent;
+    "minecraft:leashable": EntityLeashableComponent;
+    "minecraft:tamemount": EntityMountTamingComponent;
+    "minecraft:npc": EntityNpcComponent;
+    "minecraft:onfire": EntityOnFireComponent;
+    "minecraft:projectile": EntityProjectileComponent;
+    "minecraft:rideable": EntityRideableComponent;
+    "minecraft:riding": EntityRidingComponent;
+    "minecraft:strength": EntityStrengthComponent;
+    "minecraft:tameable": EntityTameableComponent;
+    "minecraft:can_climb": EntityCanClimbComponent;
+    "minecraft:can_fly": EntityCanFlyComponent;
+    "minecraft:can_power_jump": EntityCanPowerJumpComponent;
+    "minecraft:fire_immune": EntityFireImmuneComponent;
+    "minecraft:floats_in_liquid": EntityFloatsInLiquidComponent;
+    "minecraft:is_baby": EntityIsBabyComponent;
+    "minecraft:is_charged": EntityIsChargedComponent;
+    "minecraft:is_chested": EntityIsChestedComponent;
+    "minecraft:is_dyeable": EntityIsDyeableComponent;
+    "minecraft:is_hidden_when_invisible": EntityIsHiddenWhenInvisibleComponent;
+    "minecraft:is_ignited": EntityIsIgnitedComponent;
+    "minecraft:is_illager_captain": EntityIsIllagerCaptainComponent;
+    "minecraft:is_saddled": EntityIsSaddledComponent;
+    "minecraft:is_shaking": EntityIsShakingComponent;
+    "minecraft:is_sheared": EntityIsShearedComponent;
+    "minecraft:is_stackable": EntityIsStackableComponent;
+    "minecraft:is_stunned": EntityIsStunnedComponent;
+    "minecraft:is_tamed": EntityIsTamedComponent;
+    "minecraft:wants_jockey": EntityWantsJockeyComponent;
+    "minecraft:color": EntityColorComponent;
+    "minecraft:flying_speed": EntityFlyingSpeedComponent;
+    "minecraft:friction_modifier": EntityFrictionModifierComponent;
+    "minecraft:ground_offset": EntityGroundOffsetComponent;
+    "minecraft:mark_variant": EntityMarkVariantComponent;
+    "minecraft:push_through": EntityPushThroughComponent;
+    "minecraft:scale": EntityScaleComponent;
+    "minecraft:skin_id": EntitySkinIdComponent;
+    "minecraft:variant": EntityVariantComponent;
+    "minecraft:health": EntityHealthComponent;
+    "minecraft:lava_movement": EntityLavaMovementComponent;
+    "minecraft:movement.amphibious": EntityMovementAmphibiousComponent;
+    "minecraft:movement.basic": EntityMovementBasicComponent;
+    "minecraft:movement": EntityMovementComponent;
+    "minecraft:movement.fly": EntityMovementFlyComponent;
+    "minecraft:movement.generic": EntityMovementGenericComponent;
+    "minecraft:movement.glide": EntityMovementGlideComponent;
+    "minecraft:movement.hover": EntityMovementHoverComponent;
+    "minecraft:movement.jump": EntityMovementJumpComponent;
+    "minecraft:movement.skip": EntityMovementSkipComponent;
+    "minecraft:movement.sway": EntityMovementSwayComponent;
+    "minecraft:navigation.climb": EntityNavigationClimbComponent;
+    "minecraft:navigation.float": EntityNavigationFloatComponent;
+    "minecraft:navigation.fly": EntityNavigationFlyComponent;
+    "minecraft:navigation.generic": EntityNavigationGenericComponent;
+    "minecraft:navigation.hover": EntityNavigationHoverComponent;
+    "minecraft:navigation.walk": EntityNavigationWalkComponent;
+    "minecraft:underwater_movement": EntityUnderwaterMovementComponent;
+};
+
+/** @beta */
+export type ItemComponentTypeMap = {
+    food: ItemFoodComponent;
+    enchantable: ItemEnchantableComponent;
+    durability: ItemDurabilityComponent;
+    cooldown: ItemCooldownComponent;
+    "minecraft:food": ItemFoodComponent;
+    "minecraft:enchantable": ItemEnchantableComponent;
+    "minecraft:durability": ItemDurabilityComponent;
+    "minecraft:cooldown": ItemCooldownComponent;
+};
+
+export class BiomeType {
+    private constructor();
+    readonly id: string;
+}
+
+export class BiomeTypes {
+    private constructor();
+    static get(typeName: string): BiomeType | undefined;
+    static getAll(): BiomeType[];
 }
 
 /**
@@ -466,6 +905,23 @@ export class Block {
      */
     readonly isLiquid: boolean;
     /**
+     * @beta
+     * @remarks Returns true if this block is solid and impassible - (e.g., a cobblestone block and a diamond block are solid, while a ladder block and a fence block are not).
+     * @throws This property can throw when used.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     */
+    readonly isSolid: boolean;
+    /**
+     * @beta
+     * @remarks Returns or sets whether this block has a liquid on it.
+     *
+     * This property can't be edited in read-only mode.
+     */
+    readonly isWaterlogged: boolean;
+    /**
      * @remarks Coordinates of the specified block.
      * @throws This property can throw when used.
      */
@@ -479,12 +935,122 @@ export class Block {
      * {@link LocationOutOfWorldBoundariesError}
      */
     readonly permutation: BlockPermutation;
+    /**
+     * @beta
+     * @remarks Gets the type of block.
+     * @throws This property can throw when used.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     */
+    readonly type: BlockType;
+    /**
+     * @beta
+     * @remarks Identifier of the type of block for this block.
+     * @throws This property can throw when used.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     */
+    readonly typeId: string;
     /** @remarks X coordinate of the block. */
     readonly x: number;
     /** @remarks Y coordinate of the block. */
     readonly y: number;
     /** @remarks Z coordinate of the block. */
     readonly z: number;
+    /**
+     * @remarks Returns the {@link Block} above this block (positive in the Y direction).
+     *
+     * @param steps
+     * Number of steps above to step before returning.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     */
+    above(steps?: number): Block | undefined;
+    /**
+     * @remarks Returns the {@link Block} below this block (negative in the Y direction).
+     *
+     * @param steps
+     * Number of steps below to step before returning.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     */
+    below(steps?: number): Block | undefined;
+    /** @remarks Returns the {@link Vector3} of the center of this block on the X and Z axis. */
+    bottomCenter(): Vector3;
+    /**
+     * @beta
+     * @remarks
+     * Checks to see whether it is valid to place the specified block type or block permutation, on a specified face on this block
+     *
+     * @param blockToPlace
+     * Block type or block permutation to check placement for.
+     * @param faceToPlaceOn
+     * Optional specific face of this block to check placement against.
+     * @returns Returns `true` if the block type or permutation can be placed on this block, else `false`.
+     * @throws This function can throw errors.
+     *
+     * {@link Error}
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     * @example
+     * ```javascript
+     * import { world, Direction } from "@minecraft/server";
+     *
+     * //Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * 
+     * const canPlace = block.canPlace("minecraft:dirt", Direction.Up);
+     * console.warn(`Can place on dirt: ${canPlace}`);
+     * ```
+     * @example
+     * 
+     * ```javascript
+     * import { world, BlockTypes, Direction } from "@minecraft/server";
+     *
+     * //Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * 
+     * const canPlace = block.canPlace(BlockTypes.get("minecraft:dirt"), Direction.Up);
+     * console.warn(`Can place on dirt: ${canPlace}`);
+     * ```
+     * @example
+     * ```javascript
+     * import { world, BlockPermutation, Direction } from "@minecraft/server";
+     *
+     * //Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * 
+     * const canPlace = block.canPlace(BlockPermutation.resolve("minecraft:dirt"), Direction.Up);
+     * console.warn(`Can place on dirt: ${canPlace}`);
+     * ```
+     */
+    canPlace(blockToPlace: BlockPermutation | BlockType | string, faceToPlaceOn?: Direction): boolean;
+    /** @remarks Returns the {@link Vector3} of the center of this block on the X, Y, and Z axis. */
+    center(): Vector3;
+    /**
+     * @remarks Returns the {@link Block} east this block (positive in the X direction).
+     *
+     * @param steps
+     * Number of steps east to step before returning.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     */
+    east(steps?: number): Block | undefined;
     /**
      * @remarks
      * Gets a component (that represents additional capabilities) for a block - for example, an inventory component of a chest block.
@@ -520,7 +1086,93 @@ export class Block {
      * sign.setText("Hello! :D");
      * ```
      */
-    getComponent(componentId: string): BlockComponent | undefined;
+    getComponent<T extends keyof BlockComponentTypeMap>(componentId: T): BlockComponentTypeMap[T] | undefined;
+    /**
+     * @beta
+     * @remarks
+     * Creates a prototype item stack based on this block that can be used with Container/ContainerSlot APIs.
+     *
+     * @param amount
+     * Number of instances of this block to place in the itemstack.
+     * @param withData
+     * Whether additional data facets of the itemstack are included.
+     * @returns
+     * An itemStack with the specified amount of items and data.
+     * Returns undefined if block type is incompatible.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * //Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * 
+     * const itemStack = block.getItemStack(1, true);
+     * console.warn(itemStack.typeId);
+     * ```
+     */
+    getItemStack(amount?: number, withData?: boolean): ItemStack | undefined;
+    /**
+     * @beta
+     * @remarks Returns the net redstone power of this block.
+     *
+     * @returns Returns undefined if redstone power is not applicable to this block.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * //Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * 
+     * const redstonePower = block.getRedstonePower();
+     * console.warn(`Redstone Power: ${redstonePower}`);
+     * ```
+     */
+    getRedstonePower(): number | undefined;
+    /**
+     * @remarks Returns a set of tags for a block.
+     *
+     * @returns The list of tags that the block has.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     */
+    getTags(): string[];
+    /**
+     * @remarks Checks to see if the permutation of this block has a specific tag.
+     *
+     * @param tag
+     * Tag to check for.
+     * @returns Returns `true` if the permutation of this block has the tag, else `false`.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * //Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     *
+     * console.warn(`Block is dirt: ${block.hasTag("dirt")}`);
+     * console.warn(`Block is wood: ${block.hasTag("wood")}`);
+     * console.warn(`Block is stone: ${block.hasTag("stone")}`);
+     * ```
+     */
+    hasTag(tag: string): boolean;
     /**
      * @remarks
      * Returns true if this reference to a block is still valid (for example, if the block is unloaded, references to that block will no longer be valid.)
@@ -528,6 +1180,33 @@ export class Block {
      * @returns True if this block object is still working and valid.
      */
     isValid(): boolean;
+    matches(blockName: string, states?: Record<string, boolean | number | string>): boolean;
+    /**
+     * @remarks Returns the {@link Block} north this block (negative in the Z direction).
+     *
+     * @param steps
+     * Number of steps north to step before returning.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     */
+    north(steps?: number): Block | undefined;
+    /**
+     * @remarks Returns a block at an offset relative vector to this block.
+     *
+     * @param offset
+     * The offset vector. For example, an offset of 0, 1, 0 will
+     * return the block above the current block.
+     * @returns Block at the specified offset, or undefined if that block could not be retrieved (for example, the block and its relative chunk is not loaded yet.)
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     */
+    offset(offset: Vector3): Block | undefined;
     /**
      * @remarks Sets the block in the dimension to the state of the permutation.
      *
@@ -551,6 +1230,108 @@ export class Block {
      * ```
      */
     setPermutation(permutation: BlockPermutation): void;
+    /**
+     * @beta
+     * @remarks Sets the type of block.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param blockType
+     * Identifier of the type of block to apply - for example, minecraft:powered_repeater.
+     * @throws This function can throw errors.
+     *
+     * {@link Error}
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * //Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     *
+     * block.setType("minecraft:dirt");
+     * ```
+     * @example
+     * ```javascript
+     * import { world, BlockTypes } from "@minecraft/server";
+     *
+     * //Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     *
+     * block.setType(BlockTypes.get("minecraft:dirt"));
+     * ```
+     */
+    setType(blockType: BlockType | string): void;
+    setWaterlogged(isWaterlogged: boolean): void;
+    /**
+     * @remarks Returns the {@link Block} south this block (positive in the Z direction).
+     *
+     * @param steps
+     * Number of steps south to step before returning.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     */
+    south(steps?: number): Block | undefined;
+    /**
+     * @beta
+     * @remarks Tries to set the block in the dimension to the state of the permutation by first checking if the placement is valid.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param permutation
+     * Permutation that contains a set of property states for the Block.
+     * @returns Returns `true` if the block permutation data was successfully set, else `false`.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     * @example
+     * ```javascript
+     * import { world, BlockPermutation } from "@minecraft/server";
+     *
+     * //Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * 
+     * block.trySetPermutation(BlockPermutation.resolve("minecraft:dirt"));
+     * ```
+     */
+    trySetPermutation(permutation: BlockPermutation): boolean;
+    /**
+     * @remarks Returns the {@link Block} west this block (negative in the X direction).
+     *
+     * @param steps
+     * Number of steps west to step before returning.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     */
+    west(steps?: number): Block | undefined;
+}
+
+/**
+ * @beta
+ * Holds information for expressing the net size of a volume of blocks.
+ */
+export class BlockAreaSize {
+    /** @remarks X size (west to east) component of this block area. */
+    x: number;
+    /** @remarks Y size (down to up) of this block area size. */
+    y: number;
+    /** @remarks Z size (south to north) of this block area size. */
+    z: number;
+    /** @remarks Creates a new BlockAreaSize object. */
+    constructor(x: number, y: number, z: number);
+    /** @remarks Tests whether this block area size is equal to another BlockAreaSize object. */
+    equals(other: BlockAreaSize): boolean;
 }
 
 /** Base type for components associated with blocks. */
@@ -571,6 +1352,40 @@ export class BlockEvent {
 }
 
 /**
+ * @beta
+ * Contains information regarding an explosion that has occurred for a specific block.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class BlockExplodeAfterEvent extends BlockEvent {
+    private constructor();
+    /** @remarks Description of the block that has exploded. */
+    readonly explodedBlockPermutation: BlockPermutation;
+    /** @remarks Optional source of the explosion. */
+    readonly source?: Entity;
+}
+
+/**
+ * @beta
+ * Manages callbacks that are connected to when an explosion occurs, as it impacts individual blocks.
+ */
+export class BlockExplodeAfterEventSignal {
+    private constructor();
+    /**
+     * @remarks Adds a callback that will be called when an explosion occurs, as it impacts individual blocks.
+     *
+     * This function can't be called in read-only mode.
+     */
+    subscribe(callback: (arg: BlockExplodeAfterEvent) => void): (arg: BlockExplodeAfterEvent) => void;
+    /**
+     * @remarks Removes a callback from being called when an explosion occurs, as it impacts individual blocks.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    unsubscribe(callback: (arg: BlockExplodeAfterEvent) => void): void;
+}
+
+/**
  * Represents the inventory of a block in the world.
  * Used with blocks like chests.
  */
@@ -585,9 +1400,134 @@ export class BlockInventoryComponent extends BlockComponent {
     static readonly componentId = "minecraft:inventory";
 }
 
+/**
+ * @beta
+ * Represents a fluid container block that currently contains lava.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class BlockLavaContainerComponent extends BlockLiquidContainerComponent {
+    private constructor();
+    static readonly componentId = "minecraft:lavaContainer";
+}
+
+/**
+ * @beta
+ * For blocks that can contain a liquid (e.g., a cauldron), this is a base component for liquid containers.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class BlockLiquidContainerComponent extends BlockComponent {
+    private constructor();
+    /**
+     * @remarks Relative fill level of the liquid container.
+     *
+     * This property can't be edited in read-only mode.
+     */
+    fillLevel: number;
+    /**
+     * @remarks
+     * Returns true if this reference to a liquid container is still valid and contains the liquid of the type you have a reference for
+     * (for example, if the block is unloaded, no longer a liquid container or contains lava when you have a potion container component, isValidLiquid will not be true.)
+     *
+     * @returns True if this liquid container still exists, is valid and contains the expected liquid type.
+     */
+    isValidLiquid(): boolean;
+}
+
+/**
+ * @beta
+ * A BlockLocationIterator returns the next block location of the block volume across which it is iterating.
+ * The BlockLocationIterator is used to abstract the shape of the block volume it was fetched from (so it can represent all the block locations that make up rectangles, cubes, spheres, lines and complex shapes).
+ * Each iteration pass returns the next valid block location in the parent shape.
+ * Unless otherwise specified by the parent shape - the BlockLocationIterator will iterate over a 3D space in the order of increasing X, followed by increasing Z followed by increasing Y.
+ * (Effectively stepping across the XZ plane, and when all the locations in that plane are exhausted, increasing the Y coordinate to the next XZ slice)
+ */
+export class BlockLocationIterator implements Iterable<Vector3> {
+    private constructor();
+    /** @remarks This function can't be called in read-only mode. */
+    [Symbol.iterator](): Iterator<Vector3>;
+    /** @remarks This function can't be called in read-only mode. */
+    next(): IteratorResult<Vector3>;
+}
+
 /** Contains the combination of type {@link BlockType} and properties (also sometimes called block state) which describe a block (but does not belong to a specific {@link Block}). */
 export class BlockPermutation {
     private constructor();
+    /**
+     * @beta
+     * @remarks The {@link BlockType} that the permutation has.
+     */
+    readonly type: BlockType;
+    /**
+     * @beta
+     * @remarks Creates a copy of this permutation.
+     *
+     * @returns A copy of the permutation.
+     */
+    clone(): BlockPermutation;
+    /**
+     * @remarks Returns all available block states associated with this block.
+     * @returns Returns the list of all of the block states that the permutation has.
+     */
+    getAllStates(): Record<string, boolean | number | string>;
+    /**
+     * @beta
+     * @remarks Retrieves a prototype item stack based on this block permutation that can be used with item Container/ContainerSlot APIs.
+     *
+     * @param amount
+     * Number of instances of this block to place in the prototype itemstack.
+     *
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * //Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * const permutation = block.permutation;
+     *
+     * const itemStack = permutation.getItemStack(1);
+     * console.warn(itemStack.typeId);
+     * ```
+     */
+    getItemStack(amount?: number): ItemStack | undefined;
+    /**
+     * @remarks Gets a state for the permutation.
+     *
+     * @param stateName
+     * Name of the block state who's value is to be returned.
+     * @returns Returns the state if the permutation has it, else `undefined`.
+     */
+    getState(stateName: string): boolean | number | string | undefined;
+    /**
+     * @beta
+     * @remarks Returns a set of tags for a block.
+     *
+     * @returns The list of tags that the block has.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     */
+    getTags(): string[];
+    /**
+     * @beta
+     * @remarks Checks to see if the permutation has a specific tag.
+     *
+     * @returns Returns `true` if the permutation has the tag, else `false`.
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * //Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * const permutation = block.permutation;
+     *
+     * console.warn(`Block is dirt: ${permutation.hasTag("dirt")}`);
+     * console.warn(`Block is wood: ${permutation.hasTag("wood")}`);
+     * console.warn(`Block is stone: ${permutation.hasTag("stone")}`);
+     * ```
+     */
+    hasTag(tag: string): boolean;
     /**
      * @remarks
      * Returns a boolean whether a specified permutation matches this permutation.
@@ -620,6 +1560,27 @@ export class BlockPermutation {
      * ```
      */
     matches(blockName: string, states?: Record<string, boolean | number | string>): boolean;
+    /**
+     * @remarks Returns a derived BlockPermutation with a specific property set.
+     *
+     * @param name
+     * Identifier of the block property.
+     * @param value
+     * Value of the block property.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * //Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * const permutation = block.permutation;
+     * 
+     * const newPermutation = permutation.withState("direction", 2);
+     * block.setPermutation(newPermutation);
+     * ```
+     */
+    withState(name: string, value: boolean | number | string): BlockPermutation;
     /**
      * @remarks Given a type identifier and an optional set of properties, will return a BlockPermutation object that is usable in other block APIs (e.g., block.setPermutation)
      *
@@ -664,6 +1625,353 @@ export class BlockPermutation {
      * ```
      */
     static resolve(blockName: string, states?: Record<string, boolean | number | string>): BlockPermutation;
+}
+
+/**
+ * When present, this block has piston-like behavior.
+ * Contains additional properties for discovering block piston state.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class BlockPistonComponent extends BlockComponent {
+    private constructor();
+    /**
+     * @remarks Whether the piston is in the process of expanding or retracting.
+     * @throws This property can throw when used.
+     */
+    readonly isMoving: boolean;
+    readonly state: BlockPistonState;
+    static readonly componentId = "minecraft:piston";
+    /**
+     * @remarks Retrieves a set of blocks that this piston is connected with.
+     * @throws This function can throw errors.
+     */
+    getAttachedBlocks(): Block[];
+    getAttachedBlocksLocations(): Vector3[];
+}
+
+/**
+ * @beta
+ * Represents a fluid container block that currently contains a potion.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class BlockPotionContainerComponent extends BlockLiquidContainerComponent {
+    private constructor();
+    static readonly componentId = "minecraft:potionContainer";
+    /**
+     * @remarks Sets the potion type based on an item stack.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    setPotionType(itemStack: ItemStack): void;
+}
+
+/**
+ * @beta
+ * Represents a block that can play a record.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class BlockRecordPlayerComponent extends BlockComponent {
+    private constructor();
+    static readonly componentId = "minecraft:recordPlayer";
+    /**
+     * @remarks Clears the currently playing record of this record-playing block.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    clearRecord(): void;
+    /**
+     * @remarks Returns true if the record-playing block is currently playing a record.
+     * @throws This function can throw errors.
+     */
+    isPlaying(): boolean;
+    /**
+     * @remarks Sets and plays a record based on an item type.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * const recordPlayer = block.getComponent("recordPlayer");
+     * recordPlayer.setRecord("minecraft:music_disc_otherside");
+     * ```
+     */
+    setRecord(recordItemType: ItemType | string): void;
+}
+
+/** Represents a block that can display text on it. */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class BlockSignComponent extends BlockComponent {
+    private constructor();
+    /**
+     * @remarks
+     * Whether or not players can edit the sign.
+     * This happens if a sign has had a honeycomb used on it or `setWaxed` was called on the sign.
+     * @throws This property can throw when used.
+     */
+    readonly isWaxed: boolean;
+    static readonly componentId = "minecraft:sign";
+    /**
+     * @remarks
+     * Returns the RawText of the sign if `setText` was called with a RawMessage or a RawText object, otherwise returns undefined.
+     *
+     * @param side
+     * The side of the sign to read the message from.
+     * If not provided, this will return the message from the front side of the sign.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * const sign = block.getComponent("sign");
+     * const text = sign.getRawText(SignSide.Front);
+     * console.warn(JSON.stringify(text)); // { rawtext: [{ text: "Hello World" }] };
+     * ```
+     */
+    getRawText(side?: SignSide): RawText | undefined;
+    /**
+     * @remarks Returns the text of the sign if `setText` was called with a string, otherwise returns undefined.
+     *
+     * @param side
+     * The side of the sign to read the message from.
+     * If not provided, this will return the message from the front side of the sign.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * const sign = block.getComponent("sign");
+     * const text = sign.getText(SignSide.Front);
+     * console.warn(text);
+     * ```
+     */
+    getText(side?: SignSide): string | undefined;
+    /**
+     * @remarks Gets the dye that is on the text or undefined if the sign has not been dyed.
+     *
+     * @param side
+     * The side of the sign to read the dye from.
+     * If not provided, this will return the dye on the front side of the sign.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * const sign = block.getComponent("sign");
+     * const color = sign.getTextDyeColor(SignSide.Front);
+     * console.warn(color);
+     * ```
+     */
+    getTextDyeColor(side?: SignSide): DyeColor | undefined;
+    /**
+     * @remarks Sets the text of the sign component.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param message
+     * The message to set on the sign.
+     * If set to a string, then call `getText` to read that string.
+     * If set to a RawMessage, then calling `getRawText` will return a RawText.
+     * If set to a RawText, then calling `getRawText` will return the same object that was passed in.
+     * @param side
+     * The side of the sign the message will be set on.
+     * If not provided, the message will be set on the front side of the sign.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * const sign = block.getComponent("sign");
+     * 
+     * const helloWorldMessage = { text: "Hello World" };
+     * sign.setText(helloWorldMessage, SignSide.Front);
+     * ```
+     * @example
+     * ```javascript
+     * const sign = block.getComponent("sign");
+     * 
+     * const helloWorldMessage = { text: 'Hello World' };
+     * sign.setText(helloWorldMessage, SignSide.Front);
+     * ```
+     * @example
+     * ```javascript
+     * const sign = block.getComponent("sign");
+     * 
+     * const helloWorldMessage = { rawtext: [{ text: "Hello World" }] };
+     * sign.setText(helloWorldMessage, SignSide.Front);
+     * ```
+     * @example
+     * ```javascript
+     * const sign = block.getComponent("sign");
+     * sign.setText("Hello World", SignSide.Front);
+     * ```
+     */
+    setText(message: RawMessage | RawText | string, side?: SignSide): void;
+    /**
+     * @remarks Sets the dye color of the text.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param color
+     * The dye color to apply to the sign or undefined to clear the dye on the sign.
+     * @param side
+     * The side of the sign the color will be set on.
+     * If not provided, the color will be set on the front side of the sign.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * const sign = block.getComponent("sign");
+     * sign.setTextDyeColor(DyeColor.Lime, SignSide.Front);
+     * ```
+     */
+    setTextDyeColor(color?: DyeColor, side?: SignSide): void;
+    /**
+     * @remarks Makes it so players cannot edit this sign.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    setWaxed(waxed: boolean): void;
+}
+
+/**
+ * @beta
+ * Represents a fluid container block that currently contains snow.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class BlockSnowContainerComponent extends BlockLiquidContainerComponent {
+    private constructor();
+    static readonly componentId = "minecraft:snowContainer";
+}
+
+/** Enumerates all {@link BlockStateType}s. */
+export class BlockStates {
+    private constructor();
+    /**
+     * @remarks Retrieves a specific block state instance.
+     * @returns
+     * Returns the {@link Block} state instance if it is found.
+     * If the block state instance is not found returns undefined.
+     */
+    static get(stateName: string): BlockStateType | undefined;
+    /** @remarks Retrieves a set of all available block states. */
+    static getAll(): BlockStateType[];
+}
+
+/**
+ * Represents a configurable state value of a block instance.
+ * For example, the facing direction of stairs is accessible as a block state.
+ */
+export class BlockStateType {
+    private constructor();
+    /** @remarks Identifier of the block property. */
+    readonly id: string;
+    /** @remarks A set of valid values for the block property. */
+    readonly validValues: (boolean | number | string)[];
+}
+
+/**
+ * The type (or template) of a block.
+ * Does not contain permutation data (state) other than the type of block it represents.
+ * This type was introduced as of version 1.17.10.21.
+ */
+export class BlockType {
+    private constructor();
+    /** @remarks Represents whether this type of block can be waterlogged. */
+    readonly canBeWaterlogged: boolean;
+    /** @remarks Block type name - for example, `minecraft:acacia_stairs`. */
+    readonly id: string;
+}
+
+/**
+ * @beta
+ * Contains a catalog of Minecraft Block Types that are available in this world.
+ */
+export class BlockTypes {
+    private constructor();
+    /**
+     * @remarks Returns a BlockType object for the specified identifier.
+     *
+     * @param typeName
+     * Identifier of the block type.
+     * Should follow a namespace:id pattern, such as minecraft:dirt.
+     * @returns BlockType object, or undefined if the block type is not available within this world.
+     */
+    static get(typeName: string): BlockType | undefined;
+    /** @remarks Returns a collection of all available block types. */
+    static getAll(): BlockType[];
+}
+
+export class BlockVolumeUtils {
+    private constructor();
+    static doesLocationTouchFaces(volume: BlockVolume, pos: Vector3): boolean;
+    static doesVolumeTouchFaces(volume: BlockVolume, other: BlockVolume): boolean;
+    static equals(volume: BlockVolume, other: BlockVolume): boolean;
+    static getBlockLocationIterator(volume: BlockVolume): BlockLocationIterator;
+    static getBoundingBox(volume: BlockVolume): BoundingBox;
+    static getCapacity(volume: BlockVolume): number;
+    static getMax(volume: BlockVolume): Vector3;
+    static getMin(volume: BlockVolume): Vector3;
+    static getSpan(volume: BlockVolume): Vector3;
+    static intersects(volume: BlockVolume, other: BlockVolume): BlockVolumeIntersection;
+    static isInside(volume: BlockVolume, pos: Vector3): boolean;
+    static translate(volume: BlockVolume, delta: Vector3): BlockVolume;
+}
+
+/**
+ * @beta
+ * Represents a fluid container block that currently contains water.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class BlockWaterContainerComponent extends BlockLiquidContainerComponent {
+    private constructor();
+    static readonly componentId = "minecraft:waterContainer";
+    /**
+     * @remarks Adds an item and colors the water based on a dye item type.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * const waterContainer = block.getComponent("waterContainer");
+     * waterContainer.addDye("minecraft:blue_dye");
+     * ```
+     */
+    addDye(itemType: ItemType): void;
+    /**
+     * @remarks Retrieves a custom base color used for the sign text.
+     *
+     * @returns Color that is used as the base color for sign text.
+     * @throws This function can throw errors.
+     */
+    getCustomColor(): RGBA;
+    /**
+     * @remarks Sets a custom base color used for the sign text.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * const waterContainer = block.getComponent("waterContainer");
+     * const customColor = {
+     *     red: 1.0,
+     *     green: 1.0,
+     *     blue: 1.0,
+     *     alpha: 1.0
+     * };
+     * 
+     * waterContainer.setCustomColor(customColor);
+     * ```
+     */
+    setCustomColor(color: RGBA): void;
+}
+
+export class BoundingBoxUtils {
+    private constructor();
+    static createValid(min: Vector3, max: Vector3): BoundingBox;
+    static dilate(box: BoundingBox, size: Vector3): BoundingBox;
+    static equals(box: BoundingBox, other: BoundingBox): boolean;
+    static expand(box: BoundingBox, other: BoundingBox): BoundingBox;
+    static getCenter(box: BoundingBox): Vector3;
+    static getIntersection(box: BoundingBox, other: BoundingBox): BoundingBox | undefined;
+    static getSpan(box: BoundingBox): Vector3;
+    static intersects(box: BoundingBox, other: BoundingBox): boolean;
+    static isInside(box: BoundingBox, pos: Vector3): boolean;
+    static isValid(box: BoundingBox): boolean;
+    static translate(box: BoundingBox, delta: Vector3): BoundingBox;
 }
 
 /** Contains information related to changes to a button push. */
@@ -763,6 +2071,93 @@ export class Camera {
     ): void;
 }
 
+/**
+ * @beta
+ * An event that fires as players enter chat messages.
+ */
+export class ChatSendAfterEvent {
+    private constructor();
+    /** @remarks Message that is being broadcast. */
+    readonly message: string;
+    /** @remarks Player that sent the chat message. */
+    readonly sender: Player;
+    /**
+     * @remarks
+     * Optional list of players that will receive this message.
+     * If defined, this message is directly targeted to one or more players (i.e., is not broadcast.)
+     */
+    readonly targets?: Player[];
+}
+
+/**
+ * @beta
+ * Manages callbacks that are connected to chat messages being sent.
+ */
+export class ChatSendAfterEventSignal {
+    private constructor();
+    /**
+     * @remarks Adds a callback that will be called when new chat messages are sent.
+     *
+     * This function can't be called in read-only mode.
+     */
+    subscribe(callback: (arg: ChatSendAfterEvent) => void): (arg: ChatSendAfterEvent) => void;
+    /**
+     * @remarks Removes a callback from being called when new chat messages are sent.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    unsubscribe(callback: (arg: ChatSendAfterEvent) => void): void;
+}
+
+/**
+ * @beta
+ * An event that fires as players enter chat messages.
+ */
+export class ChatSendBeforeEvent {
+    private constructor();
+    /** @remarks If set to true in a beforeChat event handler, this message is not broadcast out. */
+    cancel: boolean;
+    readonly message: string;
+    readonly sender: Player;
+    readonly targets?: Player[];
+}
+
+
+export class ChatSendBeforeEventSignal {
+    private constructor();
+    /**
+     * @remarks Adds a callback that will be called before new chat messages are sent.
+     *
+     * This function can't be called in read-only mode.
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * world.beforeEvents.chatSend.subscribe((data) => {
+     *     if (!data.message.startsWith("!")) return;
+     *     data.cancel = true;
+     * 
+     *     const command = data.message.split(" ")[0].slice(1);
+     *     const args = data.message.slice(command.length + 1).trim().split(" ");
+     *     switch(command) {
+     *         // !test
+     *         case "test":
+     *             data.sender.sendMessage("Hello World!");
+     *         break;
+     *     };
+     * });
+     * ```
+     */
+    subscribe(callback: (arg: ChatSendBeforeEvent) => void): (arg: ChatSendBeforeEvent) => void;
+    /**
+     * @remarks Removes a callback from being called before new chat messages are sent.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    unsubscribe(callback: (arg: ChatSendBeforeEvent) => void): void;
+}
+
 /** Contains return data on the result of a command execution. */
 export class CommandResult {
     private constructor();
@@ -786,6 +2181,26 @@ export class Component {
      * @returns Whether the component is valid.
      */
     isValid(): boolean;
+}
+
+export class CompoundBlockVolume {
+    readonly capacity: number;
+    readonly volumeCount: number;
+    constructor(origin?: Vector3);
+    clear(): void;
+    getBlockLocationIterator(): BlockLocationIterator;
+    getBoundingBox(): BoundingBox;
+    getMax(): Vector3;
+    getMin(): Vector3;
+    getOrigin(): Vector3;
+    isEmpty(): boolean;
+    isInside(worldLocation: Vector3): boolean;
+    peekLastVolume(forceRelativity?: CompoundBlockVolumePositionRelativity): CompoundBlockVolumeItem | undefined;
+    popVolume(): boolean;
+    pushVolume(item: CompoundBlockVolumeItem): void;
+    replaceOrAddLastVolume(item: CompoundBlockVolumeItem): boolean;
+    setOrigin(position: Vector3, preserveExistingVolumes?: boolean): void;
+    translateOrigin(delta: Vector3, preserveExistingVolumes?: boolean): void;
 }
 
 /**
@@ -841,6 +2256,17 @@ export class Container {
      * @throws Throws if the container is invalid or if the `slot` index is out of bounds.
      */
     getItem(slot: number): ItemStack | undefined;
+    /**
+     * @remarks
+     * Returns a container slot.
+     * This acts as a reference to a slot at the given index for this container.
+     *
+     * @param slot
+     * The index of the slot to return.
+     * This index must be within the bounds of the container.
+     * @throws Throws if the container is invalid or if the `slot` index is out of bounds.
+     */
+    getSlot(slot: number): ContainerSlot;
     /** @remarks Returns whether a container object (or the entity or block that this container is associated with) is still available for use in this context. */
     isValid(): boolean;
     /**
@@ -901,11 +2327,188 @@ export class Container {
     transferItem(fromSlot: number, toContainer: Container): ItemStack | undefined;
 }
 
+export class ContainerSlot {
+    private constructor();
+    amount: number;
+    readonly isStackable: boolean;
+    keepOnDeath: boolean;
+    lockMode: ItemLockMode;
+    readonly maxAmount: number;
+    nameTag?: string;
+    readonly type: ItemType;
+    readonly typeId: string;
+    clearDynamicProperties(): void;
+    getCanDestroy(): string[];
+    getCanPlaceOn(): string[];
+    getDynamicProperty(identifier: string): boolean | number | string | Vector3 | undefined;
+    getDynamicPropertyIds(): string[];
+    getDynamicPropertyTotalByteCount(): number;
+    getItem(): ItemStack | undefined;
+    getLore(): string[];
+    getTags(): string[];
+    hasItem(): boolean;
+    hasTag(tag: string): boolean;
+    isStackableWith(itemStack: ItemStack): boolean;
+    isValid(): boolean;
+    setCanDestroy(blockIdentifiers?: string[]): void;
+    setCanPlaceOn(blockIdentifiers?: string[]): void;
+    setDynamicProperty(identifier: string, value?: boolean | number | string | Vector3): void;
+    setItem(itemStack?: ItemStack): void;
+    setLore(loreList?: string[]): void;
+}
+
+/** Contains information related to firing of a data driven entity event - for example, the minecraft:ageable_grow_up event on a chicken. */
+export class DataDrivenEntityTriggerAfterEvent {
+    private constructor();
+    /** @remarks Entity that the event triggered on. */
+    readonly entity: Entity;
+    /** @remarks Name of the data driven event being triggered. */
+    readonly eventId: string;
+    /** @remarks An updateable list of modifications to component state that are the effect of this triggered event. */
+    getModifiers(): DefinitionModifier[];
+}
+
+/** Contains event registration related to firing of a data driven entity event - for example, the minecraft:ageable_grow_up event on a chicken. */
+export class DataDrivenEntityTriggerAfterEventSignal {
+    private constructor();
+    /**
+     * @remarks Adds a callback that will be called after a data driven entity event is triggered.
+     *
+     * This function can't be called in read-only mode.
+     */
+    subscribe(
+        callback: (arg: DataDrivenEntityTriggerAfterEvent) => void,
+        options?: EntityDataDrivenTriggerEventOptions,
+    ): (arg: DataDrivenEntityTriggerAfterEvent) => void;
+    /**
+     * @remarks Removes a callback that will be called after a data driven entity event is triggered.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @throws This function can throw errors.
+     */
+    unsubscribe(callback: (arg: DataDrivenEntityTriggerAfterEvent) => void): void;
+}
+
+export class DataDrivenEntityTriggerBeforeEvent {
+    private constructor();
+    cancel: boolean;
+    readonly entity: Entity;
+    readonly id: string;
+    getModifiers(): DefinitionModifier[];
+    setModifiers(modifiers: DefinitionModifier[]): void;
+}
+
+export class DataDrivenEntityTriggerBeforeEventSignal {
+    private constructor();
+    subscribe(
+        callback: (arg: DataDrivenEntityTriggerBeforeEvent) => void,
+        options?: EntityDataDrivenTriggerEventOptions,
+    ): (arg: DataDrivenEntityTriggerBeforeEvent) => void;
+    unsubscribe(callback: (arg: DataDrivenEntityTriggerBeforeEvent) => void): void;
+}
+
 /** A class that represents a particular dimension (e.g., The End) within a world. */
 export class Dimension {
     private constructor();
+    /**
+     * @remarks Height range of the dimension.
+     * @throws This property can throw when used.
+     */
+    readonly heightRange: minecraftcommon.NumberRange;
     /** @remarks Identifier of the dimension. */
     readonly id: string;
+    /**
+     * @remarks Creates an explosion at the specified location.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param location
+     * The location of the explosion.
+     * @param radius
+     * Radius, in blocks, of the explosion to create.
+     * @param explosionOptions
+     * Additional configurable options for the explosion.
+     * @throws This function can throw errors.
+     *
+     * {@link LocationInUnloadedChunkError}
+     *
+     * {@link LocationOutOfWorldBoundariesError}
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * 
+     * //Creates an explosion that causes fire
+     * overworld.createExplosion({ x: 1, y: 2, z: 3 }, 10, { causesFire: true });
+     * 
+     * //Creates an explosion that breaks blocks
+     * overworld.createExplosion({ x: 1, y: 2, z: 3 }, 10, { breaksBlocks: true });
+     * 
+     * //Creates an explosion that can go underwater
+     * overworld.createExplosion({ x: 1, y: 2, z: 3 }, 10, { allowUnderwater: true });
+     * ```
+     */
+    createExplosion(location: Vector3, radius: number, explosionOptions?: ExplosionOptions): boolean;
+    /**
+     * @beta
+     * @remarks Fills an area between begin and end with block of type block.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param begin
+     * The lower northwest starting corner of the area.
+     * @param end
+     * The upper southeast ending corner of the area.
+     * @param block
+     * Type of block to fill the volume with.
+     * @param options
+     * A set of additional options, such as a matching block to potentially replace this fill block with.
+     * @returns Returns number of blocks placed.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * import { world, BlockPermutation } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * 
+     * overworld.fillBlocks(
+     *     { x: 0, y: 0, z: 0 }, { x: 10, y: 10, z: 10 },
+     *     "minecraft:iron_block", {
+     *         matchingBlocks: BlockPermutation.resolve("minecraft:dirt")
+     *     },
+     * );
+     * ```
+     */
+    fillBlocks(
+        begin: Vector3,
+        end: Vector3,
+        block: BlockPermutation | BlockType | string,
+        options?: BlockFillOptions,
+    ): number;
+    /**
+     * @beta
+     * @remarks
+     * This function can't be called in read-only mode.
+     *
+     * @throws This function can throw errors.
+     *
+     * {@link minecraftcommon.EngineError}
+     *
+     * {@link Error}
+     *
+     * @example
+     * ```javascript
+     * import { world, BiomeTypes } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * 
+     * const player = world.getAllPlayers()[0];
+     * const biome = BiomeTypes.get("cherry_grove");
+     * const biomeLocation = overworld.findClosestBiome(player.location, biome);
+     * 
+     * player.teleport(biomeLocation);
+     * ```
+     */
+    findClosestBiome(pos: Vector3, biomeToFind: BiomeType | string, options?: BiomeSearchOptions): Vector3 | undefined;
     /**
      * @remarks Returns a block instance at the given location.
      *
@@ -979,6 +2582,11 @@ export class Dimension {
      * @throws This function can throw errors.
      */
     getPlayers(options?: EntityQueryOptions): Player[];
+    /**
+     * @beta
+     * @remarks This function can't be called in read-only mode.
+     */
+    getWeather(): WeatherType;
     /**
      * @remarks Runs a command synchronously using the context of the broader dimenion.
      *
@@ -1106,6 +2714,31 @@ export class Dimension {
     spawnParticle(effectName: string, location: Vector3, molangVariables?: MolangVariableMap): void;
 }
 
+/** Represents a type of dimension. */
+export class DimensionType {
+    private constructor();
+    /** @remarks Identifier of the dimension type. */
+    readonly typeId: string;
+}
+
+/** Used for accessing all available dimension types. */
+export class DimensionTypes {
+    private constructor();
+    /**
+     * @remarks Retrieves a dimension type using a string-based identifier.
+     * @example
+     * ```javascript
+     * import { DimensionTypes } from "@minecraft/server";
+     *
+     * const dimensionType = DimensionTypes.get("overworld");
+     * console.warn(dimensionType.typeId);
+     * ```
+     */
+    static get(dimensionTypeId: string): DimensionType | undefined;
+    /** @remarks Retrieves an array of all dimension types. */
+    static getAll(): DimensionType[];
+}
+
 /** Represents an effect - like poison - that has been added to an Entity. */
 export class Effect {
     private constructor();
@@ -1140,11 +2773,131 @@ export class Effect {
     isValid(): boolean;
 }
 
+/** Contains information related to changes to an effect - like poison - being added to an entity. */
+export class EffectAddAfterEvent {
+    private constructor();
+    /**
+     * @remarks Additional properties and details of the effect.
+     *
+     * This property can't be edited in read-only mode.
+     */
+    readonly effect: Effect;
+    /**
+     * @remarks Entity that the effect is being added to.
+     *
+     * This property can't be edited in read-only mode.
+     */
+    readonly entity: Entity;
+}
+
+/** Manages callbacks that are connected to when an effect is added to an entity. */
+export class EffectAddAfterEventSignal {
+    private constructor();
+    /**
+     * @remarks Adds a callback that will be called when an effect is added to an entity.
+     *
+     * This function can't be called in read-only mode.
+     */
+    subscribe(
+        callback: (arg: EffectAddAfterEvent) => void,
+        options?: EntityEventOptions,
+    ): (arg: EffectAddAfterEvent) => void;
+    /**
+     * @remarks Removes a callback from being called when an effect is added to an entity.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    unsubscribe(callback: (arg: EffectAddAfterEvent) => void): void;
+}
+
+/** Contains information related to changes to an effect - like poison - being added to an entity. */
+export class EffectAddBeforeEvent {
+    private constructor();
+    /** @remarks When set to true will cancel the event. */
+    cancel: boolean;
+    duration: number;
+    /** @remarks The type of the effect that is being added. */
+    readonly effectType: string;
+    /** @remarks Entity that the effect is being added to. */
+    readonly entity: Entity;
+}
+
+/** Manages callbacks that are connected to when an effect is added to an entity. */
+export class EffectAddBeforeEventSignal {
+    private constructor();
+    /**
+     * @remarks Adds a callback that will be called when an effect is added to an entity.
+     *
+     * This function can't be called in read-only mode.
+     */
+    subscribe(callback: (arg: EffectAddBeforeEvent) => void): (arg: EffectAddBeforeEvent) => void;
+    /**
+     * @remarks Removes a callback from being called when an effect is added to an entity.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    unsubscribe(callback: (arg: EffectAddBeforeEvent) => void): void;
+}
+
 /** Represents a type of effect - like poison - that can be applied to an entity. */
 export class EffectType {
     private constructor();
     /** @returns Identifier of the effect type. */
     getName(): string;
+}
+
+/** Represents a type of effect - like poison - that can be applied to an entity. */
+export class EffectTypes {
+    private constructor();
+    /**
+     * @remarks Effect type for the given identifier.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @returns
+     * Effect type for the given identifier or undefined if the effect does not exist.
+     * @example
+     * ```javascript
+     * import { EffectTypes } from "@minecraft/server";
+     *
+     * const effectType = EffectTypes.get("overworld");
+     * console.warn(effectType.getName);
+     * ```
+     */
+    static get(identifier: string): EffectType | undefined;
+    /**
+     * @remarks Gets all effects.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @returns A list of all effects.
+     */
+    static getAll(): EffectType[];
+}
+
+/** @beta Contains information on a type of enchantment. */
+export class EnchantmentType {
+    private constructor();
+    /** @remarks The name of the enchantment type. */
+    readonly id: string;
+    /** @remarks The maximum level this type of enchantment can have. */
+    readonly maxLevel: number;
+}
+
+/** @beta Provides a list of enchantment types. */
+export class EnchantmentTypes {
+    private constructor();
+    /**
+     * @remarks Retrieves an enchantment with the specified identifier.
+     *
+     * @param enchantmentId
+     * Identifier of the enchantment.
+     * For example, "minecraft:flame".
+     * @returns If available, returns an EnchantmentType object that represents the specified enchantment.
+     */
+    static get(enchantmentId: string): EnchantmentType | undefined;
 }
 
 /** Represents the state of an entity (a mob, the player, or other moving objects like minecarts) in the world. */
@@ -1155,6 +2908,15 @@ export class Entity {
      * @throws This property can throw when used.
      */
     readonly dimension: Dimension;
+    /**
+     * @beta
+     * @remarks
+     * The distance an entity has fallen. The value is reset when
+     * the entity is teleported. The value is always 1 when gliding
+     * with Elytra.
+     * @throws This property can throw when used.
+     */
+    readonly fallDistance: number;
     /**
      * @remarks
      * Unique identifier of the entity. This identifier is intended
@@ -1214,6 +2976,16 @@ export class Entity {
      */
     readonly isSwimming: boolean;
     /**
+     * @beta
+     * @remarks
+     * Whether the entity reference that you have is valid or not.
+     * For example, an entity may be unloaded if it moves into a
+     * chunk that is unloaded, but may be reactivated if the chunk
+     * it is within gets reloaded.
+     *
+     */
+    readonly lifetimeState: EntityLifetimeState;
+    /**
      * @remarks Current location of the entity.
      * @throws This property can throw when used.
      */
@@ -1230,6 +3002,15 @@ export class Entity {
      * Will remain valid when the entity is killed.
      */
     readonly scoreboardIdentity?: ScoreboardIdentity;
+    /**
+     * @beta
+     * @remarks
+     * Retrieves or sets an entity that is used as the target of
+     * AI-related behaviors, like attacking. If the entity
+     * currently has no target returns undefined.
+     * @throws This property can throw when used.
+     */
+    readonly target?: Entity;
     /**
      * @remarks
      * Identifier of the type of the entity - for example,
@@ -1270,7 +3051,7 @@ export class Entity {
      * fox.addEffect("speed", 10, { amplifier: 2 });
      * ```
      */
-    addEffect(effectType: EffectType | string, duration: number, options?: EntityEffectOptions): void;
+    addEffect(effectType: EffectType | string, duration: number, options?: EntityEffectOptions): Effect | undefined;
     /**
      * @remarks
      * Adds a specified tag to an entity.
@@ -1382,6 +3163,11 @@ export class Entity {
      */
     applyKnockback(directionX: number, directionZ: number, horizontalStrength: number, verticalStrength: number): void;
     /**
+     * @remarks Clears all dynamic properties that have been set on this entity.
+     * @throws This function can throw errors.
+     */
+    clearDynamicProperties(): void;
+    /**
      * @remarks
      * Sets the current velocity of the Entity to zero.
      * Note that this method may not have an impact on Players.
@@ -1401,6 +3187,37 @@ export class Entity {
      * ```
      */
     clearVelocity(): void;
+    /**
+     * @remarks
+     * Applies a set of damage to an entity.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param amount
+     * Amount of damage to apply.
+     * @param options
+     * Additional options about the source of damage, which may add
+     * additional effects or spur additional behaviors on this
+     * entity.
+     * @returns
+     * Whether the entity takes any damage. This can return false
+     * if the entity is invulnerable or if the damage applied is
+     * less than or equal to 0.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * import { world, system } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const skelly = overworld.spawnEntity("minecraft:skeleton", { x: 1, y: 2, z: 3 });
+     *
+     * skelly.setOnFire(40, true);
+     * 
+     * system.runTimeout(() => {
+     *  skelly.extinguishFire(true);
+     * }, 20);
+     * ```
+     */
+    extinguishFire(useEffects?: boolean): boolean;
     /**
      * @remarks Returns the first intersecting block from the direction that this entity is looking at.
      *
@@ -1457,13 +3274,48 @@ export class Entity {
      * health.setCurrentValue(1);
      * ```
      */
-    getComponent(componentId: string): EntityComponent | undefined;
+    getComponent<T extends keyof EntityComponentTypeMap>(componentId: T): EntityComponentTypeMap[T] | undefined;
     /**
      * @remarks Returns all components that are both present on this entity and supported by the API.
      *
      * @returns Returns all components that are both present on this entity and supported by the API.
      */
     getComponents(): EntityComponent[];
+    /**
+     * @remarks Returns a property value.
+     *
+     * @param identifier
+     * The property identifier.
+     * @returns Returns the value for the property, or undefined if the property has not been set.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * const player = world.getAllPlayers()[0];
+     * 
+     * // Get the property value
+     * const value = player.getDynamicProperty("test");
+     * 
+     * console.warn(`Dynamic Property value: ${value}`);
+     * ```
+     */
+    getDynamicProperty(identifier: string): boolean | number | string | Vector3 | undefined;
+    /**
+     * @remarks Returns the available set of dynamic property identifiers that have been used on this entity.
+     * @returns A string array of the dynamic properties set on this entity.
+     * @throws This function can throw errors.
+     */
+    getDynamicPropertyIds(): string[];
+    /**
+     * @remarks
+     * Returns the total size, in bytes, of all the dynamic properties that are currently stored for this entity.
+     * This includes the size of both the key and the value.
+     * This can be useful for diagnosing performance warning signs - if, for example, an entity has many megabytes of associated dynamic properties, it may be slow to load on various devices.
+     *
+     * @throws This function can throw errors.
+     */
+    getDynamicPropertyTotalByteCount(): number;
     /**
      * @remarks Returns the effect for the specified EffectType on the entity, undefined if the effect is not present, or throws an error if the effect does not exist.
      *
@@ -1555,6 +3407,17 @@ export class Entity {
      * @throws This function can throw errors.
      */
     kill(): boolean;
+    matches(options: EntityQueryOptions): boolean;
+    playAnimation(animationName: string, options?: PlayAnimationOptions): void;
+    /**
+     * @remarks
+     * Immediately removes the entity from the world.
+     * The removed entity will not perform a death animation or drop loot upon removal.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    remove(): void;
     removeEffect(effectType: EffectType | string): boolean;
     removeTag(tag: string): boolean;
     resetProperty(identifier: string): boolean | number | string;
@@ -1615,6 +3478,55 @@ export class Entity {
      */
     runCommandAsync(commandString: string): Promise<CommandResult>;
     /**
+     * @remarks Sets a specified property to a value.
+     *
+     * @param identifier
+     * The property identifier.
+     * @param value
+     * Data value of the property to set.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * const player = world.getAllPlayers()[0];
+     * 
+     * // Get the property value
+     * const value = player.getDynamicProperty("test");
+     * player.setDynamicProperty("test", value + 1);
+     * ```
+     */
+    setDynamicProperty(identifier: string, value?: boolean | number | string | Vector3): void;
+    /**
+     * @remarks
+     * Sets an entity on fire (if it is not in water or rain). Note
+     * that you can call getComponent('minecraft:onfire') and, if
+     * present, the entity is on fire.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param seconds
+     * Length of time to set the entity on fire.
+     * @param useEffects
+     * Whether side-effects should be applied (e.g. thawing freeze)
+     * and other conditions such as rain or fire protection should
+     * be taken into consideration.
+     * @returns
+     * Whether the entity was set on fire. This can fail if seconds
+     * is less than or equal to zero, the entity is wet or the
+     * entity is immune to fire.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * import { world, system } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const skelly = overworld.spawnEntity("minecraft:skeleton", { x: 1, y: 2, z: 3 });
+     *
+     * skelly.setOnFire(40, true);
+     * ```
+     */
+    setOnFire(seconds: number, useEffects?: boolean): boolean;
+    /**
      * @remarks
      * Sets an Entity Property to the provided value. This property
      * change is not applied until the next tick.
@@ -1665,6 +3577,24 @@ export class Entity {
      */
     triggerEvent(eventName: string): void;
     tryTeleport(location: Vector3, teleportOptions?: TeleportOptions): boolean;
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityAddRiderComponent extends EntityComponent {
+    private constructor();
+    readonly entityType: string;
+    readonly spawnEvent: string;
+    static readonly componentId = "minecraft:addrider";
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityAgeableComponent extends EntityComponent {
+    private constructor();
+    readonly duration: number;
+    readonly growUp: Trigger;
+    static readonly componentId = "minecraft:ageable";
+    getDropItems(): string[];
+    getFeedItems(): EntityDefinitionFeedItem[];
 }
 
 /** This is a base abstract class for any entity component that centers around a number and can have a minimum, maximum, and default defined value. */
@@ -1732,6 +3662,23 @@ export class EntityBaseMovementComponent extends EntityComponent {
     readonly maxTurn: number;
 }
 
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityBreathableComponent extends EntityComponent {
+    private constructor();
+    readonly breathesAir: boolean;
+    readonly breathesLava: boolean;
+    readonly breathesSolids: boolean;
+    readonly breathesWater: boolean;
+    readonly generatesBubbles: boolean;
+    readonly inhaleTime: number;
+    readonly suffocateTime: number;
+    readonly totalSupply: number;
+    static readonly componentId = "minecraft:breathable";
+    getBreatheBlocks(): BlockPermutation[];
+    getNonBreatheBlocks(): BlockPermutation[];
+    setAirSupply(value: number): void;
+}
+
 /** When added, this component signifies that the entity can climb up ladders. */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class EntityCanClimbComponent extends EntityComponent {
@@ -1773,6 +3720,32 @@ export class EntityColorComponent extends EntityComponent {
 // @ts-ignore Class inheritance allowed for native defined classes
 export class EntityComponent extends Component {
     private constructor();
+    /**
+     * @beta
+     * @remarks The entity that owns this component.
+     */
+    readonly entity?: Entity;
+}
+
+/**
+ * @beta
+ * As part of the Ageable component, represents a set of items that can be fed to an entity and the rate at which that causes them to grow.
+ */
+export class EntityDefinitionFeedItem {
+    private constructor();
+    /**
+     * @remarks
+     * The amount by which an entity's age will increase when fed this item.
+     * Values usually range between 0 and 1.
+     */
+    readonly growth: number;
+    /**
+     * @remarks
+     * Identifier of type of item that can be fed.
+     * If a namespace is not specified, 'minecraft:' is assumed.
+     * Example values include 'wheat' or 'golden_apple'.
+     */
+    readonly item: string;
 }
 
 /** Contains data related to the death of an entity in the game. */
@@ -1817,6 +3790,7 @@ export class EntityEquippableComponent extends EntityComponent {
     private constructor();
     static readonly componentId = "minecraft:equippable";
     getEquipment(equipmentSlot: EquipmentSlot): ItemStack | undefined;
+    getEquipmentSlot(equipmentSlot: EquipmentSlot): ContainerSlot;
     setEquipment(equipmentSlot: EquipmentSlot, itemStack?: ItemStack): boolean;
 }
 
@@ -1879,6 +3853,7 @@ export class EntityGroundOffsetComponent extends EntityComponent {
 // @ts-ignore Class inheritance allowed for native defined classes
 export class EntityHealableComponent extends EntityComponent {
     private constructor();
+    readonly filters: FilterGroup;
     /**
      * @remarks Determines if an item can be used regardless of the entity being at full health.
      * @throws This property can throw when used.
@@ -2113,6 +4088,40 @@ export class EntityItemComponent extends EntityComponent {
     static readonly componentId = "minecraft:item";
 }
 
+/**
+ * @beta
+ * This type is usable for iterating over a set of entities.
+ * This means it can be used in statements like for...of statements, Array.from(iterator), and more.
+ */
+export class EntityIterator implements Iterable<Entity> {
+    private constructor();
+    /** @remarks This function can't be called in read-only mode. */
+    [Symbol.iterator](): Iterator<Entity>;
+    /**
+     * @remarks
+     * Retrieves the next item in this iteration.
+     * The resulting IteratorResult contains `.done` and `.value` properties which can be used to see the next Entity in the iteration.
+     *
+     * This function can't be called in read-only mode.
+     */
+    next(): IteratorResult<Entity>;
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityLavaMovementComponent extends EntityAttributeComponent {
+    private constructor();
+    static readonly componentId = "minecraft:lava_movement";
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityLeashableComponent extends EntityComponent {
+    private constructor();
+    readonly softDistance: number;
+    static readonly componentId = "minecraft:leashable";
+    leash(leashHolder: Entity): void;
+    unleash(): void;
+}
+
 export class EntityLoadAfterEvent {
     private constructor();
     entity: Entity;
@@ -2140,6 +4149,13 @@ export class EntityMarkVariantComponent extends EntityComponent {
     static readonly componentId = "minecraft:mark_variant";
 }
 
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityMountTamingComponent extends EntityComponent {
+    private constructor();
+    static readonly componentId = "minecraft:tamemount";
+    setTamed(showParticles: boolean): void;
+}
+
 /** When added, this movement control allows the mob to swim in water and walk on land. */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class EntityMovementAmphibiousComponent extends EntityBaseMovementComponent {
@@ -2154,6 +4170,12 @@ export class EntityMovementBasicComponent extends EntityBaseMovementComponent {
     static readonly componentId = "minecraft:movement.basic";
 }
 
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityMovementComponent extends EntityAttributeComponent {
+    private constructor();
+    static readonly componentId = "minecraft:movement";
+}
+
 /** When added, this move control causes the mob to fly. */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class EntityMovementFlyComponent extends EntityBaseMovementComponent {
@@ -2166,6 +4188,23 @@ export class EntityMovementFlyComponent extends EntityBaseMovementComponent {
 export class EntityMovementGenericComponent extends EntityBaseMovementComponent {
     private constructor();
     static readonly componentId = "minecraft:movement.generic";
+}
+
+/** @beta When added, this movement control allows the mob to glide. */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityMovementGlideComponent extends EntityBaseMovementComponent {
+    private constructor();
+    /**
+     * @remarks Speed in effect when the entity is turning.
+     * @throws This property can throw when used.
+     */
+    readonly speedWhenTurning: number;
+    /**
+     * @remarks Start speed during a glide. 
+     * @throws This property can throw when used.
+     */
+    readonly startSpeed: number;
+    static readonly componentId = "minecraft:movement.glide";
 }
 
 /** When added, this move control causes the mob to hover. */
@@ -2187,6 +4226,120 @@ export class EntityMovementJumpComponent extends EntityBaseMovementComponent {
 export class EntityMovementSkipComponent extends EntityBaseMovementComponent {
     private constructor();
     static readonly componentId = "minecraft:movement.skip";
+}
+
+/** @beta When added, this move control causes the mob to sway side to side giving the impression it is swimming. */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityMovementSwayComponent extends EntityBaseMovementComponent {
+    private constructor();
+    /**
+     * @remarks Amplitude of the sway motion.
+     * @throws This property can throw when used.
+     */
+    readonly swayAmplitude: number;
+    /**
+     * @remarks Amount of sway frequency.
+     * @throws This property can throw when used.
+     */
+    readonly swayFrequency: number;
+    static readonly componentId = "minecraft:movement.sway";
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityNavigationClimbComponent extends EntityNavigationComponent {
+    private constructor();
+    static readonly componentId = "minecraft:navigation.climb";
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityNavigationComponent extends EntityComponent {
+    private constructor();
+    readonly avoidDamageBlocks: boolean;
+    readonly avoidPortals: boolean;
+    readonly avoidSun: boolean;
+    readonly avoidWater: boolean;
+    readonly canBreach: boolean;
+    readonly canBreakDoors: boolean;
+    readonly canFloat: boolean;
+    readonly canJump: boolean;
+    readonly canOpenDoors: boolean;
+    readonly canOpenIronDoors: boolean;
+    readonly canPassDoors: boolean;
+    readonly canPathFromAir: boolean;
+    readonly canPathOverLava: boolean;
+    readonly canPathOverWater: boolean;
+    readonly canSink: boolean;
+    readonly canSwim: boolean;
+    readonly canWalk: boolean;
+    readonly canWalkInLava: boolean;
+    readonly isAmphibious: boolean;
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityNavigationFloatComponent extends EntityNavigationComponent {
+    private constructor();
+    static readonly componentId = "minecraft:navigation.float";
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityNavigationFlyComponent extends EntityNavigationComponent {
+    private constructor();
+    static readonly componentId = "minecraft:navigation.fly";
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityNavigationGenericComponent extends EntityNavigationComponent {
+    private constructor();
+    static readonly componentId = "minecraft:navigation.generic";
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityNavigationHoverComponent extends EntityNavigationComponent {
+    private constructor();
+    static readonly componentId = "minecraft:navigation.hover";
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityNavigationWalkComponent extends EntityNavigationComponent {
+    private constructor();
+    static readonly componentId = "minecraft:navigation.walk";
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityNpcComponent extends EntityComponent {
+    private constructor();
+    defaultScene: string;
+    name: string;
+    skinIndex: number;
+    static readonly componentId = "minecraft:npc";
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityOnFireComponent extends EntityComponent {
+    private constructor();
+    readonly onFireTicksRemaining: number;
+    static readonly componentId = "minecraft:onfire";
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityProjectileComponent extends EntityComponent {
+    private constructor();
+    airInertia: number;
+    catchFireOnHurt: boolean;
+    critParticlesOnProjectileHurt: boolean;
+    destroyOnProjectileHurt: boolean;
+    gravity: number;
+    hitEntitySound?: string;
+    hitGroundSound?: string;
+    hitParticle?: string;
+    lightningStrikeOnHit: boolean;
+    liquidInertia: number;
+    onFireTime: number;
+    owner?: Entity;
+    shouldBounceOnHit: boolean;
+    stopOnHit: boolean;
+    static readonly componentId = "minecraft:projectile";
+    shoot(velocity: Vector3, options?: ProjectileShootOptions): void;
 }
 
 /** Sets the distance through which the entity can push through. */
@@ -2226,6 +4379,31 @@ export class EntityRemoveBeforeEventSignal {
     private constructor();
     subscribe(callback: (arg: EntityRemoveBeforeEvent) => void): (arg: EntityRemoveBeforeEvent) => void;
     unsubscribe(callback: (arg: EntityRemoveBeforeEvent) => void): void;
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityRideableComponent extends EntityComponent {
+    private constructor();
+    readonly controllingSeat: number;
+    readonly crouchingSkipInteract: boolean;
+    readonly interactText: string;
+    readonly pullInEntities: boolean;
+    readonly riderCanInteract: boolean;
+    readonly seatCount: number;
+    static readonly componentId = "minecraft:rideable";
+    addRider(rider: Entity): boolean;
+    ejectRider(rider: Entity): void;
+    ejectRiders(): void;
+    getFamilyTypes(): string[];
+    getRiders(): Entity[];
+    getSeats(): Seat[];
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityRidingComponent extends EntityComponent {
+    private constructor();
+    readonly entityRidingOn: Entity;
+    static readonly componentId = "minecraft:riding";
 }
 
 /** Sets the entity's visual size. */
@@ -2269,6 +4447,63 @@ export class EntitySpawnAfterEventSignal {
     unsubscribe(callback: (arg: EntitySpawnAfterEvent) => void): void;
 }
 
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityStrengthComponent extends EntityComponent {
+    private constructor();
+    readonly max: number;
+    readonly value: number;
+    static readonly componentId = "minecraft:strength";
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityTameableComponent extends EntityComponent {
+    private constructor();
+    readonly probability: number;
+    static readonly componentId = "minecraft:tameable";
+    getTameItems(): string[];
+    tame(): boolean;
+}
+
+/**
+ * @beta
+ * Represents information about a type of entity.
+ */
+export class EntityType {
+    private constructor();
+    /** @remarks Identifier of this entity type - for example, 'minecraft:skeleton'. */
+    readonly id: string;
+}
+
+/**
+ * @beta
+ * An iterator that loops through available entity types.
+ */
+export class EntityTypeIterator implements Iterable<EntityType> {
+    private constructor();
+    /** @remarks This function can't be called in read-only mode. */
+    [Symbol.iterator](): Iterator<EntityType>;
+    /** @remarks This function can't be called in read-only mode. */
+    next(): IteratorResult<EntityType>;
+}
+
+/**
+ * @beta
+ * Used for accessing all entity types currently available for use within the world.
+ */
+export class EntityTypes {
+    private constructor();
+    /** @remarks Retrieves an entity type using a string-based identifier. */
+    static get(identifier: string): EntityType | undefined;
+    /** @remarks Retrieves an iterator of all entity types within this world. */
+    static getAll(): EntityType[];
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityUnderwaterMovementComponent extends EntityAttributeComponent {
+    private constructor();
+    static readonly componentId = "minecraft:underwater_movement";
+}
+
 /** Used to differentiate the component group of a variant of an entity from others. (e.g. ocelot, villager). */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class EntityVariantComponent extends EntityComponent {
@@ -2286,6 +4521,32 @@ export class EntityVariantComponent extends EntityComponent {
 export class EntityWantsJockeyComponent extends EntityComponent {
     private constructor();
     static readonly componentId = "minecraft:wants_jockey";
+}
+
+export class ExplosionAfterEvent {
+    private constructor();
+    readonly dimension: Dimension;
+    readonly source?: Entity;
+    getImpactedBlocks(): Block[];
+}
+
+export class ExplosionAfterEventSignal {
+    private constructor();
+    subscribe(callback: (arg: ExplosionAfterEvent) => void): (arg: ExplosionAfterEvent) => void;
+    unsubscribe(callback: (arg: ExplosionAfterEvent) => void): void;
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class ExplosionBeforeEvent extends ExplosionAfterEvent {
+    private constructor();
+    cancel: boolean;
+    setImpactedBlocks(blocks: Block[]): void;
+}
+
+export class ExplosionBeforeEventSignal {
+    private constructor();
+    subscribe(callback: (arg: ExplosionBeforeEvent) => void): (arg: ExplosionBeforeEvent) => void;
+    unsubscribe(callback: (arg: ExplosionBeforeEvent) => void): void;
 }
 
 /** As part of the Healable component, represents a specific item that can be fed to an entity to cause health effects. */
@@ -2332,6 +4593,26 @@ export class FeedItemEffect {
      * Example values include 'fire_resistance' or 'regeneration'.
      */
     readonly name: string;
+}
+
+/**
+ * @beta
+ * Represents a set of filters for when an event should occur.
+ */
+export class FilterGroup {
+    private constructor();
+}
+
+/**
+ * @beta
+ * Represents constants related to fluid containers.
+ */
+export class FluidContainer {
+    private constructor();
+    /** @remarks Constant that represents the maximum fill level of a fluid container. */
+    static readonly maxFillLevel = 6;
+    /** @remarks Constant that represents the minimum fill level of a fluid container. */
+    static readonly minFillLevel = 0;
 }
 
 /** Provides an adaptable interface for callers to subscribe to an event that fires when a button is pushed. */
@@ -2443,6 +4724,146 @@ export class ItemComponent extends Component {
     private constructor();
 }
 
+/**
+ * @beta
+ * When present on an item, this item has a cooldown effect
+ * when used by entities.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class ItemCooldownComponent extends ItemComponent {
+    private constructor();
+    /**
+     * @remarks Represents the cooldown category that this item is associated with.
+     * @throws This property can throw when used.
+     */
+    readonly cooldownCategory: string;
+    /**
+     * @remarks Amount of time, in ticks, that remain for this item cooldown.
+     * @throws This property can throw when used.
+     */
+    readonly cooldownTicks: number;
+    static readonly componentId = "minecraft:cooldown";
+    /**
+     * @remarks Starts a new cooldown period for this item.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * const cooldown = itemStack.getComponent("cooldown");
+     * cooldown.startCooldown(player);
+     * ```
+     */
+    startCooldown(player: Player): void;
+}
+
+export class ItemDefinitionAfterEventSignal {
+    private constructor();
+    subscribe(callback: (arg: ItemDefinitionTriggeredAfterEvent) => void): (arg: ItemDefinitionTriggeredAfterEvent) => void;
+    unsubscribe(callback: (arg: ItemDefinitionTriggeredAfterEvent) => void): void;
+}
+
+export class ItemDefinitionBeforeEventSignal {
+    private constructor();
+    subscribe(callback: (arg: ItemDefinitionTriggeredBeforeEvent) => void): (arg: ItemDefinitionTriggeredBeforeEvent) => void;
+    unsubscribe(callback: (arg: ItemDefinitionTriggeredBeforeEvent) => void): void;
+}
+
+export class ItemDefinitionTriggeredAfterEvent {
+    private constructor();
+    readonly eventName: string;
+    itemStack: ItemStack;
+    readonly source?: Player;
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class ItemDefinitionTriggeredBeforeEvent extends ItemDefinitionTriggeredAfterEvent {
+    private constructor();
+    cancel: boolean;
+}
+
+/**
+ * When present on an item, this item can take damage in the process of being used.
+ * Note that this component only applies to data-driven items.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class ItemDurabilityComponent extends ItemComponent {
+    private constructor();
+    /**
+     * @remarks Returns the current damage level of this particular item.
+     *
+     * This property can't be edited in read-only mode.
+     */
+    damage: number;
+    /**
+     * @remarks Represents the amount of damage that this item can take before breaking.
+     * @throws This property can throw when used.
+     */
+    readonly maxDurability: number;
+    static readonly componentId = "minecraft:durability";
+    /**
+     * @remarks Returns the maximum chance that this item would be damaged using the damageRange property, given an unbreaking level.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param unbreaking
+     * Unbreaking factor to consider in factoring the damage chance.
+     * Incoming unbreaking parameter must be greater than 0.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * const durability = itemStack.getComponent("durability");
+     * console.warn(`Damage chance: ${durability.getDamageChance(2)}`);
+     * ```
+     */
+    getDamageChance(unbreakingEnchantmentLevel?: number): number;
+    getDamageChanceRange(): minecraftcommon.NumberRange;
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class ItemEnchantableComponent extends ItemComponent {
+    private constructor();
+    static readonly componentId = "minecraft:enchantable";
+    addEnchantment(enchantment: Enchantment): void;
+    addEnchantments(enchantments: Enchantment[]): void;
+    canAddEnchantment(enchantment: Enchantment): boolean;
+    getEnchantment(enchantmentType: EnchantmentType | string): Enchantment | undefined;
+    getEnchantments(): Enchantment[];
+    hasEnchantment(enchantmentType: EnchantmentType | string): boolean;
+    removeAllEnchantments(): void;
+    removeEnchantment(enchantmentType: EnchantmentType | string): void;
+}
+
+/**
+ * When present on an item, this item is consumable by entities.
+ * Note that this component only applies to data-driven items.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class ItemFoodComponent extends ItemComponent {
+    private constructor();
+    /**
+     * @remarks If true, the player can always eat this item (even when not hungry).
+     * @throws This property can throw when used.
+     */
+    readonly canAlwaysEat: boolean;
+    /**
+     * @remarks Represents how much nutrition this food item will give an entity when eaten.
+     * @throws This property can throw when used.
+     */
+    readonly nutrition: number;
+    /**
+     * @remarks When an item is eaten, this value is used according to this formula (nutrition * saturation_modifier * 2) to apply a saturation buff.
+     * @throws This property can throw when used.
+     */
+    readonly saturationModifier: number;
+    /**
+     * @remarks When specified, converts the active item to the one specified by this property.
+     * @throws This property can throw when used.
+     */
+    readonly usingConvertsTo: string;
+    static readonly componentId = "minecraft:food";
+}
+
 export class ItemReleaseUseAfterEvent {
     private constructor();
     readonly itemStack?: ItemStack;
@@ -2533,6 +4954,7 @@ export class ItemStack {
      * ```
      */
     constructor(itemType: ItemType | string, amount?: number);
+    clearDynamicProperties(): void;
     /**
      * @remarks Creates an exact copy of the item stack, including any custom data or properties.
      *
@@ -2585,9 +5007,12 @@ export class ItemStack {
      * enchantments.enchantments.addEnchantment(new Enchantment("sharpness", 5));
      * ```
      */
-    getComponent(componentId: string): ItemComponent | undefined;
+    getComponent<T extends keyof ItemComponentTypeMap>(componentId: T): ItemComponentTypeMap[T] | undefined;
     /** @remarks Returns all components that are both present on this item stack and supported by the API. */
     getComponents(): ItemComponent[];
+    getDynamicProperty(identifier: string): boolean | number | string | Vector3 | undefined;
+    getDynamicPropertyIds(): string[];
+    getDynamicPropertyTotalByteCount(): number;
     /**
      * @remarks Returns the lore value - a secondary display string - for an ItemStack.
      *
@@ -2618,7 +5043,21 @@ export class ItemStack {
     isStackableWith(itemStack: ItemStack): boolean;
     setCanDestroy(blockIdentifiers?: string[]): void;
     setCanPlaceOn(blockIdentifiers?: string[]): void;
+    setDynamicProperty(identifier: string, value?: boolean | number | string | Vector3): void;
     setLore(loreList?: string[]): void;
+    /**
+     * @beta
+     * @remarks
+     * Triggers an item type event.
+     * For custom items, a number of events are defined in an items' definition for key item behaviors.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param eventName
+     * Name of the item type event to trigger.
+     * If a namespace is not specified, minecraft: is assumed.
+     */
+    triggerEvent(eventName: string): void;
 }
 
 export class ItemStartUseAfterEvent {
@@ -2679,6 +5118,18 @@ export class ItemType {
     private constructor();
     /** @remarks Returns the identifier of the item type - for example, 'minecraft:apple'. */
     readonly id: string;
+}
+
+/**
+ * @beta
+ * Returns the set of item types registered within Minecraft.
+ */
+export class ItemTypes {
+    private constructor();
+    /** @remarks Returns a specific item type, if available within Minecraft. */
+    static get(itemId: string): ItemType | undefined;
+    /** @remarks Retrieves all available item types registered within Minecraft. */
+    static getAll(): ItemType[];
 }
 
 export class ItemUseAfterEvent {
@@ -2748,6 +5199,16 @@ export class LeverActionAfterEventSignal extends ILeverActionAfterEventSignal {
     private constructor();
 }
 
+export class MessageReceiveAfterEvent {
+    private constructor();
+    /** @remarks The message identifier. */
+    readonly id: string;
+    /** @remarks The message. */
+    readonly message: string;
+    /** @remarks The player who sent the message. */
+    readonly player: Player;
+}
+
 export class MinecraftDimensionTypes {
     private constructor();
     static readonly nether = "minecraft:nether";
@@ -2807,6 +5268,19 @@ export class MolangVariableMap {
     setVector3(variableName: string, vector: Vector3): void;
 }
 
+// @ts-ignore Class inheritance allowed for native defined classes
+export class PistonActivateAfterEvent extends BlockEvent {
+    private constructor();
+    readonly isExpanding: boolean;
+    readonly piston: BlockPistonComponent;
+}
+
+export class PistonActivateAfterEventSignal {
+    private constructor();
+    subscribe(callback: (arg: PistonActivateAfterEvent) => void): (arg: PistonActivateAfterEvent) => void;
+    unsubscribe(callback: (arg: PistonActivateAfterEvent) => void): void;
+}
+
 /** Represents a player within the world. */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class Player extends Entity {
@@ -2855,6 +5329,12 @@ export class Player extends Entity {
      * @throws This property can throw when used.
      */
     readonly onScreenDisplay: ScreenDisplay;
+    /**
+     * @remarks Manages the selected slot in the player's hotbar.
+     *
+     * This property can't be edited in read-only mode.
+     */
+    selectedSlot: number;
     /**
      * @remarks The overall total set of experience needed to achieve the next level for a player.
      * @throws This property can throw when used.
@@ -2911,6 +5391,27 @@ export class Player extends Entity {
      * ```
      */
     addLevels(amount: number): number;
+    eatItem(itemStack: ItemStack): void;
+    /**
+     * @beta
+     * @remarks
+     * Gets the current item cooldown time for a particular
+     * cooldown category.
+     *
+     * @param itemCategory
+     * Specifies the cooldown category to retrieve the current
+     * cooldown for.
+     * @throws This function can throw errors.@example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * // Get the player
+     * const player = world.getAllPlayers()[0];
+     *
+     * console.warn(`Item cooldown: ${player.getItemCooldown("ender_pearl")}`);
+     * ```
+     */
+    getItemCooldown(itemCategory: string): number;
     /**
      * @remarks Gets the current spawn point of the player.
      * @throws This function can throw errors.
@@ -2921,6 +5422,37 @@ export class Player extends Entity {
      * @throws This function can throw errors.
      */
     getTotalXp(): number;
+    /**
+     * @beta
+     * @remarks
+     * Returns true if this player has operator-level permissions.
+     * @throws This function can throw errors.
+     */
+    isOp(): boolean;
+    /**
+     * @beta
+     * @remarks
+     * Plays a music track that only this particular player can
+     * hear.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param trackId
+     * Identifier of the music track to play.
+     * @param musicOptions
+     * Additional options for the music track.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * // Get the player
+     * const player = world.getAllPlayers()[0];
+     *
+     * player.playMusic("record.otherside", { loop: true });
+     * ```
+     */
+    playMusic(trackId: string, musicOptions?: MusicOptions): void;
     /**
      * @remarks Plays a sound that only this particular player can hear.
      *
@@ -2940,6 +5472,43 @@ export class Player extends Entity {
      * ```
      */
     playSound(soundId: string, soundOptions?: PlayerSoundOptions): void;
+    /**
+     * @beta
+     * @remarks
+     * This is an internal-facing method for posting a system
+     * message to downstream clients.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    postClientMessage(id: string, value: string): void;
+    /**
+     * @beta
+     * @remarks
+     * Queues an additional music track that only this particular
+     * player can hear. If a track is not playing, a music track
+     * will play.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param trackId
+     * Identifier of the music track to play.
+     * @param musicOptions
+     * Additional options for the music track.
+     * @throws
+     * An error will be thrown if volume is less than 0.0.
+     * An error will be thrown if fade is less than 0.0.
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * // Get the player
+     * const player = world.getAllPlayers()[0];
+     *
+     * player.queueMusic("record.otherside", { loop: true });
+     * ```
+     */
+    queueMusic(trackId: string, musicOptions?: MusicOptions): void;
     /**
      * @remarks Resets the level of the player.
      *
@@ -3013,6 +5582,25 @@ export class Player extends Entity {
      */
     sendMessage(message: (RawMessage | string)[] | RawMessage | string): void;
     /**
+     * @beta
+     * @remarks
+     * Will change the specified players permissions, and whether
+     * they are operator or not.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * // Get the player
+     * const player = world.getAllPlayers()[0];
+     *
+     * player.setOp(false);
+     * ```
+     */
+    setOp(isOp: boolean): void;
+    /**
      * @remarks Sets the current starting spawn point for this particular player.
      *
      * This function can't be called in read-only mode.
@@ -3037,6 +5625,43 @@ export class Player extends Entity {
      * ```
      */
     setSpawnPoint(spawnPoint?: DimensionLocation): void;
+    spawnParticle(effectName: string, location: Vector3, molangVariables?: MolangVariableMap): void;
+    /**
+     * @beta
+     * @remarks
+     * Sets the item cooldown time for a particular cooldown
+     * category.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param itemCategory
+     * Specifies the cooldown category to retrieve the current
+     * cooldown for.
+     * @param tickDuration
+     * Duration in ticks of the item cooldown.
+     * @throws This function can throw errors.
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * // Get the player
+     * const player = world.getAllPlayers()[0];
+     *
+     * //Starts an item cooldown for the ender pearl for 5 seconds
+     * player.startItemCooldown("ender_pearl", 20 * 5);
+     * ```
+     */
+    startItemCooldown(itemCategory: string, tickDuration: number): void;
+    /**
+     * @beta
+     * @remarks
+     * Stops any music tracks from playing for this particular
+     * player.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    stopMusic(): void;
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes
@@ -3089,6 +5714,83 @@ export class PlayerDimensionChangeAfterEventSignal {
     unsubscribe(callback: (arg: PlayerDimensionChangeAfterEvent) => void): void;
 }
 
+export class PlayerInteractWithBlockAfterEvent {
+    private constructor();
+    readonly block: Block;
+    readonly blockFace: Direction;
+    readonly faceLocation: Vector3;
+    readonly itemStack?: ItemStack;
+    readonly player: Player;
+}
+
+export class PlayerInteractWithBlockAfterEventSignal {
+    private constructor();
+    subscribe(callback: (arg: PlayerInteractWithBlockAfterEvent) => void): (arg: PlayerInteractWithBlockAfterEvent) => void;
+    unsubscribe(callback: (arg: PlayerInteractWithBlockAfterEvent) => void): void;
+}
+
+export class PlayerInteractWithBlockBeforeEvent {
+    private constructor();
+    readonly block: Block;
+    readonly blockFace: Direction;
+    cancel: boolean;
+    readonly faceLocation: Vector3;
+    readonly itemStack?: ItemStack;
+    readonly player: Player;
+}
+
+export class PlayerInteractWithBlockBeforeEventSignal {
+    private constructor();
+    subscribe(callback: (arg: PlayerInteractWithBlockBeforeEvent) => void): (arg: PlayerInteractWithBlockBeforeEvent) => void;
+    unsubscribe(callback: (arg: PlayerInteractWithBlockBeforeEvent) => void): void;
+}
+
+export class PlayerInteractWithEntityAfterEvent {
+    private constructor();
+    readonly itemStack?: ItemStack;
+    readonly player: Player;
+    readonly target: Entity;
+}
+
+export class PlayerInteractWithEntityAfterEventSignal {
+    private constructor();
+    subscribe(callback: (arg: PlayerInteractWithEntityAfterEvent) => void): (arg: PlayerInteractWithEntityAfterEvent) => void;
+    unsubscribe(callback: (arg: PlayerInteractWithEntityAfterEvent) => void): void;
+}
+
+export class PlayerInteractWithEntityBeforeEvent {
+    private constructor();
+    cancel: boolean;
+    readonly itemStack?: ItemStack;
+    readonly player: Player;
+    readonly target: Entity;
+}
+
+export class PlayerInteractWithEntityBeforeEventSignal {
+    private constructor();
+    subscribe(callback: (arg: PlayerInteractWithEntityBeforeEvent) => void): (arg: PlayerInteractWithEntityBeforeEvent) => void;
+    unsubscribe(callback: (arg: PlayerInteractWithEntityBeforeEvent) => void): void;
+}
+
+/**
+ * @beta
+ * This type is usable for iterating over a set of players.
+ * This means it can be used in statements like for...of statements, Array.from(iterator), and more.
+ */
+export class PlayerIterator implements Iterable<Player> {
+    private constructor();
+    /** @remarks This function can't be called in read-only mode. */
+    [Symbol.iterator](): Iterator<Player>;
+    /**
+     * @remarks
+     * Retrieves the next item in this iteration.
+     * The resulting IteratorResult contains `.done` and `.value` properties which can be used to see the next Player in the iteration.
+     *
+     * This function can't be called in read-only mode.
+     */
+    next(): IteratorResult<Player>;
+}
+
 /**
  * Contains information regarding a player that has joined.
  * See the playerSpawn event for more detailed information that could be returned after the first time a player has spawned within the game.
@@ -3122,6 +5824,17 @@ export class PlayerLeaveAfterEventSignal extends IPlayerLeaveAfterEventSignal {
     private constructor();
 }
 
+export class PlayerLeaveBeforeEvent {
+    private constructor();
+    readonly player: Player;
+}
+
+export class PlayerLeaveBeforeEventSignal {
+    private constructor();
+    subscribe(callback: (arg: PlayerLeaveBeforeEvent) => void): (arg: PlayerLeaveBeforeEvent) => void;
+    unsubscribe(callback: (arg: PlayerLeaveBeforeEvent) => void): void;
+}
+
 // @ts-ignore Class inheritance allowed for native defined classes
 export class PlayerPlaceBlockAfterEvent extends BlockEvent {
     private constructor();
@@ -3135,6 +5848,25 @@ export class PlayerPlaceBlockAfterEventSignal {
         options?: BlockEventOptions,
     ): (arg: PlayerPlaceBlockAfterEvent) => void;
     unsubscribe(callback: (arg: PlayerPlaceBlockAfterEvent) => void): void;
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class PlayerPlaceBlockBeforeEvent extends BlockEvent {
+    private constructor();
+    cancel: boolean;
+    readonly face: Direction;
+    readonly faceLocation: Vector3;
+    readonly permutationBeingPlaced: BlockPermutation;
+    readonly player: Player;
+}
+
+export class PlayerPlaceBlockBeforeEventSignal {
+    private constructor();
+    subscribe(
+        callback: (arg: PlayerPlaceBlockBeforeEvent) => void,
+        options?: BlockEventOptions,
+    ): (arg: PlayerPlaceBlockBeforeEvent) => void;
+    unsubscribe(callback: (arg: PlayerPlaceBlockBeforeEvent) => void): void;
 }
 
 /** An event that contains more information about a player spawning. */
@@ -3415,13 +6147,83 @@ export class ScriptEventCommandMessageAfterEventSignal {
     unsubscribe(callback: (arg: ScriptEventCommandMessageAfterEvent) => void): void;
 }
 
+/**
+ * @beta
+ * Describes a particular seating position on this rideable entity.
+ */
+export class Seat {
+    private constructor();
+    /** @remarks If specified, contains a forced rotation that the riders in this seat are facing. */
+    readonly lockRiderRotation: number;
+    /** @remarks A maximum number of riders that this seat can support. */
+    readonly maxRiderCount: number;
+    /** @remarks A minimum number of riders that can be placed in this seat position, if this seat is to be filled. */
+    readonly minRiderCount: number;
+    /** @remarks Physical location of this seat, relative to the entity's location. */
+    readonly position: Vector3;
+}
+
+/**
+ * @beta
+ * Manages callbacks that are message passing to a server.
+ * This event is not currently fully implemented, and should not be used.
+ */
+export class ServerMessageAfterEventSignal {
+    private constructor();
+    /**
+     * @remarks Adds a callback that will be called when an internal message is passed.
+     *
+     * This function can't be called in read-only mode.
+     */
+    subscribe(callback: (arg: MessageReceiveAfterEvent) => void): (arg: MessageReceiveAfterEvent) => void;
+    /**
+     * @remarks Removes a callback from being called when an internal message is passed.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    
+    unsubscribe(callback: (arg: MessageReceiveAfterEvent) => void): void;
+}
+
 /** A class that provides system-level events and functions. */
 export class System {
     private constructor();
     /** @remarks Returns a collection of after-events for system-level operations. */
     readonly afterEvents: SystemAfterEvents;
+    /**
+     * @beta
+     * @remarks Returns a collection of before-events for system-level operations.
+     */
+    readonly beforeEvents: SystemBeforeEvents;
     /** @remarks Represents the current world tick of the server. */
     readonly currentTick: number;
+    /**
+     * @beta
+     * @example
+     * ```javascript
+     * import { world, system, BlockTypes, Vector } from "@minecraft/server";
+     * 
+     * const blocks = BlockTypes.getAll();
+     * const job = system.runJob(function* () {
+     *     while (true) {
+     *         const players = world.getAllPlayers();
+     *         for (let i = 0; i < players.length; i++) {
+     *             const player = players[i];
+     *             const below = Vector.add(player.location, Vector.down);
+     *             const block = player.dimension.getBlock(below);
+     *             const randomType = blocks[Math.floor(Math.random() * blocks.length)];
+     * 
+     *             yield block.setType(randomType);
+     * 
+     *             if (randomType.id != "minecraft:diamond_block) continue;
+     *             system.clearJob(job);
+     *         };
+     *     };
+     * }());
+     * ```
+     */
+    clearJob(jobId: number): void;
     /**
      * @remarks Cancels the execution of a function run that was previously scheduled via the `run` function.
      * @example
@@ -3481,6 +6283,28 @@ export class System {
      */
     runInterval(callback: () => void, tickInterval?: number): number;
     /**
+     * @beta
+     * @example
+     * ```javascript
+     * import { world, system, BlockTypes, Vector } from "@minecraft/server";
+     * 
+     * const blocks = BlockTypes.getAll();
+     * system.runJob(function* () {
+     *     while (true) {
+     *         const players = world.getAllPlayers();
+     *         for (let i = 0; i < players.length; i++) {
+     *             const player = players[i];
+     *             const below = Vector.add(player.location, Vector.down);
+     *             const block = player.dimension.getBlock(below);
+     * 
+     *             yield block.setType(blocks[Math.floor(Math.random() * blocks.length)]);
+     *         };
+     *     };
+     * }());
+     * ```
+     */
+    runJob(generator: Generator<void, void, void>): number;
+    /**
      * @remarks Runs a set of code at a future time specified by tickDelay.
      *
      * @param callback
@@ -3510,6 +6334,23 @@ export class SystemAfterEvents {
      * This provides a way for commands and other systems to trigger behavior within script.
      */
     readonly scriptEventReceive: ScriptEventCommandMessageAfterEventSignal;
+}
+
+/**
+ * @beta
+ * A set of events that fire before an actual action occurs.
+ * In most cases, you can potentially cancel or modify the impending event.
+ * Note that in before events any APIs that modify gameplay state will not function and will throw an error.
+ */
+export class SystemBeforeEvents {
+    private constructor();
+    /**
+     * @remarks
+     * Fires when the scripting watchdog shuts down the server.
+     * The can be due to using too much memory, or by causing significant slowdown or hang.
+     * To prevent shutdown, set the event's cancel property to true.
+     */
+    readonly watchdogTerminate: WatchdogTerminateBeforeEventSignal;
 }
 
 /** Contains information related to changes to a target block hit. */
@@ -3544,6 +6385,14 @@ export class TargetBlockHitAfterEventSignal {
     unsubscribe(callback: (arg: TargetBlockHitAfterEvent) => void): void;
 }
 
+/** @beta Represents a trigger for firing an event. */
+export class Trigger {
+    /** @remarks Event name of the trigger. */
+    eventName: string;
+    /** @remarks Creates a new trigger. */
+    constructor(eventName: string);
+}
+
 /** Contains information related to changes to a trip wire trip. */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class TripWireTripAfterEvent extends BlockEvent {
@@ -3572,6 +6421,157 @@ export class TripWireTripAfterEventSignal {
     unsubscribe(callback: (arg: TripWireTripAfterEvent) => void): void;
 }
 
+/**
+ * @beta
+ * Contains a description of a vector.
+ */
+export class Vector {
+    /** @remarks X component of this vector. */
+    x: number;
+    /** @remarks Y component of this vector. */
+    y: number;
+    /** @remarks Z component of this vector. */
+    z: number;
+    /** @remarks A constant vector that represents (0, 0, -1). */
+    static readonly back: Vector;
+    /** @remarks A constant vector that represents (0, -1, 0). */
+    static readonly down: Vector;
+    /** @remarks A constant vector that represents (0, 0, 1). */
+    static readonly forward: Vector;
+    /** @remarks A constant vector that represents (-1, 0, 0). */
+    static readonly left: Vector;
+    /** @remarks A constant vector that represents (1, 1, 1). */
+    static readonly one: Vector;
+    /** @remarks A constant vector that represents (1, 0, 0). */
+    static readonly right: Vector;
+    /** @remarks A constant vector that represents (0, 1, 0). */
+    static readonly up: Vector;
+    /** @remarks A constant vector that represents (0, 0, 0). */
+    static readonly zero: Vector;
+    /**
+     * @remarks Creates a new instance of an abstract vector.
+     *
+     * @param x
+     * X component of the vector.
+     * @param y
+     * Y component of the vector.
+     * @param z
+     * Z component of the vector.
+     */
+    constructor(x: number, y: number, z: number);
+    /**
+     * @remarks Compares this vector and another vector to one another.
+     *
+     * @param other
+     * Other vector to compare this vector to.
+     * @returns True if the two vectors are equal.
+     */
+    equals(other: Vector): boolean;
+    /** @remarks Returns the length of this vector. */
+    length(): number;
+    /** @remarks Returns the squared length of this vector. */
+    lengthSquared(): number;
+    /** @remarks Returns this vector as a normalized vector. */
+    normalized(): Vector;
+    /** @remarks Returns the addition of these vectors. */
+    static add(a: Vector3, b: Vector3): Vector;
+    /** @remarks Returns the cross product of these two vectors. */
+    static cross(a: Vector3, b: Vector3): Vector;
+    /** @remarks Returns the distance between two vectors. */
+    static distance(a: Vector3, b: Vector3): number;
+    /**
+     * @remarks Returns the component-wise division of these vectors.
+     * @throws This function can throw errors.
+     */
+    static divide(a: Vector3, b: number | Vector3): Vector;
+    /** @remarks Returns the linear interpolation between a and b using t as the control. */
+    static lerp(a: Vector3, b: Vector3, t: number): Vector;
+    /** @remarks Returns a vector that is made from the largest components of two vectors. */
+    static max(a: Vector3, b: Vector3): Vector;
+    /** @remarks Returns a vector that is made from the smallest components of two vectors. */
+    static min(a: Vector3, b: Vector3): Vector;
+    /** @remarks Returns the component-wise product of these vectors. */
+    static multiply(a: Vector3, b: number | Vector3): Vector;
+    /** @remarks Returns the spherical linear interpolation between a and b using s as the control. */
+    static slerp(a: Vector3, b: Vector3, s: number): Vector;
+    /** @remarks Returns the subtraction of these vectors. */
+    static subtract(a: Vector3, b: Vector3): Vector;
+}
+
+/** @beta Contains information related to a script watchdog termination. */
+export class WatchdogTerminateBeforeEvent {
+    private constructor();
+    /**
+     * @remarks
+     * If set to true, cancels the termination of the script runtime.
+     * Note that depending on server configuration settings, cancellation of the termination may not be allowed.
+     */
+    cancel: boolean;
+    /** @remarks Contains the reason why a script runtime is to be terminated. */
+    readonly terminateReason: WatchdogTerminateReason;
+}
+
+/** @beta Manages callbacks that are connected to a callback that will be called when a script runtime is being terminated due to a violation of the performance watchdog system. */
+export class WatchdogTerminateBeforeEventSignal {
+    private constructor();
+    /**
+     * @remarks Adds a callback that will be called when a script runtime is being terminated due to a violation of the performance watchdog system.
+     *
+     * This function can't be called in read-only mode.
+     */
+    subscribe(callback: (arg: WatchdogTerminateBeforeEvent) => void): (arg: WatchdogTerminateBeforeEvent) => void;
+    /**
+     * @remarks Removes a callback from being called when a script runtime is being terminated due to a violation of the performance watchdog system.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    unsubscribe(callback: (arg: WatchdogTerminateBeforeEvent) => void): void;
+}
+
+/** Contains information related to changes in weather in the environment. */
+export class WeatherChangeAfterEvent {
+    private constructor();
+    /** @remarks Dimension in which the weather has changed. */
+    readonly dimension: string;
+    /** @remarks Whether it is lightning after the change in weather. */
+    readonly lightning: boolean;
+    /** @remarks Whether it is raining after the change in weather. */
+    readonly raining: boolean;
+}
+
+/** Manages callbacks that are connected to weather changing. */
+export class WeatherChangeAfterEventSignal {
+    private constructor();
+    /**
+     * @remarks Adds a callback that will be called when weather changes.
+     *
+     * This function can't be called in read-only mode.
+     */
+    subscribe(callback: (arg: WeatherChangeAfterEvent) => void): (arg: WeatherChangeAfterEvent) => void;
+    /**
+     * @remarks Removes a callback from being called when weather changes.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    unsubscribe(callback: (arg: WeatherChangeAfterEvent) => void): void;
+}
+
+export class WeatherChangeBeforeEvent {
+    private constructor();
+    cancel: boolean;
+    duration: number;
+    newWeather: WeatherType;
+    readonly previousWeather: WeatherType;
+}
+
+export class WeatherChangeBeforeEventSignal {
+    private constructor();
+    subscribe(callback: (arg: WeatherChangeBeforeEvent) => void): (arg: WeatherChangeBeforeEvent) => void;
+    unsubscribe(callback: (arg: WeatherChangeBeforeEvent) => void): void;
+}
+
 /** A class that wraps the state of a world - a set of dimensions and the environment of Minecraft. */
 export class World {
     private constructor();
@@ -3591,6 +6591,20 @@ export class World {
     readonly beforeEvents: WorldBeforeEvents;
     /** @remarks Returns the general global scoreboard that applies to the world. */
     readonly scoreboard: Scoreboard;
+    /**
+     * @beta
+     * @remarks A method that is internal-only, used for broadcasting specific messages between client and server.
+     *
+     * This function can't be called in read-only mode.
+     *
+     * @param id
+     * The message identifier.
+     * @param value
+     * The message.
+     */
+    broadcastClientMessage(id: string, value: string): void;
+    /** @remarks Clears the set of dynamic properties declared for this behavior pack within the world. */
+    clearDynamicProperties(): void;
     /** @remarks Returns the absolute time since the start of the world. */
     getAbsoluteTime(): number;
     /**
@@ -3632,6 +6646,45 @@ export class World {
      * ```
      */
     getDimension(dimensionId: string): Dimension;
+    /**
+     * @remarks Returns a property value.
+     *
+     * @param identifier
+     * The property identifier.
+     * @returns Returns the value for the property, or undefined if the property has not been set.
+     * @throws Throws if the given dynamic property identifier is not defined.
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * // Get the property value
+     * const value = world.getDynamicProperty("test");
+     * 
+     * console.warn(`Dynamic Property value: ${value}`);
+     * ```
+     */
+    getDynamicProperty(identifier: string): boolean | number | string | Vector3 | undefined;
+    /**
+     * @remarks Gets a set of dynamic property identifiers that have been set in this world.
+     *
+     * @returns A string array of active dynamic property identifiers.
+     */
+    getDynamicPropertyIds(): string[];
+    /**
+     * @remarks
+     * Gets the total byte count of dynamic properties.
+     * This could potentially be used for your own analytics to ensure you're not storing gigantic sets of dynamic properties.
+     */
+    getDynamicPropertyTotalByteCount(): number;
+    /**
+     * @remarks Returns an entity based on the provided id.
+     *
+     * @param id
+     * The id of the entity.
+     * @returns The requested entity object.
+     * @throws Throws if the given entity id is invalid.
+     */
+    getEntity(id: string): Entity | undefined;
     /** @remarks Returns the MoonPhase for the current time. */
     getMoonPhase(): MoonPhase;
     /**
@@ -3793,6 +6846,24 @@ export class World {
      */
     setDefaultSpawnLocation(spawnLocation: Vector3): void;
     /**
+     * @remarks Sets a specified property to a value.
+     *
+     * @param identifier
+     * The property identifier.
+     * @param value
+     * Data value of the property to set.
+     * @throws Throws if the given dynamic property identifier is not defined.
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     *
+     * // Get the property value
+     * const value = world.getDynamicProperty("test");
+     * world.setDynamicProperty("test", value + 1);
+     * ```
+     */
+    setDynamicProperty(identifier: string, value?: boolean | number | string | Vector3): void;
+    /**
      * @remarks Sets the time of day.
      *
      * This function can't be called in read-only mode.
@@ -3819,8 +6890,26 @@ export class World {
 /** Contains a set of events that are available across the scope of the World. */
 export class WorldAfterEvents {
     private constructor();
+    /**
+     * @beta
+     * @remarks
+     * This event fires for each BlockLocation destroyed by an explosion.
+     * It is fired after the blocks have already been destroyed.
+     */
+    readonly blockExplode: BlockExplodeAfterEventSignal;
     /** @remarks This event fires when a button is pushed. */
     readonly buttonPush: ButtonPushAfterEventSignal;
+    /**
+     * @beta
+     * @remarks This event is triggered after a chat message has been broadcast or sent to players.
+     */
+    readonly chatSend: ChatSendAfterEventSignal;
+    readonly dataDrivenEntityTrigger: DataDrivenEntityTriggerAfterEventSignal;
+    /**
+     * @beta
+     * @remarks This event is triggered after an event has been added to an entity.
+     */
+    readonly effectAdd: EffectAddAfterEventSignal;
     /** @remarks This event fires when an entity dies. */
     readonly entityDie: EntityDieAfterEventSignal;
     /** @remarks This event fires when entity health changes in any degree. */
@@ -3837,8 +6926,19 @@ export class WorldAfterEvents {
     readonly entityRemove: EntityRemoveAfterEventSignal;
     /** @remarks This event fires when an entity is spawned. */
     readonly entitySpawn: EntitySpawnAfterEventSignal;
+    /**
+     * @beta
+     * @remarks This event is fired after an explosion occurs.
+     */
+    readonly explosion: ExplosionAfterEventSignal;
     /** @remarks This event fires when a chargeable item completes charging. */
     readonly itemCompleteUse: ItemCompleteUseAfterEventSignal;
+    /**
+     * @remarks
+     * For custom items, this event is triggered when the fundamental set of defined components for the item change.
+     * Note that this event is only fired for custom data-driven items.
+     */
+    readonly itemDefinitionEvent: ItemDefinitionAfterEventSignal;
     /** @remarks This event fires when a chargeable item is released from charging. */
     readonly itemReleaseUse: ItemReleaseUseAfterEventSignal;
     /** @remarks This event fires when a chargeable item starts charging. */
@@ -3864,10 +6964,24 @@ export class WorldAfterEvents {
     readonly itemUseOn: ItemUseOnAfterEventSignal;
     /** @remarks A lever has been pulled. */
     readonly leverAction: LeverActionAfterEventSignal;
+    /**
+     * @beta
+     * @remarks
+     * This event is an internal implementation detail, and is
+     * otherwise not currently functional.
+     *
+     */
+    readonly messageReceive: ServerMessageAfterEventSignal;
+    /** @remarks This event fires when a piston expands or retracts. */
+    readonly pistonActivate: PistonActivateAfterEventSignal;
     /** @remarks This event fires before a block is broken by a player. */
     readonly playerBreakBlock: PlayerBreakBlockAfterEventSignal;
     /** @remarks Fires when a player moved to a different dimension. */
     readonly playerDimensionChange: PlayerDimensionChangeAfterEventSignal;
+    /** @beta */
+    readonly playerInteractWithBlock: PlayerInteractWithBlockAfterEventSignal;
+    /** @beta */
+    readonly playerInteractWithEntity: PlayerInteractWithEntityAfterEventSignal;
     /**
      * @remarks
      * This event fires when a player joins a world.
@@ -3896,6 +7010,14 @@ export class WorldAfterEvents {
     readonly targetBlockHit: TargetBlockHitAfterEventSignal;
     /** @remarks A trip wire was tripped. */
     readonly tripWireTrip: TripWireTripAfterEventSignal;
+    /** @remarks This event will be triggered when the weather changes within Minecraft. */
+    readonly weatherChange: WeatherChangeAfterEventSignal;
+    /**
+     * @beta
+     * @remarks
+     * This event fires when the script environment is initialized on a World.
+     */
+    readonly worldInitialize: WorldInitializeAfterEventSignal;
 }
 
 /**
@@ -3905,14 +7027,94 @@ export class WorldAfterEvents {
  */
 export class WorldBeforeEvents {
     private constructor();
+    /**
+     * @beta
+     * @remarks This event is triggered after a chat message has been broadcast or sent to players.
+     */
+    readonly chatSend: ChatSendBeforeEventSignal;
+    /**
+     * @beta
+     * @remarks This event is fired when an entity event has been triggered that will update the component definition state of an entity.
+     */
+    readonly dataDrivenEntityTriggerEvent: DataDrivenEntityTriggerBeforeEventSignal;
+    /**
+     * @beta
+     * @remarks This event is triggered after an event has been added to an entity.
+     */
+    readonly effectAdd: EffectAddBeforeEventSignal;
     /** @remarks Fires before an entity is removed from the world (for example, unloaded or removed after being killed.) */
     readonly entityRemove: EntityRemoveBeforeEventSignal;
+    /**
+     * @beta
+     * @remarks This event is fired after an explosion occurs.
+     */
+    readonly explosion: ExplosionBeforeEventSignal;
+    /**
+     * @beta
+     * @remarks
+     * For custom items, this event is triggered when the fundamental set of defined components for the item change.
+     * Note that this event is only fired for custom data-driven items.
+     */
+    readonly itemDefinitionEvent: ItemDefinitionBeforeEventSignal;
     /** @remarks This event fires when an item is successfully used by a player. */
     readonly itemUse: ItemUseBeforeEventSignal;
     /** @remarks This event fires when an item is used on a block by a player. */
     readonly itemUseOn: ItemUseOnBeforeEventSignal;
     /** @remarks This event fires before a block is broken by a player. */
     readonly playerBreakBlock: PlayerBreakBlockBeforeEventSignal;
+    /**
+     * @beta
+     * @remarks Fires before a player interacts with a block.
+     */
+    readonly playerInteractWithBlock: PlayerInteractWithBlockBeforeEventSignal;
+    /**
+     * @beta
+     * @remarks Fires before a player interacts with an entity.
+     */
+    readonly playerInteractWithEntity: PlayerInteractWithEntityBeforeEventSignal;
+    /** @remarks Fires when a player leaves the game. */
+    readonly playerLeave: PlayerLeaveBeforeEventSignal;
+    /**
+     * @beta
+     * @remarks This event fires before a block is placed by a player.
+     */
+    readonly playerPlaceBlock: PlayerPlaceBlockBeforeEventSignal;
+    readonly weatherChange: WeatherChangeBeforeEventSignal;
+}
+
+/**
+ * @beta
+ * Contains information and methods that can be used at the initialization of the scripting environment for a World.
+ * Also, use the supplied propertyRegistry object to register any dynamic properties, within the scope of the World Initialize execution.
+ */
+export class WorldInitializeAfterEvent {
+    private constructor();
+}
+
+/**
+ * @beta
+ * Manages callbacks that are run at the initialization of the scripting environment for a World.
+ * Do note that this event may run multiple times within a session in the case that the /reload command is used.
+ */
+export class WorldInitializeAfterEventSignal {
+    private constructor();
+    /**
+     * @remarks Adds a callback that will be called when the scripting environment is initialized for a World.
+     *
+     * This function can't be called in read-only mode.
+     */
+    subscribe(callback: (arg: WorldInitializeAfterEvent) => void): (arg: WorldInitializeAfterEvent) => void;
+    /**
+     * @remarks Removes a callback from being called the scripting environment is initialized for a World.
+     *
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    unsubscribe(callback: (arg: WorldInitializeAfterEvent) => void): void;
+}
+
+export interface BiomeSearchOptions {
+    boundingSize?: Vector3;
 }
 
 /** Contains optional parameters for registering a block event. */
@@ -3921,6 +7123,15 @@ export interface BlockEventOptions {
     blockTypes?: string[];
     /** @remarks If this value is set, this event will only fire if the impacted block's permutation matches this parameter. */
     permutations?: BlockPermutation[];
+}
+
+/**
+ * @beta
+ * Contains additional options for a block fill operation.
+ */
+export interface BlockFillOptions {
+    /** @remarks When specified, the fill operation will only apply to blocks that match this description. */
+    matchingBlock?: BlockPermutation;
 }
 
 /** Contains more information for events where a block is hit. */
@@ -3951,6 +7162,47 @@ export interface BlockRaycastOptions {
     includePassableBlocks?: boolean;
     /** @remarks Maximum distance, in blocks, to process the raycast. */
     maxDistance?: number;
+}
+
+/**
+ * @beta
+ * A BlockVolume is a simple interface to an object which represents a 3D rectangle of a given size (in blocks) at a world block location.
+ * Note that these are not analogous to "min" and "max" values,
+ *  in that the vector components are not guaranteed to be in any order.
+ * In addition, these vector positions are not interchangeable with BlockLocation.
+ * If you want to get this volume represented as range of of BlockLocations,
+ *  you can use the getBoundingBox utility function.
+ * This volume class will maintain the ordering of the corner indexes as initially set.
+ * imagine that each corner is assigned in Editor - as you move the corner around
+ *  (potentially inverting the min/max relationship of the bounds)
+ *  - what you had originally selected as the top/left corner would traditionally become the bottom/right.
+ * When manually editing these kinds of volumes, you need to maintain the identity of the corner as you edit - the BlockVolume utility functions do this.
+ *
+ * Important to note that this measures block sizes (to/from) - a normal AABB (0,0,0) to (0,0,0) would traditionally be of size (0,0,0)
+ * However, because we're measuring blocks - the size or span of a BlockVolume would actually be (1,1,1)
+ */
+export interface BlockVolume {
+    /** @remarks A world block location that represents a corner in a 3D rectangle */
+    from: Vector3;
+    /** @remarks A world block location that represents the opposite corner in a 3D rectangle */
+    to: Vector3;
+}
+
+/**
+ * @beta
+ * A BoundingBox is an interface to an object which represents an AABB aligned rectangle.
+ * The BoundingBox assumes that it was created in a valid state (min <= max) but cannot guarantee it
+ *  (unless it was created using the associated {@link BoundingBoxUtils} utility functions.
+ * The min/max coordinates represent the diametrically opposite corners of the rectangle.
+ * The BoundingBox is not a representation of blocks
+ *  - it has no association with any type, it is just a mathematical construct
+ *  - so a rectangle with ( 0,0,0 ) -> ( 0,0,0 ) has a size of ( 0,0,0 ) (unlike the very similar {@link BlockVolume} object)
+ */
+export interface BoundingBox {
+    /** @remarks A {@link Vector3} that represents the largest corner of the rectangle */
+    max: Vector3;
+    /** @remarks A {@link Vector3} that represents the smallest corner of the rectangle */
+    min: Vector3;
 }
 
 export interface CameraDefaultOptions {
@@ -4006,6 +7258,34 @@ export interface CameraSetRotOptions {
     rotation: Vector2;
 }
 
+/** @beta This interface defines an entry into the {@link CompoundBlockVolume} which represents a volume of positive or negative space. */
+export interface CompoundBlockVolumeItem {
+    /**
+     * @remarks
+     * The 'action' defines how the block volume is represented in the compound block volume stack.
+     * 'Add' creates a block volume which is positively selected.
+     * 'Subtract' creates a block volume which represents a hole or negative space in the overall compound block volume.
+     */
+    action?: CompoundBlockVolumeAction;
+    /**
+     * @remarks
+     * The relativity enumeration determines whether the BlockVolume specified is positioned relative to the parent compound block volume origin,
+     *  or in absolute world space.
+     */
+    locationRelativity?: CompoundBlockVolumePositionRelativity;
+    /** @remarks The volume of space */
+    volume: BlockVolume;
+}
+
+/** Contains a set of updates to the component definition state of an entity. */
+export interface DefinitionModifier {
+    /** @remarks Retrieves the list of component groups that will be added via this definition modification. */
+    addedComponentGroups: string[];
+    /** @remarks The list of component groups that will be removed via this definition modification. */
+    removedComponentGroups: string[];
+    triggers: Trigger[];
+}
+
 /** An exact coordinate within the world, including its dimension and location. */
 export interface DimensionLocation {
     /** @remarks Dimension that this coordinate is associated with. */
@@ -4016,6 +7296,14 @@ export interface DimensionLocation {
     y: number;
     /** @remarks Z component of this dimension-location. */
     z: number;
+}
+
+/** @beta This class represents a specific leveled enchantment that is applied to an item. */
+export interface Enchantment {
+    /** @remarks The level of this enchantment instance. */
+    level: number;
+    /** @remarks The enchantment type of this instance. */
+    type: EnchantmentType | string;
 }
 
 /** Additional options for when damage has been applied via a projectile. */
@@ -4041,6 +7329,16 @@ export interface EntityDamageSource {
     damagingEntity?: Entity;
     /** @remarks Optional projectile that may have caused damage. */
     damagingProjectile?: Entity;
+}
+
+/** Specifies additional filters that are used in registering a data driven trigger event for entities. */
+export interface EntityDataDrivenTriggerEventOptions {
+    /** @remarks If this value is set, this event will only fire for entities that match the entities within this collection. */
+    entities?: Entity[];
+    /** @remarks If this value is set, this event will only fire if the impacted entities' type matches this parameter. */
+    entityTypes?: string[];
+    /** @remarks If this value is set, this event will only fire if the impacted triggered event matches one of the events listed in this parameter. */
+    eventTypes?: string[];
 }
 
 /** Contains additional options for entity effects. */
@@ -4119,6 +7417,11 @@ export interface EntityQueryOptions {
     tags?: string[];
     /** @remarks If defined, entities that match this type are included. */
     type?: string;
+    /**
+     * @beta
+     * @remarks In conjunction with location, specified a cuboid volume of entities to include.
+     */
+    volume?: BlockAreaSize;
 }
 
 /** Contains additional options for filtering players based on their score for an objective. */
@@ -4147,6 +7450,18 @@ export interface EntityRaycastOptions {
     maxDistance?: number;
 }
 
+/** Additional configuration options for the {@link Dimension.createExplosion} method. */
+export interface ExplosionOptions {
+    /** @remarks Whether parts of the explosion also impact underwater. */
+    allowUnderwater?: boolean;
+    /** @remarks Whether the explosion will break blocks within the blast radius. */
+    breaksBlocks?: boolean;
+    /** @remarks If true, the explosion is accompanied by fires within or near the blast radius. */
+    causesFire?: boolean;
+    /** @remarks Optional source of the explosion. */
+    source?: Entity;
+}
+
 /** Additional configuration options for {@link World.playMusic}/{@link World.queueMusic} methods. */
 export interface MusicOptions {
     /** @remarks Specifies a fade overlap for music at the end of play. */
@@ -4157,6 +7472,20 @@ export interface MusicOptions {
     volume?: number;
 }
 
+/** Contains additional options for how an animation is played. */
+export interface PlayAnimationOptions {
+    /** @remarks Amount of time to fade out after an animation stops. */
+    blendOutTime?: number;
+    /** @remarks Specifies a controller to use that has been defined on the entity. */
+    controller?: string;
+    /** @remarks Specifies the state to transition to. */
+    nextState?: string;
+    /** @remarks A list of players the animation will be visible to. */
+    players?: string[];
+    /** @remarks Specifies a Molang expression for when this animation should complete. */
+    stopExpression?: string;
+}
+
 /** Additional options for how a sound plays for a player. */
 export interface PlayerSoundOptions {
     /** @remarks Location of the sound; if not specified, the sound is played near a player. */
@@ -4165,6 +7494,11 @@ export interface PlayerSoundOptions {
     pitch?: number;
     /** @remarks Optional volume of the sound. */
     volume?: number;
+}
+
+/** @beta */
+export interface ProjectileShootOptions {
+    uncertainty?: number;
 }
 
 /** Defines a JSON structure that is used for more flexible. */
@@ -4195,6 +7529,15 @@ export interface RawMessageScore {
     name?: string;
     /** @remarks Name of the score value to match. */
     objective?: string;
+}
+
+/**
+ * A `RawMessage` with only the `rawtext` property.
+ * When a `RawMessage` is serialized the contents are put into a rawtext property, so this is useful when reading saved RawMessages.
+ */
+export interface RawText {
+    /** @remarks A serialization of the current value of an associated sign. */
+    rawtext?: RawMessage[];
 }
 
 /** Represents a fully customizable color within Minecraft. */
@@ -4319,6 +7662,29 @@ export class CommandError extends Error {
     private constructor();
 }
 
+/** @beta */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EnchantmentLevelOutOfBoundsError extends Error {
+    private constructor();
+}
+
+/** @beta */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EnchantmentTypeNotCompatibleError extends Error {
+    private constructor();
+}
+
+/** @beta */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EnchantmentTypeUnknownIdError extends Error {
+    private constructor();
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class InvalidContainerSlotError extends Error {
+    private constructor();
+}
+
 // @ts-ignore Class inheritance allowed for native defined classes
 export class LocationInUnloadedChunkError extends Error {
     private constructor();
@@ -4331,6 +7697,10 @@ export class LocationOutOfWorldBoundariesError extends Error {
 
 /** @remarks Holds the number of MoonPhases */
 export const MoonPhaseCount = 8;
+/** @remarks How many times the server ticks per second of real time. */
+export const TicksPerDay = 24000;
+/** @remarks How many times the server ticks per second of real time. */
+export const TicksPerSecond = 20;
 /** @remarks A class that provides system-level events and functions. */
 export const system: System;
 /** @remarks A class that wraps the state of a world - a set of dimensions and the environment of Minecraft. */

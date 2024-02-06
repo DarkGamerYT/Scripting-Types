@@ -1,6 +1,16 @@
 {
     "name": "@minecraft/server-gametest",
     "version": "1.0.0-beta",
+    "description": "",
     "license": "MIT",
-    "exports": "./index.d.ts"
+    "contributors": [
+        {
+            "name": "xKingDark",
+            "url": "https://github.com/DarkGamerYT"
+        }
+    ],
+    "dependencies": {
+        "@minecraft/common": "^1.0.0",
+        "@minecraft/server": "^1.8.0"
+    }
 }

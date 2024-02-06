@@ -1820,7 +1820,7 @@ export class ItemStack {
      * const item = new ItemStack("minecraft:dirt", 8);
      * ```
      */
-    constructor(itemType: ItemType | string, amount: number);
+    constructor(itemType: ItemType | string, amount?: number);
     /**
      * @remarks Gets a component (that represents additional capabilities) for an item stack.
      *
@@ -2321,24 +2321,24 @@ export class WorldAfterEvents {
 /** Additional options for when damage has been applied via a projectile. */
 export interface EntityApplyDamageByProjectileOptions {
     /** @remarks Optional entity that fired the projectile. */
-    damagingEntity?: Entity,
+    damagingEntity?: Entity;
     /** @remarks Projectile that caused damage. */
-    damagingProjectile: Entity,
+    damagingProjectile: Entity;
 }
 
 /** Additional descriptions and metadata for a damage event. */
 export interface EntityApplyDamageOptions {
     /** @remarks Underlying cause of the damage. */
-    cause: EntityDamageCause,
-    damagingEntity?: Entity,
+    cause: EntityDamageCause;
+    damagingEntity?: Entity;
 }
 
 /** Contains additional options for entity effects. */
 export interface EntityEffectOptions {
     /** @remarks The strength of the effect. */
-    amplifier?: number,
+    amplifier?: number;
     /** @remarks If true, will show particles when effect is on the entity. */
-    showParticles?: boolean,
+    showParticles?: boolean;
 }
 
 /** Contains options for selecting entities within an area. */
@@ -2348,159 +2348,159 @@ export interface EntityQueryOptions {
      * Limits the number of entities to return, opting for the closest N entities as specified by this property.
      * The location value must also be specified on the query options object.
      */
-    closest?: number,
+    closest?: number;
     /** @remarks Excludes entities that match one or more of the specified families. */
-    excludeFamilies?: string[],
+    excludeFamilies?: string[];
     /** @remarks Excludes entities if have a specific gamemode that matches the specified gamemode. */
-    excludeGameModes?: GameMode[],
+    excludeGameModes?: GameMode[];
     /** @remarks Excludes entities that have a name that match one of the specified values. */
-    excludeNames?: string[],
+    excludeNames?: string[];
     /** @remarks Excludes entities with a tag that matches one of the specified values. */
-    excludeTags?: string[],
+    excludeTags?: string[];
     /** @remarks Excludes entities if they are one of the specified types. */
-    excludeTypes?: string[],
+    excludeTypes?: string[];
     /** @remarks If specified, includes entities that match all of the specified families. */
-    families?: string[],
+    families?: string[];
     /**
      * @remarks
      * Limits the number of entities to return, opting for the farthest N entities as specified by this property.
      * The location value must also be specified on the query options object.
      */
-    farthest?: number,
+    farthest?: number;
     /** @remarks If specified, includes entities with a gamemode that matches the specified gamemode. */
-    gameMode?: GameMode,
+    gameMode?: GameMode;
     /** @remarks Adds a seed location to the query that is used in conjunction with closest, farthest, limit, volume, and distance properties. */
-    location?: Vector3,
+    location?: Vector3;
     /** @remarks If specified, includes entities that are less than this distance away from the location specified in the location property. */
-    maxDistance?: number,
+    maxDistance?: number;
     /** @remarks If specified, will only include entities that have at most this horizontal rotation. */
-    maxHorizontalRotation?: number,
+    maxHorizontalRotation?: number;
     /** @remarks If defined, only players that have at most this level are returned. */
-    maxLevel?: number,
+    maxLevel?: number;
     /** @remarks If specified, only entities that have at most this vertical rotation are returned. */
-    maxVerticalRotation?: number,
+    maxVerticalRotation?: number;
     /** @remarks If specified, includes entities that are least this distance away from the location specified in the location property. */
-    minDistance?: number,
+    minDistance?: number;
     /** @remarks If specified, will only include entities that have at a minimum this horizontal rotation. */
-    minHorizontalRotation?: number,
+    minHorizontalRotation?: number;
     /** @remarks If defined, only players that have at least this level are returned. */
-    minLevel?: number,
+    minLevel?: number;
     /** @remarks If specified, will only include entities that have at least this vertical rotation. */
-    minVerticalRotation?: number,
+    minVerticalRotation?: number;
     /** @remarks Includes entities with the specified name. */
-    name?: string,
+    name?: string;
     /** @remarks Gets/sets a collection of EntityQueryScoreOptions objects with filters for specific scoreboard objectives. */
-    scoreOptions?: EntityQueryScoreOptions[],
+    scoreOptions?: EntityQueryScoreOptions[];
     /** @remarks Includes entities that match all of the specified tags. */
-    tags?: string[],
+    tags?: string[];
     /** @remarks If defined, entities that match this type are included. */
-    type?: string,
+    type?: string;
 }
 
 /** Contains additional options for filtering players based on their score for an objective. */
 export interface EntityQueryScoreOptions {
     /** @remarks If set to true, entities and players within this score range are excluded from query results. */
-    exclude?: boolean,
+    exclude?: boolean;
     /** @remarks If defined, only players that have a score equal to or under maxScore are included. */
-    maxScore?: number,
+    maxScore?: number;
     /** @remarks If defined, only players that have a score equal to or over minScore are included. */
-    minScore?: number,
+    minScore?: number;
     /** @remarks Identifier of the scoreboard objective to filter on. */
-    objective?: string,
+    objective?: string;
 }
 
 /** Additional configuration options for {@link World.playMusic}/{@link World.queueMusic} methods. */
 export interface MusicOptions {
     /** @remarks Specifies a fade overlap for music at the end of play. */
-    fade?: number,
+    fade?: number;
     /** @remarks If set to true, this music track will play repeatedly. */
-    loop?: boolean,
+    loop?: boolean;
     /** @remarks Relative volume level of the music. */
-    volume?: number,
+    volume?: number;
 }
 
 /** Additional options for how a sound plays for a player. */
 export interface PlayerSoundOptions {
     /** @remarks Location of the sound; if not specified, the sound is played near a player. */
-    location?: Vector3,
+    location?: Vector3;
     /** @remarks Optional pitch of the sound. */
-    pitch?: number,
+    pitch?: number;
     /** @remarks Optional volume of the sound. */
-    volume?: number,
+    volume?: number;
 }
 
 /** Defines a JSON structure that is used for more flexible. */
 export interface RawMessage {
     /** @remarks Provides a raw-text equivalent of the current message. */
-    rawtext?: RawMessage[],
+    rawtext?: RawMessage[];
     /** @remarks Provides a token that will get replaced with the value of a score. */
-    score?: RawMessageScore,
+    score?: RawMessageScore;
     /** @remarks Provides a string literal value to use. */
-    text?: string,
+    text?: string;
     /**
      * @remarks
      * Provides a translation token where, if the client has an available resource in the players' language which matches the token,
      *  will get translated on the client.
      */
-    translate?: string,
+    translate?: string;
     /**
      * @remarks
      * Arguments for the translation token.
      * Can be either an array of strings or RawMessage containing an array of raw text objects.
      */
-    with?: string[] | RawMessage,
+    with?: string[] | RawMessage;
 }
 
 /** Provides a description of a score token to use within a raw message. */
 export interface RawMessageScore {
     /** @remarks Name of the score value to match. */
-    name?: string,
+    name?: string;
     /** @remarks Name of the score value to match. */
-    objective?: string,
+    objective?: string;
 }
 
 /** Contains additional options for teleporting an entity. */
 export interface TeleportOptions {
     /** @remarks Whether to check whether blocks will block the entity after teleport. */
-    checkForBlocks?: boolean,
+    checkForBlocks?: boolean;
     /**
      * @remarks
      * Dimension to potentially move the entity to.
      * If not specified, the entity is teleported within the dimension that they reside.
      */
-    dimension?: Dimension,
+    dimension?: Dimension;
     /** @remarks Location that the entity should be facing after teleport. */
-    facingLocation?: Vector3,
+    facingLocation?: Vector3;
     /** @remarks Whether to retain the entities velocity after teleport. */
-    keepVelocity?: boolean,
+    keepVelocity?: boolean;
     /** @remarks Rotation of the entity after teleport. */
-    rotation?: Vector2,
+    rotation?: Vector2;
 }
 
 /** Represents a two-directional vector. */
 export interface Vector2 {
     /** @remarks X component of the two-dimensional vector. */
-    x: number,
+    x: number;
     /** @remarks Y component of the two-dimensional vector. */
-    y: number,
+    y: number;
 }
 
 /** Contains a description of a vector. */
 export interface Vector3 {
     /** @remarks X component of this vector. */
-    x: number,
+    x: number;
     /** @remarks Y component of this vector. */
-    y: number,
+    y: number;
     /** @remarks Z component of this vector. */
-    z: number,
+    z: number;
 }
 
 /** Contains additional options for a world-level playSound occurrence. */
 export interface WorldSoundOptions {
     /** @remarks Pitch of the sound played at the world level. */
-    pitch?: number,
+    pitch?: number;
     /** @remarks Relative volume and space by which this sound is heard. */
-    volume?: number,
+    volume?: number;
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes

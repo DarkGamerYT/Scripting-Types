@@ -15,11 +15,11 @@
 import * as minecraftcommon from "@minecraft/common";
 export enum Direction {
     down = 0,
-    east = 5,
+    up = 1,
     north = 2,
     south = 3,
-    up = 1,
     west = 4,
+    east = 5,
 }
 
 export enum EntityDamageCause {
@@ -61,16 +61,16 @@ export enum EntityDamageCause {
 }
 
 export enum GameMode {
-    adventure = 2,
-    creative = 1,
-    spectator = 6,
     survival = 0,
+    creative = 1,
+    adventure = 2,
+    spectator = 6,
 }
 
 export enum ScoreboardIdentityType {
+    player = 1,
     entity = 2,
     fakePlayer = 3,
-    player = 1,
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes
@@ -133,11 +133,7 @@ export class BlockAreaSize {
     x: number;
     y: number;
     z: number;
-    constructor(
-        x: number, 
-        y: number, 
-        z: number
-    );
+    constructor(x: number, y: number, z: number);
     equals(other: BlockAreaSize): boolean;
 }
 
@@ -185,11 +181,7 @@ export class BlockLocation {
     x: number;
     y: number;
     z: number;
-    constructor(
-        x: number, 
-        y: number, 
-        z: number
-    );
+    constructor(x: number, y: number, z: number);
     above(): BlockLocation;
     blocksBetween(other: BlockLocation): BlockLocation[];
     equals(other: BlockLocation): boolean;
@@ -227,7 +219,6 @@ export class BlockRaycastOptions {
     includeLiquidBlocks?: boolean;
     includePassableBlocks?: boolean;
     maxDistance?: number;
-    constructor();
 }
 
 export class BlockRecordPlayerComponent {
@@ -275,12 +266,7 @@ export class Color {
     blue: number;
     green: number;
     red: number;
-    constructor(
-        red: number, 
-        green: number, 
-        blue: number, 
-        alpha: number
-    );
+    constructor(red: number, green: number, blue: number, alpha: number);
 }
 
 export class Component {
@@ -309,7 +295,7 @@ export class DataDrivenEntityTriggerEvent {
 export class DataDrivenEntityTriggerEventSignal {
     private constructor();
     subscribe(
-        callback: (arg: DataDrivenEntityTriggerEvent) => void, 
+        callback: (arg: DataDrivenEntityTriggerEvent) => void,
         options?: EntityDataDrivenTriggerEventOptions,
     ): (arg: DataDrivenEntityTriggerEvent) => void;
     unsubscribe(callback: (arg: DataDrivenEntityTriggerEvent) => void): void;
@@ -319,7 +305,6 @@ export class DefinitionModifier {
     readonly componentGroupsToAdd: string[];
     readonly componentGroupsToRemove: string[];
     triggers: Trigger[];
-    constructor();
 }
 
 export class Dimension {
@@ -340,7 +325,6 @@ export class Dimension {
 }
 
 export class DynamicPropertiesDefinition {
-    constructor();
     defineBoolean(identifier: string, defaultValue?: boolean): DynamicPropertiesDefinition;
     defineNumber(identifier: string, defaultValue?: number): DynamicPropertiesDefinition;
     defineString(identifier: string, maxLength: number, defaultValue?: string): DynamicPropertiesDefinition;
@@ -356,10 +340,6 @@ export class Effect {
 export class EffectType {
     private constructor();
     getName(): string;
-}
-
-export class EnchantmentSlot {
-    private constructor();
 }
 
 export class Entity {
@@ -482,7 +462,6 @@ export class EntityDataDrivenTriggerEventOptions {
     entities?: Entity[];
     entityTypes?: string[];
     eventTypes?: string[];
-    constructor();
 }
 
 export class EntityDefinitionFeedItem {
@@ -494,7 +473,6 @@ export class EntityDefinitionFeedItem {
 export class EntityEventOptions {
     entities?: Entity[];
     entityTypes?: string[];
-    constructor();
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes
@@ -820,7 +798,6 @@ export class EntityQueryOptions {
     tags?: string[];
     type?: string;
     volume?: BlockAreaSize;
-    constructor();
 }
 
 export class EntityQueryScoreOptions {
@@ -828,12 +805,10 @@ export class EntityQueryScoreOptions {
     maxScore?: number;
     minScore?: number;
     objective?: string;
-    constructor();
 }
 
 export class EntityRaycastOptions {
     maxDistance?: number;
-    constructor();
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes
@@ -938,7 +913,6 @@ export class ExplosionOptions {
     breaksBlocks?: boolean;
     causesFire?: boolean;
     source?: Entity;
-    constructor();
 }
 
 export class FeedItem {
@@ -1026,7 +1000,7 @@ export class ItemDurabilityComponent extends ItemComponent {
     damage: number;
     readonly damageRange: NumberRange;
     readonly maxDurability: number;
-    getDamageChance(unbreaking?: number): number;
+    getDamageChance(unbreakingEnchantmentLevel?: number): number;
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes
@@ -1040,7 +1014,7 @@ export class ItemFoodComponent extends ItemComponent {
 
 export class ItemReleaseChargeEvent {
     private constructor();
-    readonly itemStack: ItemStack;
+    readonly itemStack?: ItemStack;
     readonly source: Player;
     readonly useDuration: number;
 }
@@ -1061,11 +1035,7 @@ export class ItemStack {
     data: number;
     readonly id: string;
     nameTag?: string;
-    constructor(
-        itemType: ItemType | string, 
-        amount: number, 
-        data: number
-    );
+    constructor(itemType: ItemType | string, amount?: number, data?: number);
     getComponent(componentId: string): ItemComponent | undefined;
     getComponents(): ItemComponent[];
     getLore(): string[];
@@ -1129,11 +1099,7 @@ export class Location {
     x: number;
     y: number;
     z: number;
-    constructor(
-        x: number, 
-        y: number, 
-        z: number
-    );
+    constructor(x: number, y: number, z: number);
     equals(other: Location): boolean;
     isNear(other: Location, epsilon: number): boolean;
 }
@@ -1640,8 +1606,6 @@ export class MinecraftBlockTypes {
     static readonly hardenedClay: BlockType;
     static readonly hardGlass: BlockType;
     static readonly hardGlassPane: BlockType;
-    static readonly hardStainedGlass: BlockType;
-    static readonly hardStainedGlassPane: BlockType;
     static readonly hayBlock: BlockType;
     static readonly heavyWeightedPressurePlate: BlockType;
     static readonly honeyBlock: BlockType;
@@ -2955,7 +2919,6 @@ export class MinecraftItemTypes {
     static readonly sculkSensor: ItemType;
     static readonly sculkShrieker: ItemType;
     static readonly sculkVein: ItemType;
-    static readonly scute: ItemType;
     static readonly seagrass: ItemType;
     static readonly seaLantern: ItemType;
     static readonly seaPickle: ItemType;
@@ -3185,7 +3148,6 @@ export class MinecraftItemTypes {
 }
 
 export class MolangVariableMap {
-    constructor();
     setColorRGB(variableName: string, color: Color): void;
     setColorRGBA(variableName: string, color: Color): void;
     setSpeedAndDirection(variableName: string, speed: number, direction: Vector): MolangVariableMap;
@@ -3196,13 +3158,6 @@ export class MusicOptions {
     fade?: number;
     loop?: boolean;
     volume?: number;
-    constructor();
-}
-
-export class NavigationResult {
-    private constructor();
-    readonly isFullPath: boolean;
-    readonly path: BlockLocation[];
 }
 
 export class NumberRange {
@@ -3265,7 +3220,7 @@ export class PlayerLeaveEventSignal {
 export class PropertyRegistry {
     private constructor();
     registerEntityTypeDynamicProperties(
-        propertiesDefinition: DynamicPropertiesDefinition, 
+        propertiesDefinition: DynamicPropertiesDefinition,
         entityTypeOrId: EntityType | string,
     ): void;
     registerWorldDynamicProperties(propertiesDefinition: DynamicPropertiesDefinition): void;
@@ -3313,7 +3268,6 @@ export class SoundOptions {
     location?: Location;
     pitch?: number;
     volume?: number;
-    constructor();
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes
@@ -3352,11 +3306,7 @@ export class Vector {
     static readonly right: Vector;
     static readonly up: Vector;
     static readonly zero: Vector;
-    constructor(
-        x: number, 
-        y: number, 
-        z: number
-    );
+    constructor(x: number, y: number, z: number);
     equals(other: Vector): boolean;
     length(): number;
     normalized(): Vector;
