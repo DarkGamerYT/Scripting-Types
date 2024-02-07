@@ -14,20 +14,6 @@
  */
 import * as minecraftcommon from "@minecraft/common";
 import * as minecraftserver from "@minecraft/server";
-export enum ClipboardMirrorAxis {
-    None = "None",
-    X = "X",
-    XZ = "XZ",
-    Z = "Z",
-}
-
-export enum ClipboardRotation {
-    None = "None",
-    Rotate180 = "Rotate180",
-    Rotate270 = "Rotate270",
-    Rotate90 = "Rotate90",
-}
-
 export enum CursorControlMode {
     Keyboard = 0,
     Mouse = 1,
@@ -294,7 +280,7 @@ export interface ClipboardWriteOptions {
      * - XZ
      *
      */
-    mirror?: ClipboardMirrorAxis;
+    mirror?: minecraftserver.StructureMirrorAxis;
     /**
      * @remarks
      * A position offset which should be applied to the paste
@@ -308,7 +294,7 @@ export interface ClipboardWriteOptions {
      * should be applied while the clipboard item is being written
      *
      */
-    rotation?: ClipboardRotation;
+    rotation?: minecraftserver.StructureRotation;
 }
 
 /**

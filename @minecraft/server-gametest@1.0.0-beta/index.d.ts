@@ -114,7 +114,6 @@ export class SimulatedPlayer extends minecraftserver.Player {
     respawn(): boolean;
     rotateBody(angleInDegrees: number): void;
     setBodyRotation(angleInDegrees: number): void;
-    setGameMode(gameMode: minecraftserver.GameMode): void;
     setItem(itemStack: minecraftserver.ItemStack, slot: number, selectSlot?: boolean): boolean;
     startBuild(slot?: number): void;
     stopBreakingBlock(): void;

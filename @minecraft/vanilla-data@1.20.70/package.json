@@ -1,13 +1,14 @@
 {
     "name": "@minecraft/vanilla-data",
-    "version": "1.20.70-preview.21",
+    "version": "1.20.70-preview.22",
+    "description": "",
     "license": "MIT",
-    "exports": "./index.js",
-    "types": "./index.d.ts",
     "contributors": [
         {
             "name": "xKingDark",
             "url": "https://github.com/DarkGamerYT"
         }
-    ]
+    ],
+    "exports": "./index.js",
+    "types": "./index.d.ts"
 }

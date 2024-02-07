@@ -4884,6 +4884,11 @@ export class WorldAfterEvents {
     readonly entityRemove: EntityRemoveAfterEventSignal;
     /** @remarks This event fires when an entity is spawned. */
     readonly entitySpawn: EntitySpawnAfterEventSignal;
+    /**
+     * @beta
+     * @remarks This event is fired after an explosion occurs.
+     */
+    readonly explosion: ExplosionAfterEventSignal;
     /** @remarks This event fires when a chargeable item completes charging. */
     readonly itemCompleteUse: ItemCompleteUseAfterEventSignal;
     /** @remarks This event fires when a chargeable item is released from charging. */
@@ -4958,6 +4963,11 @@ export class WorldBeforeEvents {
     private constructor();
     /** @remarks Fires before an entity is removed from the world (for example, unloaded or removed after being killed.) */
     readonly entityRemove: EntityRemoveBeforeEventSignal;
+    /**
+     * @beta
+     * @remarks This event is fired after an explosion occurs.
+     */
+    readonly explosion: ExplosionBeforeEventSignal;
     /** @remarks This event fires when an item is successfully used by a player. */
     readonly itemUse: ItemUseBeforeEventSignal;
     /** @remarks This event fires when an item is used on a block by a player. */

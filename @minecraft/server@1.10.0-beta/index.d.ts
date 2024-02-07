@@ -576,6 +576,45 @@ export enum GameMode {
     survival = "survival",
 }
 
+/** @beta */
+export enum GameRule {
+    CommandBlockOutput = "commandBlockOutput",
+    CommandBlocksEnabled = "commandBlocksEnabled",
+    DoDayLightCycle = "doDayLightCycle",
+    DoEntityDrops = "doEntityDrops",
+    DoFireTick = "doFireTick",
+    DoImmediateRespawn = "doImmediateRespawn",
+    DoInsomnia = "doInsomnia",
+    DoLimitedCrafting = "doLimitedCrafting",
+    DoMobLoot = "doMobLoot",
+    DoMobSpawning = "doMobSpawning",
+    DoTileDrops = "doTileDrops",
+    DoWeatherCycle = "doWeatherCycle",
+    DrowningDamage = "drowningDamage",
+    FallDamage = "fallDamage",
+    FireDamage = "fireDamage",
+    FreezeDamage = "freezeDamage",
+    FunctionCommandLimit = "functionCommandLimit",
+    KeepInventory = "keepInventory",
+    MaxCommandChainLength = "maxCommandChainLength",
+    MobGriefing = "mobGriefing",
+    NaturalRegeneration = "naturalRegeneration",
+    PlayersSleepingPercentage = "playersSleepingPercentage",
+    ProjectilesCanBreakBlocks = "projectilesCanBreakBlocks",
+    Pvp = "pvp",
+    RandomTickSpeed = "randomTickSpeed",
+    RecipesUnlock = "recipesUnlock",
+    RespawnBlocksExplode = "respawnBlocksExplode",
+    SendCommandFeedback = "sendCommandFeedback",
+    ShowBorderEffect = "showBorderEffect",
+    ShowCoordinates = "showCoordinates",
+    ShowDeathMessages = "showDeathMessages",
+    ShowRecipeMessages = "showRecipeMessages",
+    ShowTags = "showTags",
+    SpawnRadius = "spawnRadius",
+    TntExplodes = "tntExplodes",
+}
+
 export enum HudElement {
     PaperDoll = 0,
     Armor = 1,
@@ -683,6 +722,22 @@ export enum SignSide {
     Back = "Back",
     /** @remarks The front of the sign. */
     Front = "Front",
+}
+
+/** @beta */
+export enum StructureMirrorAxis {
+    None = "None",
+    X = "X",
+    XZ = "XZ",
+    Z = "Z",
+}
+
+/** @beta */
+export enum StructureRotation {
+    None = "None",
+    Rotate180 = "Rotate180",
+    Rotate270 = "Rotate270",
+    Rotate90 = "Rotate90",
 }
 
 /** Provides numeric values for common periods in the Minecraft day. */
@@ -4654,6 +4709,20 @@ export class FluidContainer {
 }
 
 /** @beta */
+export class GameRuleChangeAfterEvent {
+    private constructor();
+    readonly rule: GameRule;
+    readonly value: boolean | number;
+}
+
+/** @beta */
+export class GameRuleChangeAfterEventSignal {
+    private constructor();
+    subscribe(callback: (arg: GameRuleChangeAfterEvent) => void): (arg: GameRuleChangeAfterEvent) => void;
+    unsubscribe(callback: (arg: GameRuleChangeAfterEvent) => void): void;
+}
+
+/** @beta */
 export class GameRules {
     private constructor();
     /** @remarks This property can't be edited in read-only mode. */
@@ -4870,31 +4939,6 @@ export class ItemCooldownComponent extends ItemComponent {
      * ```
      */
     startCooldown(player: Player): void;
-}
-
-export class ItemDefinitionAfterEventSignal {
-    private constructor();
-    subscribe(callback: (arg: ItemDefinitionTriggeredAfterEvent) => void): (arg: ItemDefinitionTriggeredAfterEvent) => void;
-    unsubscribe(callback: (arg: ItemDefinitionTriggeredAfterEvent) => void): void;
-}
-
-export class ItemDefinitionBeforeEventSignal {
-    private constructor();
-    subscribe(callback: (arg: ItemDefinitionTriggeredBeforeEvent) => void): (arg: ItemDefinitionTriggeredBeforeEvent) => void;
-    unsubscribe(callback: (arg: ItemDefinitionTriggeredBeforeEvent) => void): void;
-}
-
-export class ItemDefinitionTriggeredAfterEvent {
-    private constructor();
-    readonly eventName: string;
-    itemStack: ItemStack;
-    readonly source?: Player;
-}
-
-// @ts-ignore Class inheritance allowed for native defined classes
-export class ItemDefinitionTriggeredBeforeEvent extends ItemDefinitionTriggeredAfterEvent {
-    private constructor();
-    cancel: boolean;
 }
 
 /**
@@ -5161,19 +5205,6 @@ export class ItemStack {
     setCanPlaceOn(blockIdentifiers?: string[]): void;
     setDynamicProperty(identifier: string, value?: boolean | number | string | Vector3): void;
     setLore(loreList?: string[]): void;
-    /**
-     * @beta
-     * @remarks
-     * Triggers an item type event.
-     * For custom items, a number of events are defined in an items' definition for key item behaviors.
-     *
-     * This function can't be called in read-only mode.
-     *
-     * @param eventName
-     * Name of the item type event to trigger.
-     * If a namespace is not specified, minecraft: is assumed.
-     */
-    triggerEvent(eventName: string): void;
 }
 
 export class ItemStartUseAfterEvent {
@@ -5508,6 +5539,8 @@ export class Player extends Entity {
      */
     addLevels(amount: number): number;
     eatItem(itemStack: ItemStack): void;
+    /** @beta */
+    getGameMode(): GameMode;
     /**
      * @beta
      * @remarks
@@ -5697,6 +5730,8 @@ export class Player extends Entity {
      * ```
      */
     sendMessage(message: (RawMessage | string)[] | RawMessage | string): void;
+    /** @beta */
+    setGameMode(gameMode?: GameMode): void;
     /**
      * @beta
      * @remarks
@@ -5828,6 +5863,37 @@ export class PlayerDimensionChangeAfterEventSignal {
     private constructor();
     subscribe(callback: (arg: PlayerDimensionChangeAfterEvent) => void): (arg: PlayerDimensionChangeAfterEvent) => void;
     unsubscribe(callback: (arg: PlayerDimensionChangeAfterEvent) => void): void;
+}
+
+/** @beta */
+export class PlayerGameModeChangeAfterEvent {
+    private constructor();
+    readonly fromGameMode: GameMode;
+    readonly player: Player;
+    readonly toGameMode: GameMode;
+}
+
+/** @beta */
+export class PlayerGameModeChangeAfterEventSignal {
+    private constructor();
+    subscribe(callback: (arg: PlayerGameModeChangeAfterEvent) => void): (arg: PlayerGameModeChangeAfterEvent) => void;
+    unsubscribe(callback: (arg: PlayerGameModeChangeAfterEvent) => void): void;
+}
+
+/** @beta */
+export class PlayerGameModeChangeBeforeEvent {
+    private constructor();
+    cancel: boolean;
+    readonly fromGameMode: GameMode;
+    readonly player: Player;
+    toGameMode: GameMode;
+}
+
+/** @beta */
+export class PlayerGameModeChangeBeforeEventSignal {
+    private constructor();
+    subscribe(callback: (arg: PlayerGameModeChangeBeforeEvent) => void): (arg: PlayerGameModeChangeBeforeEvent) => void;
+    unsubscribe(callback: (arg: PlayerGameModeChangeBeforeEvent) => void): void;
 }
 
 export class PlayerInteractWithBlockAfterEvent {
@@ -7052,14 +7118,10 @@ export class WorldAfterEvents {
      * @remarks This event is fired after an explosion occurs.
      */
     readonly explosion: ExplosionAfterEventSignal;
+    /** @beta */
+    readonly gameRuleChange: GameRuleChangeAfterEventSignal;
     /** @remarks This event fires when a chargeable item completes charging. */
     readonly itemCompleteUse: ItemCompleteUseAfterEventSignal;
-    /**
-     * @remarks
-     * For custom items, this event is triggered when the fundamental set of defined components for the item change.
-     * Note that this event is only fired for custom data-driven items.
-     */
-    readonly itemDefinitionEvent: ItemDefinitionAfterEventSignal;
     /** @remarks This event fires when a chargeable item is released from charging. */
     readonly itemReleaseUse: ItemReleaseUseAfterEventSignal;
     /** @remarks This event fires when a chargeable item starts charging. */
@@ -7099,6 +7161,8 @@ export class WorldAfterEvents {
     readonly playerBreakBlock: PlayerBreakBlockAfterEventSignal;
     /** @remarks Fires when a player moved to a different dimension. */
     readonly playerDimensionChange: PlayerDimensionChangeAfterEventSignal;
+    /** @beta */
+    readonly playerGameModeChange: PlayerGameModeChangeAfterEventSignal;
     /** @beta */
     readonly playerInteractWithBlock: PlayerInteractWithBlockAfterEventSignal;
     /** @beta */
@@ -7170,19 +7234,14 @@ export class WorldBeforeEvents {
      * @remarks This event is fired after an explosion occurs.
      */
     readonly explosion: ExplosionBeforeEventSignal;
-    /**
-     * @beta
-     * @remarks
-     * For custom items, this event is triggered when the fundamental set of defined components for the item change.
-     * Note that this event is only fired for custom data-driven items.
-     */
-    readonly itemDefinitionEvent: ItemDefinitionBeforeEventSignal;
     /** @remarks This event fires when an item is successfully used by a player. */
     readonly itemUse: ItemUseBeforeEventSignal;
     /** @remarks This event fires when an item is used on a block by a player. */
     readonly itemUseOn: ItemUseOnBeforeEventSignal;
     /** @remarks This event fires before a block is broken by a player. */
     readonly playerBreakBlock: PlayerBreakBlockBeforeEventSignal;
+    /** @beta */
+    readonly playerGameModeChange: PlayerGameModeChangeBeforeEventSignal;
     /**
      * @beta
      * @remarks Fires before a player interacts with a block.

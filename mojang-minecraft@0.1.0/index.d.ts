@@ -1041,7 +1041,6 @@ export class ItemStack {
     getLore(): string[];
     hasComponent(componentId: string): boolean;
     setLore(loreList?: string[]): void;
-    triggerEvent(eventName: string): void;
 }
 
 export class ItemStartChargeEvent {
