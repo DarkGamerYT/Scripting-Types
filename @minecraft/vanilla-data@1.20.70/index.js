@@ -1156,6 +1156,7 @@ const MinecraftCooldownCategoryTypes = {
     EnderPearl: "minecraft:ender_pearl",
     GoatHorn: "minecraft:goat_horn",
     Shield: "minecraft:shield",
+    WindCharge: "minecraft:wind_charge",
 };
 
 const MinecraftDimensionTypes = {
@@ -1251,7 +1252,9 @@ const MinecraftEntityTypes = {
     Bee: "bee",
     Blaze: "blaze",
     Boat: "boat",
+    Bogged: "bogged",
     Breeze: "breeze",
+    BreezeWindChargeProjectile: "breeze_wind_charge_projectile",
     Camel: "camel",
     Cat: "cat",
     CaveSpider: "cave_spider",
@@ -1505,6 +1508,7 @@ const MinecraftItemTypes = {
     BlueTerracotta: "minecraft:blue_terracotta",
     BlueWool: "minecraft:blue_wool",
     Boat: "minecraft:boat",
+    BoggedSpawnEgg: "minecraft:bogged_spawn_egg",
     Bone: "minecraft:bone",
     BoneBlock: "minecraft:bone_block",
     BoneMeal: "minecraft:bone_meal",
@@ -2546,6 +2550,7 @@ const MinecraftItemTypes = {
     WhiteTerracotta: "minecraft:white_terracotta",
     WhiteWool: "minecraft:white_wool",
     WildArmorTrimSmithingTemplate: "minecraft:wild_armor_trim_smithing_template",
+    WindCharge: "minecraft:wind_charge",
     WitchSpawnEgg: "minecraft:witch_spawn_egg",
     WitherRose: "minecraft:wither_rose",
     WitherSkeletonSpawnEgg: "minecraft:wither_skeleton_spawn_egg",

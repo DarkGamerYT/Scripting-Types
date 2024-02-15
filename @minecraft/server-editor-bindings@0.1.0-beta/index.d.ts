@@ -50,6 +50,12 @@ export enum PlaytestSessionResult {
     UnspecifiedError = 11,
 }
 
+export class BlockPaletteManager {
+    private constructor();
+    getSelectedBlockType(): minecraftserver.BlockType;
+    setSelectedBlockType(block: minecraftserver.BlockType): void;
+}
+
 export class ClipboardItem {
     private constructor();
     readonly isEmpty: boolean;
@@ -106,6 +112,7 @@ export class Extension {
 export class ExtensionContext {
     private constructor();
     readonly afterEvents: ExtensionContextAfterEvents;
+    readonly blockPalette: BlockPaletteManager;
     readonly clipboardManager: ClipboardManager;
     readonly cursor: Cursor;
     readonly extensionInfo: Extension;
