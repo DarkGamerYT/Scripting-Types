@@ -959,13 +959,10 @@ export class Entity {
     readonly dimension: Dimension;
     /**
      * @remarks
-     * Unique identifier of the entity. This identifier is intended
-     * to be consistent across loads of a world instance. No
-     * meaning should be inferred from the value and structure of
-     * this unique identifier - do not parse or interpret it. This
-     * property is accessible even if {@link Entity.isValid} is
-     * false.
-     *
+     * Unique identifier of the entity.
+     * This identifier is intended to be consistent across loads of a world instance.
+     * No meaning should be inferred from the value and structure of this unique identifier - do not parse or interpret it.
+     * This property is accessible even if {@link Entity.isValid} is false.
      */
     readonly id: string;
     /**
@@ -987,23 +984,21 @@ export class Entity {
     readonly scoreboardIdentity?: ScoreboardIdentity;
     /**
      * @remarks
-     * Identifier of the type of the entity - for example,
-     * 'minecraft:skeleton'. This property is accessible even if
-     * {@link Entity.isValid} is false.
-     *
+     * Identifier of the type of the entity - for example, 'minecraft:skeleton'.
+     * This property is accessible even if {@link Entity.isValid} is false.
      */
     readonly typeId: string;
     /**
-     * @remarks
-     * Adds or updates an effect, like poison, to the entity.
+     * @remarks Adds or updates an effect, like poison, to the entity.
      *
      * This function can't be called in read-only mode.
      *
      * @param effectType
      * Type of effect to add to the entity.
      * @param duration
-     * Amount of time, in ticks, for the effect to apply. There are
-     * 20 ticks per second. Use {@link TicksPerSecond} constant to convert between ticks and seconds.
+     * Amount of time, in ticks, for the effect to apply.
+     * There are 20 ticks per second.
+     * Use {@link TicksPerSecond} constant to convert between ticks and seconds.
      * The value must be within the range [0, 20000000].
      * @param options
      * Additional options for the effect.
@@ -1027,8 +1022,7 @@ export class Entity {
      */
     addEffect(effectType: EffectType | string, duration: number, options?: EntityEffectOptions): void;
     /**
-     * @remarks
-     * Adds a specified tag to an entity.
+     * @remarks Adds a specified tag to an entity.
      *
      * This function can't be called in read-only mode.
      *
@@ -1060,8 +1054,7 @@ export class Entity {
      */
     addTag(tag: string): boolean;
     /**
-     * @remarks
-     * Applies a set of damage to an entity.
+     * @remarks Applies a set of damage to an entity.
      *
      * This function can't be called in read-only mode.
      *
@@ -1183,8 +1176,7 @@ export class Entity {
      * @param componentId
      * The identifier of the component (e.g., 'minecraft:health').
      * If no namespace prefix is specified, 'minecraft:' is assumed.
-     * Available component IDs can be found as part of the
-     * {@link EntityComponentTypes} enum.
+     * Available component IDs can be found as part of the {@link EntityComponentTypes} enum.
      * @returns Returns the component if it exists on the entity, otherwise undefined.
      * @example
      * ```javascript
@@ -1213,11 +1205,7 @@ export class Entity {
      * ```
      */
     getComponent(componentId: string): EntityComponent | undefined;
-    /**
-     * @remarks Returns all components that are both present on this entity and supported by the API.
-     *
-     * @returns Returns all components that are both present on this entity and supported by the API.
-     */
+    /** @remarks Returns all components that are both present on this entity and supported by the API. */
     getComponents(): EntityComponent[];
     /**
      * @remarks Returns the effect for the specified EffectType on the entity, undefined if the effect is not present, or throws an error if the effect does not exist.
@@ -1363,19 +1351,16 @@ export class Entity {
     teleport(location: Vector3, teleportOptions?: TeleportOptions): void;
     /**
      * @remarks
-     * Triggers an entity type event. For every entity, a number of
-     * events are defined in an entities' definition for key entity
-     * behaviors; for example, creepers have a
-     * minecraft:start_exploding type event.
+     * Triggers an entity type event.
+     * For every entity, a number of events are defined in an entities' definition for key entity behaviors;
+     * for example, creepers have a minecraft:start_exploding type event.
      *
      * This function can't be called in read-only mode.
      *
      * @param eventName
-     * Name of the entity type event to trigger. If a namespace is
-     * not specified, minecraft: is assumed.
-     * @throws
-     * If the event is not defined in the definition of the entity,
-     * an error will be thrown.
+     * Name of the entity type event to trigger.
+     * If a namespace is not specified, minecraft: is assumed.
+     * @throws If the event is not defined in the definition of the entity, an error will be thrown.
      * @example
      * ```javascript
      * import { world } from "@minecraft/server";

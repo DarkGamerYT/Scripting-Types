@@ -2911,21 +2911,18 @@ export class Entity {
     /**
      * @beta
      * @remarks
-     * The distance an entity has fallen. The value is reset when
-     * the entity is teleported. The value is always 1 when gliding
-     * with Elytra.
+     * The distance an entity has fallen.
+     * The value is reset when the entity is teleported.
+     * The value is always 1 when gliding with Elytra.
      * @throws This property can throw when used.
      */
     readonly fallDistance: number;
     /**
      * @remarks
-     * Unique identifier of the entity. This identifier is intended
-     * to be consistent across loads of a world instance. No
-     * meaning should be inferred from the value and structure of
-     * this unique identifier - do not parse or interpret it. This
-     * property is accessible even if {@link Entity.isValid} is
-     * false.
-     *
+     * Unique identifier of the entity.
+     * This identifier is intended to be consistent across loads of a world instance.
+     * No meaning should be inferred from the value and structure of this unique identifier - do not parse or interpret it.
+     * This property is accessible even if {@link Entity.isValid} is false.
      */
     readonly id: string;
     /**
@@ -2979,10 +2976,8 @@ export class Entity {
      * @beta
      * @remarks
      * Whether the entity reference that you have is valid or not.
-     * For example, an entity may be unloaded if it moves into a
-     * chunk that is unloaded, but may be reactivated if the chunk
-     * it is within gets reloaded.
-     *
+     * For example, an entity may be unloaded if it moves into a chunk that is unloaded,
+     *  but may be reactivated if the chunk it is within gets reloaded.
      */
     readonly lifetimeState: EntityLifetimeState;
     /**
@@ -3005,31 +3000,28 @@ export class Entity {
     /**
      * @beta
      * @remarks
-     * Retrieves or sets an entity that is used as the target of
-     * AI-related behaviors, like attacking. If the entity
-     * currently has no target returns undefined.
+     * Retrieves or sets an entity that is used as the target of AI-related behaviors, like attacking.
+     * If the entity currently has no target returns undefined.
      * @throws This property can throw when used.
      */
     readonly target?: Entity;
     /**
      * @remarks
-     * Identifier of the type of the entity - for example,
-     * 'minecraft:skeleton'. This property is accessible even if
-     * {@link Entity.isValid} is false.
-     *
+     * Identifier of the type of the entity - for example, 'minecraft:skeleton'.
+     * This property is accessible even if {@link Entity.isValid} is false.
      */
     readonly typeId: string;
     /**
-     * @remarks
-     * Adds or updates an effect, like poison, to the entity.
+     * @remarks Adds or updates an effect, like poison, to the entity.
      *
      * This function can't be called in read-only mode.
      *
      * @param effectType
      * Type of effect to add to the entity.
      * @param duration
-     * Amount of time, in ticks, for the effect to apply. There are
-     * 20 ticks per second. Use {@link TicksPerSecond} constant to convert between ticks and seconds.
+     * Amount of time, in ticks, for the effect to apply.
+     * There are 20 ticks per second.
+     * Use {@link TicksPerSecond} constant to convert between ticks and seconds.
      * The value must be within the range [0, 20000000].
      * @param options
      * Additional options for the effect.
@@ -3053,8 +3045,7 @@ export class Entity {
      */
     addEffect(effectType: EffectType | string, duration: number, options?: EntityEffectOptions): Effect | undefined;
     /**
-     * @remarks
-     * Adds a specified tag to an entity.
+     * @remarks Adds a specified tag to an entity.
      *
      * This function can't be called in read-only mode.
      *
@@ -3086,8 +3077,7 @@ export class Entity {
      */
     addTag(tag: string): boolean;
     /**
-     * @remarks
-     * Applies a set of damage to an entity.
+     * @remarks Applies a set of damage to an entity.
      *
      * This function can't be called in read-only mode.
      *
@@ -3188,21 +3178,17 @@ export class Entity {
      */
     clearVelocity(): void;
     /**
-     * @remarks
-     * Applies a set of damage to an entity.
+     * @remarks Applies a set of damage to an entity.
      *
      * This function can't be called in read-only mode.
      *
      * @param amount
      * Amount of damage to apply.
      * @param options
-     * Additional options about the source of damage, which may add
-     * additional effects or spur additional behaviors on this
-     * entity.
+     * Additional options about the source of damage, which may add additional effects or spur additional behaviors on this entity.
      * @returns
-     * Whether the entity takes any damage. This can return false
-     * if the entity is invulnerable or if the damage applied is
-     * less than or equal to 0.
+     * Whether the entity takes any damage.
+     * This can return false if the entity is invulnerable or if the damage applied is less than or equal to 0.
      * @throws This function can throw errors.
      * @example
      * ```javascript
@@ -3245,8 +3231,7 @@ export class Entity {
      * @param componentId
      * The identifier of the component (e.g., 'minecraft:health').
      * If no namespace prefix is specified, 'minecraft:' is assumed.
-     * Available component IDs can be found as part of the
-     * {@link EntityComponentTypes} enum.
+     * Available component IDs can be found as part of the {@link EntityComponentTypes} enum.
      * @returns Returns the component if it exists on the entity, otherwise undefined.
      * @example
      * ```javascript
@@ -3275,11 +3260,7 @@ export class Entity {
      * ```
      */
     getComponent<T extends keyof EntityComponentTypeMap>(componentId: T): EntityComponentTypeMap[T] | undefined;
-    /**
-     * @remarks Returns all components that are both present on this entity and supported by the API.
-     *
-     * @returns Returns all components that are both present on this entity and supported by the API.
-     */
+    /** @remarks Returns all components that are both present on this entity and supported by the API. */
     getComponents(): EntityComponent[];
     /**
      * @remarks Returns a property value.
@@ -3352,8 +3333,6 @@ export class Entity {
     getProperty(identifier: string): boolean | number | string | undefined;
     /**
      * @remarks Returns the current rotation component of this entity.
-     *
-     * @returns Returns a Vec2 containing the rotation of this entity (in degrees).
      * @throws This function can throw errors.
      */
     getRotation(): Vector2;
@@ -3499,22 +3478,18 @@ export class Entity {
     setDynamicProperty(identifier: string, value?: boolean | number | string | Vector3): void;
     /**
      * @remarks
-     * Sets an entity on fire (if it is not in water or rain). Note
-     * that you can call getComponent('minecraft:onfire') and, if
-     * present, the entity is on fire.
+     * Sets an entity on fire (if it is not in water or rain).
+     * Note that you can call getComponent('minecraft:onfire') and, if present, the entity is on fire.
      *
      * This function can't be called in read-only mode.
      *
      * @param seconds
      * Length of time to set the entity on fire.
      * @param useEffects
-     * Whether side-effects should be applied (e.g. thawing freeze)
-     * and other conditions such as rain or fire protection should
-     * be taken into consideration.
+     * Whether side-effects should be applied (e.g. thawing freeze) and other conditions such as rain or fire protection should be taken into consideration.
      * @returns
-     * Whether the entity was set on fire. This can fail if seconds
-     * is less than or equal to zero, the entity is wet or the
-     * entity is immune to fire.
+     * Whether the entity was set on fire.
+     * This can fail if seconds is less than or equal to zero, the entity is wet or the entity is immune to fire.
      * @throws This function can throw errors.
      * @example
      * ```javascript
@@ -3528,44 +3503,38 @@ export class Entity {
     setOnFire(seconds: number, useEffects?: boolean): boolean;
     /**
      * @remarks
-     * Sets an Entity Property to the provided value. This property
-     * change is not applied until the next tick.
+     * Sets an Entity Property to the provided value.
+     * This property change is not applied until the next tick.
      *
      * This function can't be called in read-only mode.
      *
      * @param identifier
      * The Entity Property identifier.
      * @param value
-     * The property value. The provided type must be compatible
-     * with the type specified in the entity's definition.
+     * The property value.
+     * The provided type must be compatible with the type specified in the entity's definition.
      * @throws
      * Throws if the entity is invalid.
      * Throws if an invalid identifier is provided.
-     * Throws if the provided value type does not match the
-     * property type.
-     * Throws if the provided value is outside the expected range
-     * (int, float properties).
-     * Throws if the provided string value does not match the set
-     * of accepted enum values (enum properties
+     * Throws if the provided value type does not match the property type.
+     * Throws if the provided value is outside the expected range (int, float properties).
+     * Throws if the provided string value does not match the set of accepted enum values (enum properties).
      */
     setProperty(identifier: string, value: boolean | number | string): void;
     setRotation(rotation: Vector2): void;
     teleport(location: Vector3, teleportOptions?: TeleportOptions): void;
     /**
      * @remarks
-     * Triggers an entity type event. For every entity, a number of
-     * events are defined in an entities' definition for key entity
-     * behaviors; for example, creepers have a
-     * minecraft:start_exploding type event.
+     * Triggers an entity type event.
+     * For every entity, a number of events are defined in an entities' definition for key entity behaviors;
+     * for example, creepers have a minecraft:start_exploding type event.
      *
      * This function can't be called in read-only mode.
      *
      * @param eventName
-     * Name of the entity type event to trigger. If a namespace is
-     * not specified, minecraft: is assumed.
-     * @throws
-     * If the event is not defined in the definition of the entity,
-     * an error will be thrown.
+     * Name of the entity type event to trigger.
+     * If a namespace is not specified, minecraft: is assumed.
+     * @throws If the event is not defined in the definition of the entity, an error will be thrown.
      * @example
      * ```javascript
      * import { world } from "@minecraft/server";

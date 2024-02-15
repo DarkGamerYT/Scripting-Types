@@ -57,21 +57,16 @@ export class Entity {
     private constructor();
     /**
      * @remarks
-     * Unique identifier of the entity. This identifier is intended
-     * to be consistent across loads of a world instance. No
-     * meaning should be inferred from the value and structure of
-     * this unique identifier - do not parse or interpret it. This
-     * property is accessible even if {@link Entity.isValid} is
-     * false.
-     *
+     * Unique identifier of the entity.
+     * This identifier is intended to be consistent across loads of a world instance.
+     * No meaning should be inferred from the value and structure of this unique identifier - do not parse or interpret it.
+     * This property is accessible even if {@link Entity.isValid} is false.
      */
     readonly id: string;
     /**
      * @remarks
-     * Identifier of the type of the entity - for example,
-     * 'minecraft:skeleton'. This property is accessible even if
-     * {@link Entity.isValid} is false.
-     *
+     * Identifier of the type of the entity - for example, 'minecraft:skeleton'.
+     * This property is accessible even if {@link Entity.isValid} is false.
      */
     readonly typeId: string;
     /**
