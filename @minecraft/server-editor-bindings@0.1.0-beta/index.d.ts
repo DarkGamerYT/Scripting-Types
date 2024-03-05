@@ -2,6 +2,7 @@
 // Project: https://github.com/DarkGamerYT/Scripting-Types
 // Definitions by: xKingDark <https://github.com/DarkGamerYT>
 /**
+ * @beta
  * @packageDocumentation
  * 
  * Manifest Details
@@ -14,24 +15,50 @@
  */
 import * as minecraftcommon from "@minecraft/common";
 import * as minecraftserver from "@minecraft/server";
+/** An enumeration used by the 3D block cursor {@link Cursor} */
 export enum CursorControlMode {
+    /** 
+     * @remarks
+     * Using Keyboard mode will remove the dependence of the 3D block cursor on the player mouse position.
+     * The 3D block cursor can be positioned using the keyboard (or the Cursor move methods on the cursor object) and the position will not be reset if the mouse is moved
+     */
     Keyboard = 0,
+    /** @remarks The Mouse movement mode will disable keyboard or manual 3D block cursor movement and make the 3D block cursor only react to player mouse movement */
     Mouse = 1,
+    /** 
+     * @remarks
+     * This is generally the default move mode for the 3D block cursor.
+     * The 3D block cursor can be positioned using the keyboard (or the Cursor move methods on the cursor object) but the position will be reset to the block location under the players mouse position if any mouse movement is detected.
+     */
     KeyboardAndMouse = 2,
+    /** 
+     * @remarks
+     * When in fixed mode, the 3D block cursor will remain in a fixed position directly in front of the players facing direction.
+     * It cannot be moved without moving the player (or adjusting the fixed block distance).
+     * This mode is useful for addressing block locations in the air (put the cursor into fixed mode, and fly the player until the desired air block is beneath the cursor, at which point it is selectable without being clickable)
+     */
     Fixed = 3,
 }
 
+/** Describes how the cursor targets a point on the screen. */
 export enum CursorTargetMode {
+    /** @remarks Target a nearest block. */
     Block = 0,
+    /** @remarks Targets the face of a nearest block. */
     Face = 1,
 }
 
+/** Enumeration representing the different modes Editor can be in. */
 export enum EditorMode {
+    /** @remarks Mode for single-block editing. */
     Crosshair = "Crosshair",
+    /** @remarks Mode for multi-block editing UI and tools. */
     Tool = "Tool",
 }
 
+/** Enumeration representing identifiers for graphics settings properties. */
 export enum GraphicsSettingsProperty {
+    /** @remarks Manages rendering of invisible blocks (e.g., barrier, light, structure_void). */
     ShowInvisibleBlocks = "ShowInvisibleBlocks",
 }
 
@@ -50,43 +77,170 @@ export enum PlaytestSessionResult {
     UnspecifiedError = 11,
 }
 
+export enum WidgetGroupSelectionMode {
+    Multiple = "Multiple",
+    None = "None",
+    Single = "Single",
+}
+
 export class BlockPaletteManager {
     private constructor();
+    /** @throws This function can throw errors. */
     getSelectedBlockType(): minecraftserver.BlockType;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     setSelectedBlockType(block: minecraftserver.BlockType): void;
 }
 
+/** A ClipboardItem is a handle to an object which represents a set of blocks in a contained bounding area (most likely copied from the world) */
 export class ClipboardItem {
     private constructor();
+    /** 
+     * @remarks Return whether there is any block content in the item
+     * @throws This property can throw when used.
+     */
     readonly isEmpty: boolean;
+    /** 
+     * @remarks Clear the contents of the item
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     clear(): void;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     getPredictedWriteAsCompoundBlockVolume(
         location: minecraftserver.Vector3,
         options?: ClipboardWriteOptions,
     ): minecraftserver.CompoundBlockVolume;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     getPredictedWriteAsSelection(location: minecraftserver.Vector3, options?: ClipboardWriteOptions): Selection;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     getSize(): minecraftserver.Vector3;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     readFromSelection(selection: Selection): void;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     readFromWorld(from: minecraftserver.Vector3, to: minecraftserver.Vector3): void;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     writeToWorld(location: minecraftserver.Vector3, options?: ClipboardWriteOptions): boolean;
 }
 
+/** 
+ * The ClipboardManager (accessible from the {@link ExtensionContext}) is responsible for the management of all {@link ClipboardItem} objects,
+ * and provides the user the ability to create new {@link ClipboardItem} objects for use within an extension.
+ */
 export class ClipboardManager {
     private constructor();
+    /** 
+     * @remarks
+     * The primary {@link ClipboardItem} object is always present (even if it's empty) and cannot be deleted.
+     * This object represents the main ClipboardItem object which is always accessible through the UI for cut/paste operations
+     * @throws This property can throw when used.
+     */
     readonly clipboard: ClipboardItem;
+    /** 
+     * @remarks Create a new  {@link ClipboardItem} object
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     create(): ClipboardItem;
 }
 
+/** 
+ * The 3D block cursor is controlled through this read only object and provides the Editor some control over the input methods, display properties and positioning of the 3D block cursor within the world.
+ * The 3D block cursor is a native object which is constantly calculating a screen/mouse -> world raycast, and recording the resultant block collision position and facing direction.
+ * Depending on the properties of the cursor state, this is not always true – the cursor can also be manually manipulated by keyboard input and moved around independently of mouse movement; when the mouse is moved, the block cursor will return to the mouse/world ray intersection point.
+ * The cursor can also be set to either block or face mode; block mode represents the block the mouse is pointing at, and face mode represents the adjacent block that the mouse is pointing at (i.e. the block attached to the face of the intersection point).
+ * In practical use, each tool when activated grabs the current cursor state object and stores it.
+ * The active tool then sets the current state to represent the functionality of the tool (color, input mode, etc).
+ * When the tool loses focus, it restores the cursor state using the stored state object that was grabbed during activation.
+ * The 3D block cursor can also be used to query the current block at which the mouse is pointing (or the current block to which the cursor has been manually moved by the user)
+ */
 export class Cursor {
     private constructor();
+    /** 
+     * @remarks The face at of the block beneath the 3D block cursor which is intersected by the mouse raycast
+     * @throws This property can throw when used.
+     */
     readonly faceDirection: number;
+    /** 
+     * @remarks Query whether or not the 3D block cursor is visible or hidden
+     * @throws This property can throw when used.
+     */
     readonly isVisible: boolean;
+    /** 
+     * @remarks Get the world position of the 3D block cursor
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     getPosition(): minecraftserver.Vector3;
+    /** 
+     * @remarks Get a property object which represents the current properties of the 3D block cursor.
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     getProperties(): CursorProperties;
+    /** 
+     * @remarks Hide the 3D block cursor from view until the corresponding {@link Cursor.show} function is called
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     hide(): void;
+    /** 
+     * @remarks
+     * Manually offset the 3D block cursor by given amount.
+     * Depending on the {@link CursorProperties.CursorControlMode} - this function may have no effect
+     * 
+     * This function can't be called in read-only mode.
+     * @param offset Amount by which the 3D block cursor should be moved
+     * @returns Return the newly modified position (or previous position if movement was restricted)
+     * @throws This function can throw errors.
+     */
     moveBy(offset: minecraftserver.Vector3): minecraftserver.Vector3;
+    /** 
+     * @remarks Reset the 3D block cursor to the system default state
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     resetToDefaultState(): void;
+    /** 
+     * @remarks Set the 3D block cursor properties to a given state
+     * 
+     * This function can't be called in read-only mode.
+     * @param properties A set of optional parameters within a property state which represent the intended 3D block cursor state
+     * @throws This function can throw errors.
+     */
     setProperties(properties: CursorProperties): void;
+    /** 
+     * @remarks Make the 3D block cursor visible on screen
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     show(): void;
 }
 
@@ -97,59 +251,286 @@ export class CursorPropertiesChangeAfterEvent {
 
 export class CursorPropertyChangeAfterEventSignal {
     private constructor();
+    /** @remarks This function can't be called in read-only mode. */
     subscribe(callback: (arg: CursorPropertiesChangeAfterEvent) => void): (arg: CursorPropertiesChangeAfterEvent) => void;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     unsubscribe(callback: (arg: CursorPropertiesChangeAfterEvent) => void): void;
 }
 
+// @ts-ignore Class inheritance allowed for native defined classes
+export class CustomWidget extends Widget {
+    private constructor();
+    readonly location: minecraftserver.Vector3;
+    readonly rotation: minecraftserver.Vector2;
+    readonly showTextOnlyWhenSelected: boolean;
+    getText(): string;
+    /** @remarks This function can't be called in read-only mode. */
+    setText(text: string): void;
+}
+
+export class CustomWidgetMoveEventData {
+    private constructor();
+    readonly group: WidgetGroup;
+    readonly location?: minecraftserver.Vector3;
+    readonly rotation?: minecraftserver.Vector2;
+    readonly widget: CustomWidget;
+}
+
+export class DataStore {
+    private constructor();
+    readonly actionContainer: DataStoreActionContainer;
+    readonly afterEvents: DataStoreAfterEvents;
+    readonly menuContainer: DataStoreMenuContainer;
+}
+
+export class DataStoreActionContainer {
+    private constructor();
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    bindActionToControl(controlId: string, actionPayload: string): void;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    removeActionFromControl(controlId: string, actionPayload?: string): void;
+}
+
+export class DataStoreAfterEvents {
+    private constructor();
+    readonly payloadReceived: DataStorePayloadAfterEventSignal;
+}
+
+export class DataStoreMenuContainer {
+    private constructor();
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    createItem(id: string, payload: string): void;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    destroyItem(id: string): void;
+    /** @remarks This function can't be called in read-only mode. */
+    getPayload(id: string): string;
+    /** @remarks This function can't be called in read-only mode. */
+    getProperty(id: string, property: string): boolean | number | string | undefined;
+    /** @remarks This function can't be called in read-only mode. */
+    hasPayload(id: string): boolean;
+    /** @remarks This function can't be called in read-only mode. */
+    hasProperty(id: string, property: string): boolean;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    updateItem(id: string, payload: string): void;
+}
+
+export class DataStorePayloadAfterEvent {
+    private constructor();
+    readonly dataTag: string;
+    readonly payload: string;
+}
+
+export class DataStorePayloadAfterEventSignal {
+    private constructor();
+    /** @remarks This function can't be called in read-only mode. */
+    subscribe(callback: (arg: DataStorePayloadAfterEvent) => void): (arg: DataStorePayloadAfterEvent) => void;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    unsubscribe(callback: (arg: DataStorePayloadAfterEvent) => void): void;
+}
+
+/** 
+ * Editor Extensions are the basis for all player specific, editor specific functionality within the game.
+ * Almost all editor functionality is exported and available within the context of an {@link ExtensionContext}
+ * When the script manager initializes during level loading, the scripts are loaded from the behavior packs and executed.
+ * As part of the global execution context, the scripts are free to register any number of extensions.
+ * An Editor Extension is defined a name, an activation function and a shutdown function.
+ * 
+ * It is not recommended to directly use this function as the contract is not guaranteed to be stable,
+ * instead prefer {@link registerEditorExtension} as it provides additional functionality and a stable contract.
+ */
 export class Extension {
     private constructor();
+    /** 
+     * @remarks
+     * Default identifier for tool rail grouping.
+     * All modal tools created from the extension will use this.
+     */
     readonly defaultToolGroupId: string;
+    /** @remarks Description specified during registration for the extension. */
     readonly description: string;
+    /** @remarks Name of the extension. */
     readonly name: string;
+    /** @remarks Notes specified during registration for the extension. */
     readonly notes: string;
 }
 
+/** 
+ * The extension context is a native (C++) object created for each registered Editor Extension,
+ * when a player connection is established with the server.
+ * A registered extension activation or deactivation closure is accompanied by an [ExtensionContext] object,
+ * which provides a player specific, editor extension specific context.
+ * The Extension Context is the main interface to all the bound Editor Services.
+ * As more player services are added to the editor, they will be exposed through this object
+ */
 export class ExtensionContext {
     private constructor();
+    /** 
+     * @remarks
+     * Contains a set of events that are applicable to the editor player.
+     * Event callbacks are called in a deferred manner.
+     * Event callbacks are executed in read-write mode.
+     */
     readonly afterEvents: ExtensionContextAfterEvents;
     readonly blockPalette: BlockPaletteManager;
+    /** @remarks This is used to access the players Clipboard Manager and the main interface through which the player can create, modify and apply clipboard items */
     readonly clipboardManager: ClipboardManager;
+    /** @remarks This is used to access the players 3D block cursor and it's properties */
     readonly cursor: Cursor;
+    /** @remarks Contains information about the registered extension instance. */
     readonly extensionInfo: Extension;
+    /** @remarks The current player which is the subject of the extension invocation */
     readonly player: minecraftserver.Player;
     readonly playtest: PlaytestManager;
+    /** @remarks The instance of the players Selection Manager and the main interface through which the player can create/modify selections */
     readonly selectionManager: SelectionManager;
+    /** @remarks The instance of the players Settings Manager and the contract through which the settings for the player can be modified. */
     readonly settings: SettingsManager;
+    /** @remarks The instance of the players Transaction Manager and the main interface through which the creator can create transaction records, and undo/redo previous transactions */
     readonly transactionManager: TransactionManager;
+    readonly widgetManager: WidgetManager;
 }
 
+/** Contains a set of events that are available across the scope of the ExtensionContext. */
 export class ExtensionContextAfterEvents {
     private constructor();
     readonly cursorPropertyChange: CursorPropertyChangeAfterEventSignal;
+    /** @remarks This event triggers when the editor mode changes for the player. */
     readonly modeChange: ModeChangeAfterEventSignal;
     readonly primarySelectionChange: PrimarySelectionChangeAfterEventSignal;
 }
 
+/** Settings category that manages {@link GraphicsSettingsProperty} configurations. */
 export class GraphicsSettings {
     private constructor();
+    /** 
+     * @remarks Retrieves a graphics settings property value.
+     * @param property Property identifier.
+     * @returns
+     * Returns the property value if it is found.
+     * If the property is not available, it returns undefined.
+     */
     get(property: GraphicsSettingsProperty): boolean | number | string | undefined;
+    /** 
+     * @remarks Retrieves all graphics settings properties and their values.
+     * @returns Returns a property value map for all available properties.
+     */
     getAll(): Record<string, boolean | number | string>;
+    /** 
+     * @remarks Modifies a graphics settings property value.
+     * 
+     * This function can't be called in read-only mode.
+     * @param property Property identifier.
+     * @param value New property value.
+     * @throws This function can throw errors.
+     */
     set(property: GraphicsSettingsProperty, value: boolean | number | string): void;
+    /** 
+     * @remarks Modify multiple graphics settings properties.
+     * 
+     * This function can't be called in read-only mode.
+     * @param properties
+     * Property map to set available property values.
+     * If the property is not defined in the map, it will not be modified.
+     * @throws This function can throw errors.
+     */
     setAll(properties: Record<string, boolean | number | string>): void;
 }
 
+// @ts-ignore Class inheritance allowed for native defined classes
+export class LineWidget extends Widget {
+    private constructor();
+}
+
+/** 
+ * The logger class is a utility class which allows editor extensions to communicate with the player from the server to the client log window.
+ * The logger class presents 4 different output channels which can be used to send information to the client/player, depending on the context of the information.
+ */
 export class Logger {
     private constructor();
+    /** 
+     * @remarks
+     * A `debug` output channel generally used during the development process of editor extensions.
+     * This channel defaults to `hidden` in the log window (unless explicitly enabled).
+     * Once your editor extension development process is complete, and you're ready to ship/share your extension - we generally recommend that you remove any references to this log channel to avoid a noisy experience for other users
+     * 
+     * This function can't be called in read-only mode.
+     * @param message The message string to send to the log window
+     * @throws This function can throw errors.
+     */
     debug(message: string, properties?: LogProperties): void;
+    /** 
+     * @remarks
+     * The error channel is generally used when the editor extension experiences an error (either a program error in executing logic unexpectedly, or an error in the input or output to/from a player).
+     * Use this channel sparingly - it's meant to communicate important problems to the player
+     * 
+     * This function can't be called in read-only mode.
+     * @param message The message string to send to the log window
+     * @throws This function can throw errors.
+     */
     error(message: string, properties?: LogProperties): void;
+    /** 
+     * @remarks The info channel is intended to communicate general, non-fatal or non-erroneous information to the player that can generally be safely ignored if they choose to do so.
+     * 
+     * This function can't be called in read-only mode.
+     * @param message The message string to send to the log window
+     * @throws This function can throw errors.
+     */
     info(message: string, properties?: LogProperties): void;
+    /** 
+     * @remarks The warning channel is intended to inform the user of 'potential' issues (missing inputs, values out of range, things that cannot be found) but are not fatal and execution can still be completed.
+     * 
+     * This function can't be called in read-only mode.
+     * @param message The message string to send to the log window
+     * @throws This function can throw errors.
+     */
     warning(message: string, properties?: LogProperties): void;
 }
 
+/** The MinecraftEditor class is a namespace container for Editor functionality which does not have any player context. */
 export class MinecraftEditor {
     private constructor();
+    /** 
+     * @remarks
+     * A global instance of the log output class object.
+     * This is not contextualized to any particular player, and any messages sent to this instance will be broadcast to all connected editor client sessions
+     * @throws This property can throw when used.
+     */
     readonly log: Logger;
+    /** @remarks Allows querying and modifying some properties of the simulation. */
     readonly simulation: SimulationState;
+    /** 
+     * @remarks
+     * This is an internal command which interfaces with the native C++ extension bindings and should not be used by creators.
+     * Using this command directly will not provide any of the additional functionality and wrappings that the TypeScript layer will provide.
+     * Creators should use the TypeScript binding `registerEditorExtension` instead
+     * 
+     * This function can't be called in read-only mode.
+     * @param extensionName Unique name of the editor extension being registered
+     * @param activationFunction A code closure which is called during the activation process and is responsible for setting up all of the extension internal settings and UI definitions
+     * @param shutdownFunction A code closure which is called during the deactivation process (when the player disconnects) and is responsible for cleaning up any settings or allocations
+     * @param options {@link ExtensionOptionalParameters} describes an optional object which contains a number of optional parameters which is used to register an extension with additional information
+     */
     registerExtension_Internal(
         extensionName: string,
         activationFunction: (arg: ExtensionContext) => void,
@@ -158,26 +539,62 @@ export class MinecraftEditor {
     ): Extension;
 }
 
+export class MinecraftEditorInternal {
+    private constructor();
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    getDataStore(player: minecraftserver.Player): DataStore;
+}
+
+/** Contains information related to changes in player editor mode. */
 export class ModeChangeAfterEvent {
     private constructor();
+    /** @remarks The editor mode that the player is changed to. */
     readonly mode: EditorMode;
 }
 
+/** Manages callbacks that are connected to when a player editor mode changes. */
 export class ModeChangeAfterEventSignal {
     private constructor();
+    /** 
+     * @remarks Subscribes the specified callback to an editor mode change after event.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: ModeChangeAfterEvent) => void): (arg: ModeChangeAfterEvent) => void;
+    /** 
+     * @remarks Removes the specified callback from an editor mode change after event.
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     unsubscribe(callback: (arg: ModeChangeAfterEvent) => void): void;
 }
 
 export class PlaytestManager {
     private constructor();
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     beginPlaytest(options: PlaytestGameOptions): Promise<PlaytestSessionResult>;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     getPlaytestSessionAvailability(): PlaytestSessionResult;
 }
 
 export class PrimarySelectionChangeAfterEventSignal {
     private constructor();
+    /** @remarks This function can't be called in read-only mode. */
     subscribe(callback: (arg: SelectionEventAfterEvent) => void): (arg: SelectionEventAfterEvent) => void;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     unsubscribe(callback: (arg: SelectionEventAfterEvent) => void): void;
 }
 
@@ -186,23 +603,144 @@ export class PrimarySelectionChangedEvent {
     readonly volume?: minecraftserver.CompoundBlockVolume;
 }
 
+/** 
+ * The Selection represents a volume in space, which may potentially be made up of one or more block locations.
+ * These block locations do not need to be contiguous, and a Selection represent an irregular shape.
+ * It's important to note that a Selection is only a representation of the volume shape space - and does NOT represent the actual contents of the space.
+ */
 export class Selection {
     private constructor();
+    /** 
+     * @remarks Returns a boolean representing whether or not there are any volumes pushed to the selection stack
+     * @throws This property can throw when used.
+     */
     readonly isEmpty: boolean;
+    /** 
+     * @remarks
+     * Set whether or not the selection volume is visible to the client user.
+     * NOTE: Use this option carefully - Selection volumes are generally server-only, 
+     *  but marking a volume as visible causes the volume (and all volume operations) to be synchronized with the client game
+     *  which can potentially generate excessive network traffic.
+     * 
+     * This property can't be edited in read-only mode.
+     */
     visible: boolean;
+    /** 
+     * @remarks Clear the contents of the Selection
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     clear(): void;
+    /** 
+     * @remarks
+     * Fetch a block iterator which can be used to step across the Selection shape.
+     * Each call to the iterator will return the next block location within the Selection bounds which is actually selected.
+     * Block iteration is not guaranteed to be contiguous - it is possible to create irregular selection shapes by adding volumes to a selection
+     *  which may or may not be contiguous or adjacent to other volumes within the selection.
+     * The Block iterator will return only selected volume locations
+     * 
+     * This function can't be called in read-only mode.
+     */
     getBlockLocationIterator(): minecraftserver.BlockLocationIterator;
+    /** 
+     * @remarks
+     * Return a bounding rectangle that contains all of the volumes within the selection (the bounding rectangle does NOT represent the shape of the selection,
+     * only the largest rectangle that will fit all of the volumes)
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     getBoundingBox(): minecraftserver.BoundingBox;
+    /** 
+     * @remarks Return the color of the on-screen selection container hull
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     getFillColor(): minecraftserver.RGBA;
+    /** 
+     * @remarks Return the color of the on-screen selection container outline
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     getOutlineColor(): minecraftserver.RGBA;
+    /** 
+     * @remarks Get the origin of the CompoundBlockVolume that makes up the block component part of selection
+     * 
+     * This function can't be called in read-only mode.
+     */
     getVolumeOrigin(): minecraftserver.Vector3;
+    /** 
+     * @remarks Translate a selection by a given amount (this causes all of the volumes within the selection to be moved by the specified offset)
+     * 
+     * This function can't be called in read-only mode.
+     * @param delta The amount by which to move
+     * @returns The newly moved position
+     * @throws This function can throw errors.
+     */
     moveBy(delta: minecraftserver.Vector3): minecraftserver.Vector3;
+    /** 
+     * @remarks Move the selection to an absolute world location (causing all of the volumes within the selection to be moved to a location relative to the world location)
+     * 
+     * This function can't be called in read-only mode.
+     * @param location The world location to which to relocate the selection
+     * @returns The newly moved position
+     * @throws This function can throw errors.
+     */
     moveTo(location: minecraftserver.Vector3): minecraftserver.Vector3;
+    /** 
+     * @remarks Fetch the volume information of the last compound volume that was pushed to the volume stack without affecting the stack itself
+     * 
+     * This function can't be called in read-only mode.
+     * @param forceRelativity See the description for {@link minecraftserver.CompoundBlockVolume.peekLastVolume}
+     * @returns Returns undefined if the stack is empty
+     */
     peekLastVolume(forceRelativity?: minecraftserver.CompoundBlockVolumePositionRelativity): minecraftserver.CompoundBlockVolumeItem | undefined;
+    /** 
+     * @remarks
+     * Remove the volume information that was last pushed to the volume stack.
+     * This will reduce the stack item length by 1
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     popVolume(): void;
+    /** 
+     * @remarks Push a compound volume item (a volume and action pair) to the volume stack.
+     * 
+     * This function can't be called in read-only mode.
+     * @param item Item to push to the stack
+     * @throws This function can throw errors.
+     */
     pushVolume(item: minecraftserver.CompoundBlockVolumeItem): void;
+    /** 
+     * @remarks
+     * Replace the contents of the current selection with a newspecified selection.
+     * This operation will delete the current contents and copy the contents of the new selection to the target selection - it does this by content, not by reference.
+     * 
+     * This function can't be called in read-only mode.
+     * @param other
+     * {@link minecraftserver.CompoundBlockVolume} - set the block component part of this selection to the specified compound block volume.
+     * This will completely replace all block volume definitions in the selection.
+     * {@link @Selection} - replace the selection with the specified selection
+     * @throws This function can throw errors.
+     */
     set(other: minecraftserver.CompoundBlockVolume | Selection): void;
+    /** 
+     * @remarks Set the color of the hull of the selection object if it is visible.
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     setFillColor(color: minecraftserver.RGBA): void;
+    /** 
+     * @remarks Set the color of the outline around the selection object if it is visible
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     setOutlineColor(color: minecraftserver.RGBA): void;
 }
 
@@ -211,46 +749,184 @@ export class SelectionEventAfterEvent {
     readonly selectionEvent: PrimarySelectionChangedEvent;
 }
 
+/** 
+ * The SelectionManager (accessible from the {@link ExtensionContext}) is responsible for the management of all {@link Selection} objects,
+ * and provides the user the ability to create new {@link Selection} objects for use within an extension.
+ */
 export class SelectionManager {
     private constructor();
+    /** 
+     * @remarks
+     * The primary {@link Selection} object is always present (even if it's empty) and cannot be deleted.
+     * This object represents the main selection object which is always accessible through the UI,
+     * and by default is synchronized between the client and server.
+     * @throws This property can throw when used.
+     */
     readonly selection: Selection;
+    /** 
+     * @remarks Create a new, empty {@link Selection} object
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     create(): Selection;
 }
 
+/** The SettingsManager (accessible from the {@link ExtensionContext}) is responsible for the management all player settings. */
 export class SettingsManager {
     private constructor();
+    /** @remarks Manages graphics settings properties. */
     readonly graphics: GraphicsSettings;
 }
 
+/** Responsible for querying and modifying various properties of the simulation. */
 export class SimulationState {
     private constructor();
+    /** @remarks Returns `true` if mob simulation is paused. */
     isPaused(): boolean;
+    /** 
+     * @remarks
+     * Sets the state of mob simulation.
+     * If set to `true`, mobs are paused.
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     setPaused(isPaused: boolean): void;
 }
 
+/** 
+ * The Transaction Manager is responsible for tracking and managing all of the registered transaction operations which represent creator changes in the world.
+ * Transaction Manager is the basis of the UNDO and REDO operations, and allows a creator to store the changes made to the world and the state of the world BEFORE those changes were applied,
+ * making it possible to UNDO those changes and restore the world state. 
+ * The transactions are stored as a stack, and can be undone in stack order to restore the world to it's original state
+ */
 export class TransactionManager {
     private constructor();
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     addUserDefinedOperation(
         transactionHandlerId: UserDefinedTransactionHandlerId,
         operationData: string,
         operationName?: string,
     ): void;
+    /** 
+     * @remarks
+     * Commit all of the transaction operations currently attached to the open transaction record to the manager.
+     * These will be added as a single transaction manager entry.
+     * The open record will be closed and all tracking operations will cease.
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     commitOpenTransaction(): boolean;
+    /** 
+     * @remarks
+     * This function will commit the pending changes caused by any of the track changes variants.
+     * The changes will be committed to the currently open transaction, but the transaction will remain open for further records.
+     * Pending block changes from tracking operations will be added the transaction record before submission to the transaction manager
+     * 
+     * This function can't be called in read-only mode.
+     * @returns Returns the number of change requests that were being tracked
+     * @throws This function can throw errors.
+     */
     commitTrackedChanges(): number;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     createUserDefinedTransactionHandler(
         undoClosure: (arg: string) => void,
         redoClosure: (arg: string) => void,
     ): UserDefinedTransactionHandlerId;
+    /** 
+     * @remarks
+     * Discard the currently open transaction without committing it to the transaction manager stack.
+     * All records within the transaction will be discarded, and any tracking requests currently active will be stopped
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     discardOpenTransaction(): boolean;
+    /** 
+     * @remarks
+     * Discard any pending tracked changes.
+     * This does not affect the current open transaction contents, only the pending tracked block operations
+     * 
+     * This function can't be called in read-only mode.
+     * @returns Returns the number of change requests that were discarded
+     * @throws This function can throw errors.
+     */
     discardTrackedChanges(): number;
+    /** 
+     * @remarks
+     * Open a transaction record which will be a container for any number of transaction operations.
+     * All transaction operations within a record are grouped and treated as a single atomic unit
+     * 
+     * This function can't be called in read-only mode.
+     * @param name Give the transaction record a name
+     * @throws This function can throw errors.
+     */
     openTransaction(name: string): boolean;
+    /** 
+     * @remarks
+     * Perform an redo operation.
+     * This will take the last transaction record on the redo stack and store the current world state and then apply the changes in the record.
+     * This will reduce the redo record stack by one.
+     * 
+     * The transaction record affected by this operation will be transferred to the undo stack in case the creator decides to undo it
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     redo(): void;
+    /** 
+     * @remarks Return the number of transaction records on the redo stack.
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     redoSize(): number;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     trackBlockChangeArea(from: minecraftserver.Vector3, to: minecraftserver.Vector3): boolean;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     trackBlockChangeCompoundBlockVolume(compoundBlockVolume: minecraftserver.CompoundBlockVolume): boolean;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     trackBlockChangeList(locations: minecraftserver.Vector3[]): boolean;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     trackBlockChangeSelection(selection: Selection): boolean;
+    /** 
+     * @remarks
+     * Perform an undo operation.
+     * This will take the last transaction record on the stack and apply the stored world state from before the changes were made.
+     * This will reduce the record stack by one.
+     * 
+     * The transaction record affected by this operation will be transferred to the redo stack in case the creator decides to reapply it
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     undo(): void;
+    /** 
+     * @remarks Return how many transactions records currently exist on the stack.
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
     undoSize(): number;
 }
 
@@ -258,178 +934,141 @@ export class UserDefinedTransactionHandlerId {
     private constructor();
 }
 
-/**
- * Interface used to specify the options when a clipboard item
- * is being written to the world
- */
+export class Widget {
+    private constructor();
+    readonly valid: boolean;
+    getIsSelected(): boolean;
+    getIsVisible(): boolean;
+    /** @remarks This function can't be called in read-only mode. */
+    setIsVisible(isVisible: boolean): void;
+}
+
+export class WidgetGroup {
+    private constructor();
+    readonly valid: boolean;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    createCustomWidget(
+        customEntityName: string,
+        location: minecraftserver.Vector3,
+        rotation?: minecraftserver.Vector2,
+        options?: CustomWidgetCreateOptions,
+    ): CustomWidget;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    deleteWidget(widgetToDelete: Widget): void;
+    /** @remarks This function can't be called in read-only mode. */
+    getIsVisible(): boolean;
+    /** @remarks This function can't be called in read-only mode. */
+    setIsVisible(isVisible: boolean): void;
+}
+
+export class WidgetManager {
+    private constructor();
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    createGroup(options?: WidgetGroupCreateOptions): WidgetGroup;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    deleteGroup(groupToDelete: WidgetGroup): void;
+}
+
+export class WidgetStateChangeEventData {
+    private constructor();
+    readonly group: WidgetGroup;
+    readonly isSelected?: boolean;
+    readonly isVisible?: boolean;
+    readonly widget: Widget;
+}
+
+/** Interface used to specify the options when a clipboard item is being written to the world */
 export interface ClipboardWriteOptions {
-    /**
+    /** 
      * @remarks
-     * The anchor is a unit vector representation of the side or
-     * corner of the Clipboard Item to be written to the world.
-     * `{0, 0, 0}` represents the center of the Clipboard item,
-     * `{0, 1, 0}` represents the top, `{-1, -1, -1}` represents
-     * the bottom/back/left corner, etc
-     * The anchor is used in conjunction with the item size to
-     * determine the object relative anchor point where the object
-     * will be applied in the world.
-     * Values for the X/Y/Z components should be within the range
-     * `(-1 <= X/Y/Z <=1)`
-     *
+     * The anchor is a unit vector representation of the side or corner of the Clipboard Item to be written to the world.
+     * - `{0, 0, 0}` represents the center of the Clipboard item.
+     * - `{0, 1, 0}` represents the top.
+     * - `{-1, -1, -1}` represents the bottom/back/left corner, etc.
+     * The anchor is used in conjunction with the item size to determine the object relative anchor point where the object will be applied in the world.
+     * Values for the X/Y/Z components should be within the range `(-1 <= X/Y/Z <=1)`
      */
     anchor?: minecraftserver.Vector3;
-    /**
+    /** 
      * @remarks
-     * An enum which represents the axis (or combination of axis')
-     * along which the item should be mirrored
+     * An enum which represents the axis (or combination of axis') along which the item should be mirrored
      * - X
      * - Z
      * - XZ
-     *
      */
     mirror?: minecraftserver.StructureMirrorAxis;
-    /**
-     * @remarks
-     * A position offset which should be applied to the paste
-     * location while the clipboard item is being written
-     *
-     */
+    /** @remarks A position offset which should be applied to the paste location while the clipboard item is being written */
     offset?: minecraftserver.Vector3;
-    /**
-     * @remarks
-     * An enum representing the rotation around the Y-Axis which
-     * should be applied while the clipboard item is being written
-     *
-     */
+    /** @remarks An enum representing the rotation around the Y-Axis which should be applied while the clipboard item is being written */
     rotation?: minecraftserver.StructureRotation;
 }
 
-/**
- * The CursorProperties interface is used to describe the
- * properties of the Editor 3D block cursor construct.
- * The 3D block cursor can be queried to retrieve the current
- * properties, and the same property class can be used to set
- * the current properties of the cursor.
- * This interface is generally used at the activation stage of
- * the active tool to set up the color, visibility and input
- * properties of the 3D block cursor
- */
 export interface CursorProperties {
-    /**
-     * @remarks
-     * Enum representing the cursor control mode
-     * - Fixed Mode locks the cursor to a position which is <X>
-     * blocks offset from the current player position. The cursor
-     * is camera relative, so it will always appear <X> blocks
-     * ahead of the players feet
-     * - Keyboard Mode puts the cursor under direct control of the
-     * API, and ignores any mouse input.  The cursor can only be
-     * moved around using the moveBy method
-     * - KeyboardAndMouse mode puts the cursor under a shared
-     * control of onMouseMove and keyboard input.  Any mouse
-     * movement events will set the cursor to the position of the
-     * mouse/world raycast.  This can be modified using the moveBy
-     * method, but any subsequent mouse events will reset the
-     * position back to where the raycast intersection occurs
-     * - Mouse mode puts the cursor under control of mouse move
-     * events, and moveBy method will be ignored
-     *
-     *
-     */
     controlMode?: CursorControlMode;
-    /**
-     * @remarks
-     * The fixed distance from the players feet at which the cursor
-     * is attached, relative to camera direction.
-     * This is only used when [controlMode] is set to `Fixed`
-     *
-     */
     fixedModeDistance?: number;
-    /**
-     * @remarks
-     * A [Color] Property representing the color of the block
-     * cursor object outline
-     *
-     */
     outlineColor?: minecraftserver.RGBA;
     projectThroughLiquid?: boolean;
-    /**
-     * @remarks
-     * An enum representing the cursor target mode
-     * - Block Mode records the block position of the mouse/world
-     * raycast intersection
-     * - Face Mode records the block position of the block adjacent
-     * to the mouse/world raycast intersection, according to the
-     * face of the collision point of the selected block
-     *
-     */
     targetMode?: CursorTargetMode;
-    /**
-     * @remarks
-     * Boolean flag controlling the visibility of the 3D block
-     * cursor
-     *
-     */
     visible?: boolean;
 }
 
-/**
- * An interface which defines the set of optional parameters
- * which can be used when calling the `registerEditorExtension`
- * function
- */
+export interface CustomWidgetCreateOptions extends WidgetCreateOptions {
+    moveEvent?: (arg: CustomWidgetMoveEventData) => void;
+    showTextOnlyWhenSelected?: boolean;
+    text?: string;
+    visualOffset?: minecraftserver.Vector3;
+}
+
+/** An interface which defines the set of optional parameters which can be used when calling the `registerEditorExtension` function */
 export interface ExtensionOptionalParameters {
-    /**
+    /** 
      * @remarks
-     * An optional text description of the extension being
-     * registered.
-     * This can be a straight textual description or a string
-     * identifier key for a localized string in the extension's
-     * resource pack text files.
-     * The description is meant to be a very short snappy one-liner
-     * which quickly and uniquely identifies the extension
+     * An optional text description of the extension being registered.
+     * This can be a straight textual description or a string identifier key for a localized string in the extension's resource pack text files.
+     * The description is meant to be a very short snappy one-liner which quickly and uniquely identifies the extension
      * The length of the string is capped to 256 characters
-     *
      */
     description?: string;
-    /**
+    /** 
      * @remarks
      * Optional notes for the extension being registered.
-     * This can be a straight textual description or a string
-     * identifier key for a localized string in the extension's
-     * resource pack text files.
-     * The notes section is meant to convey more detailed
-     * information and notes (e.g. a link to the author's website)
+     * This can be a straight textual description or a string identifier key for a localized string in the extension's resource pack text files.
+     * The notes section is meant to convey more detailed information and notes (e.g. a link to the author's website)
      * The length of this string is capped to 1024 characters
-     *
      */
     notes?: string;
+    /** 
+     * @remarks
+     * An optional custom identifier that will be used for all Modal Tools created from the registered extension.
+     * The length of the string is capped to 256 characters
+     */
     toolGroupId?: string;
 }
 
-/**
- * A properties class for the global instance of the logger
- * object.
- * While the logger object is available through the {@link
-* @minecraft/server-editor-bindings.ExtensionContext} - using
-* the global instance allows the creator to use this
-* properties class to perform direct server->client messaging
-* and broadcasts.
-*/
+/** 
+ * A properties class for the global instance of the logger object.
+ * While the logger object is available through the {@link ExtensionContext} - using the global instance allows the creator to use this properties class to perform direct server -> client messaging and broadcasts.
+ */
 export interface LogProperties {
-    /**
+    /** 
      * @remarks
-     * Direct a log message to a specific player.  If no player is
-     * specified, then all players will receive the message
-     *
+     * Direct a log message to a specific player.
+     * If no player is specified, then all players will receive the message
      */
     player?: minecraftserver.Player;
-    /**
-     * @remarks
-     * Add additional tags to the log message which can be used by
-     * the client session to filter/search in the log window
-     *
-     */
+    /** @remarks Add additional tags to the log message which can be used by the client session to filter/search in the log window */
     tags?: string[];
 }
 
@@ -444,4 +1083,15 @@ export interface PlaytestGameOptions {
     weather?: number;
 }
 
+export interface WidgetCreateOptions {
+    initialVisibility?: boolean;
+    isSelectable?: boolean;
+    stateChangeEvent?: (arg: WidgetStateChangeEventData) => void;
+}
+
+export interface WidgetGroupCreateOptions {
+    groupSelectionMode?: WidgetGroupSelectionMode;
+}
+
 export const editor: MinecraftEditor;
+export const editorInternal: MinecraftEditorInternal;

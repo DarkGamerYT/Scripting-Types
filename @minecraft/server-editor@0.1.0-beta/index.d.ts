@@ -2,6 +2,7 @@
 // Project: https://github.com/DarkGamerYT/Scripting-Types
 // Definitions by: xKingDark <https://github.com/DarkGamerYT>
 /**
+ * @beta
  * @packageDocumentation
  * 
  * Manifest Details

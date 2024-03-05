@@ -2,6 +2,7 @@
 // Project: https://github.com/DarkGamerYT/Scripting-Types
 // Definitions by: xKingDark <https://github.com/DarkGamerYT>
 /**
+ * @beta
  * @packageDocumentation
  * The `@minecraft/server-ui` module contains types for expressing simple dialog-based user experiences.
  *     * {@link ActionFormData} contain a list of buttons with captions and images that can be used for presenting a set of options to a player.
@@ -29,8 +30,9 @@ export enum FormRejectReason {
     ServerShutdown = "ServerShutdown",
 }
 
-/**
+/** 
  * Builds a simple player form with buttons that let the player take action.
+ * 
  * @example
  * ```javascript
  * import { world } from "@minecraft/server";
@@ -54,15 +56,13 @@ export class ActionFormData {
     body(bodyText: minecraftserver.RawMessage | string): ActionFormData;
     /** @remarks Adds a button to this form with an icon from a resource pack. */
     button(text: minecraftserver.RawMessage | string, iconPath?: string): ActionFormData;
-    /**
+    /** 
      * @remarks
      * Creates and shows this modal popup form.
      * Returns asynchronously when the player confirms or cancels the dialog.
-     *
+     * 
      * This function can't be called in read-only mode.
-     *
-     * @param player
-     * Player to show this dialog to.
+     * @param player Player to show this dialog to.
      * @throws This function can throw errors.
      */
     show(player: minecraftserver.Player): Promise<ActionFormResponse>;
@@ -87,8 +87,9 @@ export class FormResponse {
     readonly canceled: boolean;
 }
 
-/**
+/** 
  * Builds a simple two-button modal dialog.
+ * 
  * @example
  * ```javascript
  * import { world } from "@minecraft/server";
@@ -114,15 +115,13 @@ export class MessageFormData {
     button1(text: minecraftserver.RawMessage | string): MessageFormData;
     /** @remarks This method sets the text for the second button on the dialog. */
     button2(text: minecraftserver.RawMessage | string): MessageFormData;
-    /**
+    /** 
      * @remarks
      * Creates and shows this modal popup form.
      * Returns asynchronously when the player confirms or cancels the dialog.
-     *
+     * 
      * This function can't be called in read-only mode.
-     *
-     * @param player
-     * Player to show this dialog to.
+     * @param player Player to show this dialog to.
      * @throws This function can throw errors.
      */
     show(player: minecraftserver.Player): Promise<MessageFormResponse>;
@@ -138,8 +137,9 @@ export class MessageFormResponse extends FormResponse {
     readonly selection?: number;
 }
 
-/**
+/** 
  * Used to create a fully customizable pop-up form for a player.
+ * 
  * @example
  * ```javascript
  * import { world } from "@minecraft/server";
@@ -148,7 +148,7 @@ export class MessageFormResponse extends FormResponse {
  * 
  * const form = new ModalFormData();
  * form.title("Test");
- * form.("Dropdown", [ "One", "Two" ], 1);
+ * form.dropdown("Dropdown", [ "One", "Two" ], 1);
  * form.slider("Slider", 0, 10, 1, 5);
  * form.textField("Text Field", "Placeholder", "Hello World!");
  * form.toggle("Toggle", true);
@@ -166,15 +166,13 @@ export class ModalFormData {
         options: (minecraftserver.RawMessage | string)[],
         defaultValueIndex?: number,
     ): ModalFormData;
-    /**
+    /** 
      * @remarks
      * Creates and shows this modal popup form.
      * Returns asynchronously when the player confirms or cancels the dialog.
-     *
+     * 
      * This function can't be called in read-only mode.
-     *
-     * @param player
-     * Player to show this dialog to.
+     * @param player Player to show this dialog to.
      * @throws This function can throw errors.
      */
     show(player: minecraftserver.Player): Promise<ModalFormResponse>;
