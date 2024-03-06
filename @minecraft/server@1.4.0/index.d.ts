@@ -596,11 +596,50 @@ export class Dimension {
      * {@link LocationOutOfWorldBoundariesError}
      */
     getBlock(location: Vector3): Block | undefined;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Gets the first block that intersects with a vector emanating from a location.
+     * @param location Location from where to initiate the ray check.
+     * @param direction Vector direction to cast the ray.
+     * @param options Additional options for processing this raycast query.
+     * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world, Vector } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * 
+     * const ray = overworld.getBlockFromRay({ x: 1, y: 2, z: 3}, Vector.Down);
+     * console.warn(`Block: ${ray?.block?.typeId}`);
+     * console.warn(`Face: ${ray?.face}`);
+     * ```
+     */
     getBlockFromRay(location: Vector3, direction: Vector3, options?: BlockRaycastOptions): BlockRaycastHit | undefined;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns a set of entities based on a set of conditions defined via the EntityQueryOptions set of filter criteria.
+     * @param options Additional options that can be used to filter the set of entities returned.
+     * @returns An entity array.
+     * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * 
+     * const entities = overworld.getEntities({ type: "minecraft:pig" });
+     * console.warn(`Entities: ${entities.length}`);
+     * ```
+     */
     getEntities(options?: EntityQueryOptions): Entity[];
+    /** 
+     * @remarks Returns a set of entities at a particular location.
+     * @param location The location at which to return entities.
+     * @returns Zero or more entities at the specified location.
+     */
     getEntitiesAtBlockLocation(location: Vector3): Entity[];
+    /** 
+     * @remarks Gets entities that intersect with a specified vector emanating from a location.
+     * @param options Additional options for processing this raycast query.
+     */
     getEntitiesFromRay(location: Vector3, direction: Vector3, options?: EntityRaycastOptions): EntityRaycastHit[];
     /** 
      * @remarks Returns a set of players based on a set of conditions defined via the EntityQueryOptions set of filter criteria.
@@ -708,6 +747,7 @@ export class Effect {
     /** 
      * @remarks
      * Gets the entire specified duration, in ticks, of this effect.
+     * 
      * There are 20 ticks per second.
      * Use {@link TicksPerSecond} constant to convert between ticks and seconds.
      * @throws This property can throw when used.
@@ -765,69 +805,297 @@ export class Entity {
      */
     readonly typeId: string;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Adds or updates an effect, like poison, to the entity.
+     * 
+     * This function can't be called in read-only mode.
+     * @param effectType Type of effect to add to the entity.
+     * @param duration
+     * Amount of time, in ticks, for the effect to apply.
+     * 
+     * There are 20 ticks per second.
+     * Use {@link TicksPerSecond} constant to convert between ticks and seconds.
+     * 
+     * The value must be within the range [0, 20000000].
+     * @param options Additional options for the effect.
+     * @returns
+     * Returns nothing if the effect was added or updated successfully.
+     * This can throw an error if the duration or amplifier are outside of the valid ranges, or if the effect does not exist.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const location = { x: 1, y: 2, z: 3 };
+     * 
+     * const fox = overworld.spawnEntity("minecraft:fox", location);
+     * fox.addEffect("speed", 10, { amplifier: 2 });
+     * ```
      */
     addEffect(effectType: EffectType | string, duration: number, options?: EntityEffectOptions): void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Adds a specified tag to an entity.
+     * 
+     * This function can't be called in read-only mode.
+     * @param tag Content of the tag to add. The tag must be less than 256 characters.
+     * @returns
+     * Returns true if the tag was added successfully.
+     * This can fail if the tag already exists on the entity.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const mobs = [ "minecraft:creeper", "minecraft:skeleton", "minecraft:sheep" ];
+     * 
+     * // Create some sample mob data
+     * for (let i = 0; i < 10; i++) {
+     *     const mobTypeId = mobs[i % mobs.length];
+     *     const location = { x: 1, y: 2, z: 3 };
+     * 
+     *     const entity = overworld.spawnEntity(mobTypeId, location);
+     *     entity.addTag("mobparty." + mobTypeId.replace("minecraft:", ""));
+     * };
+     * 
+     * const entities = overworld.getEntities({ tags: [ "mobparty.skeleton" ] });
+     * for (const entity of entities) entity.kill();
+     * ```
      */
     addTag(tag: string): boolean;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Applies a set of damage to an entity.
+     * 
+     * This function can't be called in read-only mode.
+     * @param amount Amount of damage to apply.
+     * @param options Additional options about the source of damage, which may add additional effects or spur additional behaviors on this entity.
+     * @returns
+     * Whether the entity takes any damage.
+     * This can return false if the entity is invulnerable or if the damage applied is less than or equal to 0.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const location = { x: 1, y: 2, z: 3 };
+     * 
+     * const skelly = overworld.spawnEntity("minecraft:skeleton", location);
+     * skelly.applyDamage(19); // Skeletons have max damage of 20 so this is a near-death skeleton
+     * ```
      */
     applyDamage(amount: number, options?: EntityApplyDamageByProjectileOptions | EntityApplyDamageOptions): boolean;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Applies impulse vector to the current velocity of the entity.
+     * 
+     * This function can't be called in read-only mode.
+     * @param vector Impulse vector.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const location = { x: 1, y: 2, z: 3 };
+     * 
+     * const zombie = overworld.spawnEntity("minecraft:zombie", location);
+     * zombie.clearVelocity();
+     * zombie.applyImpulse({ x: 0, y: 0.5, z: 0 }); // Throws the zombie up in the air
+     * ```
      */
     applyImpulse(vector: Vector3): void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Applies impulse vector to the current velocity of the entity.
+     * 
+     * This function can't be called in read-only mode.
+     * @param directionX X direction in horizontal plane.
+     * @param directionZ Z direction in horizontal plane.
+     * @param horizontalStrength Knockback strength for the horizontal vector.
+     * @param verticalStrength Knockback strength for the vertical vector.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const mobs = [ "minecraft:creeper", "minecraft:skeleton", "minecraft:sheep" ];
+     * 
+     * // create some sample mob data
+     * for (let i = 0; i < 10; i++) {
+     *     const mobTypeId = mobs[i % mobs.length];
+     *     const location = { x: 1, y: 2, z: 3 };
+     *     overworld.spawnEntity(mobTypeId, location);
+     * };
+     * 
+     * const entities = overworld.getEntities({ type: "skeleton" });
+     * for (const entity of entities) {
+     *     entity.applyKnockback(0, 0, 0, 1);
+     * };
+     * ```
      */
     applyKnockback(directionX: number, directionZ: number, horizontalStrength: number, verticalStrength: number): void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks
+     * Sets the current velocity of the Entity to zero.
+     * Note that this method may not have an impact on Players.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     clearVelocity(): void;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns the first intersecting block from the direction that this entity is looking at.
+     * @param options Additional configuration options for the ray cast.
+     * @returns Returns the first intersecting block from the direction that this entity is looking at.
+     * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const player = world.getAllPlayers()[0];
+     * 
+     * const raycast = player.getBlockFromViewDirection({ maxDistance: 8 });
+     * const block = raycast?.block;
+     * if (block !== undefined) {
+     *     console.warn(`Block: ${block.typeId}`);
+     * };
+     * ```
+     */
     getBlockFromViewDirection(options?: BlockRaycastOptions): BlockRaycastHit | undefined;
+    /** 
+     * @remarks Gets a component (that represents additional capabilities) for an entity.
+     * @param componentId
+     * The identifier of the component (e.g., 'minecraft:health'). If no namespace prefix is specified, 'minecraft:' is assumed.
+     * Available component IDs can be found as part of the {@link EntityComponentTypes} enum.
+     * @returns Returns the component if it exists on the entity, otherwise undefined.
+     * 
+     * @example
+     * ```javascript
+     * import { world, ItemStack} from "@minecraft/server";
+     * const player = world.getAllPlayers()[0];
+     * 
+     * const inventory = player.getComponent("inventory");
+     * const container = inventory.container;
+     * 
+     * const itemStack = new ItemStack("minecraft:dirt");
+     * container.addItem(itemStack);
+     * container.setItem(8, itemStack);
+     * ```
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const location = { x: 1, y: 2, z: 3 };
+     * 
+     * const skelly = overworld.spawnEntity("minecraft:skeleton", location);
+     * const health = skelly.getComponent("health");
+     * 
+     * // Resets health to it's default value
+     * health.resetToDefaultValue();
+     * 
+     * // Sets the entity's health to 1
+     * health.setCurrentValue(1);
+     * ```
+     */
     getComponent(componentId: string): EntityComponent | undefined;
+    /** @remarks Returns all components that are both present on this entity and supported by the API. */
     getComponents(): EntityComponent[];
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns the effect for the specified EffectType on the entity, undefined if the effect is not present, or throws an error if the effect does not exist.
+     * @param effectType The effect identifier.
+     * @returns Effect object for the specified effect, undefined if the effect is not present, or throws an error if the effect does not exist.
+     * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world, TicksPerSecond } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const location = { x: 1, y: 2, z: 3 };
+     * 
+     * const skelly = overworld.spawnEntity("minecraft:skeleton", location);
+     * skelly.addEffect("speed", 5 * TicksPerSecond, { amplifier: 2 });
+     * 
+     * const effect = skelly.getEffect("speed");
+     * console.warn(`Effect: ${effect.displayName} ${effect.amplifier} - ${effect.duration / TicksPerSecond}s left`);
+     * ```
+     */
     getEffect(effectType: EffectType | string): Effect | undefined;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns a set of effects applied to this entity.
+     * @returns List of effects.
+     * @throws This function can throw errors.
+     */
     getEffects(): Effect[];
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Gets the entities that this entity is looking at by performing a ray cast from the view of this entity.
+     * @param options Additional configuration options for the ray cast.
+     * @returns Returns a set of entities from the direction that this entity is looking at.
+     * @throws This function can throw errors.
+     */
     getEntitiesFromViewDirection(options?: EntityRaycastOptions): EntityRaycastHit[];
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns the current location of the head component of this entity.
+     * @throws This function can throw errors.
+     */
     getHeadLocation(): Vector3;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns all tags associated with an entity.
+     * @throws This function can throw errors.
+     */
     getTags(): string[];
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns the current velocity vector of the entity.
+     * @throws This function can throw errors.
+     */
     getVelocity(): Vector3;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns the current view direction of the entity.
+     * @throws This function can throw errors.
+     */
     getViewDirection(): Vector3;
+    /** 
+     * @remarks Returns true if the specified component is present on this entity.
+     * @param componentId The identifier of the component (e.g., 'minecraft:rideable') to retrieve. If no namespace prefix is specified, 'minecraft:' is assumed.
+     */
     hasComponent(componentId: string): boolean;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns whether an entity has a particular tag.
+     * @param tag Identifier of the tag to test for.
+     * @throws This function can throw errors.
+     */
     hasTag(tag: string): boolean;
+    /** 
+     * @remarks
+     * Returns whether the entity can be manipulated by script.
+     * A Player is considered valid when it's {@link EntityLifetimeState} is set to Loaded.
+     * @returns Whether the entity is valid.
+     */
     isValid(): boolean;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Kills this entity. The entity will drop loot as normal.
+     * 
+     * This function can't be called in read-only mode.
+     * @remarks Returns true if entity can be killed (even if it is already dead), otherwise it returns false.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     kill(): boolean;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes the specified {@link EffectType} on the entity, or returns false if the effect is not present.
+     * 
+     * This function can't be called in read-only mode.
+     * @param effectType The effect identifier.
+     * @returns Returns true if the effect has been removed, otherwise false if the effect is not found or does not exist.
      * @throws This function can throw errors.
      */
     removeEffect(effectType: EffectType | string): boolean;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a specified tag from an entity.
+     * 
+     * This function can't be called in read-only mode.
+     * @param tag Content of the tag to remove.
+     * @returns Returns whether the tag existed on the entity.
      * @throws This function can throw errors.
      */
     removeTag(tag: string): boolean;
@@ -890,12 +1158,37 @@ export class Entity {
      */
     runCommandAsync(commandString: string): Promise<CommandResult>;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Teleports the selected entity to a new location
+     * 
+     * This function can't be called in read-only mode.
+     * @param location New location for the entity.
+     * @param teleportOptions Options regarding the teleport operation
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { TicksPerSecond, world } from "@minecraft/server";
+     * const overworld = world.getDimension("minecraft:overworld");
+     * const location = { x: 0, y: 0, z: 0 };
+     * 
+     * const pig = overworld.spawnEntity("minecraft:pig", location);
+     * system.runTimeout(() => {
+     *     if (pig.isValid() !== false) {
+     *         pig.teleport({ x: 1, y: 2, z: 3 });
+     *     };
+     * }, 5 * TicksPerSecond);
+     * ```
      */
     teleport(location: Vector3, teleportOptions?: TeleportOptions): void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Attempts to try a teleport, but may not complete the teleport operation (for example, if there are blocks at the destination.)
+     * 
+     * This function can't be called in read-only mode.
+     * @param location Location to teleport the entity to.
+     * @param teleportOptions Options regarding the teleport operation.
+     * @returns
+     * Returns whether the teleport succeeded.
+     * This can fail if the destination chunk is unloaded or if the teleport would result in intersecting with blocks.
      * @throws This function can throw errors.
      */
     tryTeleport(location: Vector3, teleportOptions?: TeleportOptions): boolean;
@@ -1567,56 +1860,91 @@ export class FeedItemEffect {
     readonly name: string;
 }
 
+/** Provides an adaptable interface for callers to subscribe to an event that fires when a button is pushed. */
 export class IButtonPushAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Subscribes to the event.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: ButtonPushAfterEvent) => void): (arg: ButtonPushAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Unsubscribes from the event.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ButtonPushAfterEvent) => void): void;
 }
 
+/** Provides an adaptable interface for callers to subscribe to an event that fires after a lever is used. */
 export class ILeverActionAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Subscribes to the event.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: LeverActionAfterEvent) => void): (arg: LeverActionAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Unsubscribes from the event.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: LeverActionAfterEvent) => void): void;
 }
 
+/** Provides an adaptable interface for callers to subscribe to an event that fires after a player joins a world. */
 export class IPlayerJoinAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Subscribes to the event.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: PlayerJoinAfterEvent) => void): (arg: PlayerJoinAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Unsubscribes from the event.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: PlayerJoinAfterEvent) => void): void;
 }
 
+/** Provides an adaptable interface for callers to subscribe to an event that fires after a player leaves a world. */
 export class IPlayerLeaveAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Subscribes to the event.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: PlayerLeaveAfterEvent) => void): (arg: PlayerLeaveAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Unsubscribes from the event.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: PlayerLeaveAfterEvent) => void): void;
 }
 
+/** Provides an adaptable interface for callers to subscribe to an event that fires after a player spawns. */
 export class IPlayerSpawnAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Subscribes to the event.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: PlayerSpawnAfterEvent) => void): (arg: PlayerSpawnAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Unsubscribes from the event.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: PlayerSpawnAfterEvent) => void): void;
@@ -1742,8 +2070,8 @@ export class ItemStack {
      * ```javascript
      * import { ItemStack } from "@minecraft/server";
      * 
-     * const item = new ItemStack("minecraft:iron_sword");
-     * const durability = item.getComponent("minecraft:durability");
+     * const itemStack = new ItemStack("minecraft:iron_sword");
+     * const durability = itemStack.getComponent("minecraft:durability");
      * console.warn(`Damage: ${durability.damage}`);
      * ```
      * @example
@@ -1751,16 +2079,16 @@ export class ItemStack {
      * import { world, ItemStack } from "@minecraft/server";
      * const player = world.getAllPlayers()[0];
      * 
-     * const item = new ItemStack("minecraft:ender_pearl");
-     * const cooldown = item.getComponent("minecraft:cooldown");
+     * const itemStack = new ItemStack("minecraft:ender_pearl");
+     * const cooldown = itemStack.getComponent("minecraft:cooldown");
      * cooldown.startCooldown(player);
      * ```
      * @example
      * ```javascript
      * import { ItemStack } from "@minecraft/server";
      * 
-     * const item = new ItemStack("minecraft:iron_sword");
-     * const enchantments = item.getComponent("minecraft:enchantable");
+     * const itemStack = new ItemStack("minecraft:iron_sword");
+     * const enchantments = itemStack.getComponent("minecraft:enchantable");
      * enchantments.addEnchantment({ type: "sharpness", level: 5 });
      * ```
      */
@@ -1804,8 +2132,8 @@ export class ItemStack {
      * ```javascript
      * import { ItemStack } from "@minecraft/server";
      * 
-     * const item = new ItemStack("minecraft:dirt", 8);
-     * item.setLore([ "Hello,", "World!" ]);
+     * const itemStack = new ItemStack("minecraft:dirt", 8);
+     * itemStack.setLore([ "Hello,", "World!" ]);
      * ```
      */
     setLore(loreList?: string[]): void;
@@ -2167,63 +2495,103 @@ export class PlayerSpawnAfterEventSignal extends IPlayerSpawnAfterEventSignal {
     private constructor();
 }
 
+/** Contains information related to changes to a pressure plate pop. */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class PressurePlatePopAfterEvent extends BlockEvent {
     private constructor();
+    /** @remarks The redstone power of the pressure plate before it was popped. */
     readonly previousRedstonePower: number;
+    /** @remarks The redstone power of the pressure plate at the time of the pop. */
     readonly redstonePower: number;
 }
 
+/** Manages callbacks that are connected to when a pressure plate is popped. */
 export class PressurePlatePopAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Adds a callback that will be called when a pressure plate is popped.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: PressurePlatePopAfterEvent) => void): (arg: PressurePlatePopAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a callback from being called when a pressure plate is popped.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: PressurePlatePopAfterEvent) => void): void;
 }
 
+/** Contains information related to changes to a pressure plate push. */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class PressurePlatePushAfterEvent extends BlockEvent {
     private constructor();
+    /** @remarks The redstone power of the pressure plate before it was pushed. */
     readonly previousRedstonePower: number;
+    /** @remarks The redstone power of the pressure plate at the time of the push. */
     readonly redstonePower: number;
+    /** @remarks Source that triggered the pressure plate push. */
     readonly source: Entity;
 }
 
+/** Manages callbacks that are connected to when a pressure plate is pushed. */
 export class PressurePlatePushAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Adds a callback that will be called when a pressure plate is pushed.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: PressurePlatePushAfterEvent) => void): (arg: PressurePlatePushAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a callback from being called when a pressure plate is pushed.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: PressurePlatePushAfterEvent) => void): void;
 }
 
+/** Contains objectives and participants for the scoreboard. */
 export class Scoreboard {
     private constructor();
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Adds a new objective to the scoreboard.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     addObjective(objectiveId: string, displayName?: string): ScoreboardObjective;
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Clears the objective that occupies a display slot.
+     * 
+     * This function can't be called in read-only mode.
+     */
     clearObjectiveAtDisplaySlot(displaySlotId: DisplaySlotId): ScoreboardObjective | undefined;
+    /** 
+     * @remarks Returns a specific objective (by id).
+     * @param objectiveId Identifier of the objective.
+     */
     getObjective(objectiveId: string): ScoreboardObjective | undefined;
+    /** @remarks Returns an objective that occupies the specified display slot. */
     getObjectiveAtDisplaySlot(displaySlotId: DisplaySlotId): ScoreboardObjectiveDisplayOptions | undefined;
+    /** @remarks Returns all defined objectives. */
     getObjectives(): ScoreboardObjective[];
+    /** @remarks Returns all defined scoreboard identities. */
     getParticipants(): ScoreboardIdentity[];
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes an objective from the scoreboard.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     removeObjective(objectiveId: ScoreboardObjective | string): boolean;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Sets an objective into a display slot with specified additional display settings.
+     * 
+     * This function can't be called in read-only mode.
+     * @returns Returns the previous `ScoreboardObjective` set at the display slot, if no objective was previously set it returns `undefined`.
      * @throws This function can throw errors.
      */
     setObjectiveAtDisplaySlot(
@@ -2250,33 +2618,64 @@ export class ScoreboardIdentity {
     isValid(): boolean;
 }
 
+/** Contains objectives and participants for the scoreboard. */
 export class ScoreboardObjective {
     private constructor();
-    /** @throws This property can throw when used. */
+    /** 
+     * @remarks Returns the player-visible name of this scoreboard objective.
+     * @throws This property can throw when used.
+     */
     readonly displayName: string;
-    /** @throws This property can throw when used. */
+    /** 
+     * @remarks Identifier of the scoreboard objective.
+     * @throws This property can throw when used.
+     */
     readonly id: string;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Adds a score to the given participant and objective.
+     * 
+     * This function can't be called in read-only mode.
+     * @param participant Participant to apply the scoreboard value addition to.
      * @throws This function can throw errors.
      */
     addScore(participant: Entity | ScoreboardIdentity | string, scoreToAdd: number): number;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns all objective participant identities.
+     * @throws This function can throw errors.
+     */
     getParticipants(): ScoreboardIdentity[];
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns a specific score for a participant.
+     * @param participant Identifier of the participant to retrieve a score for.
+     * @throws This function can throw errors.
+     */
     getScore(participant: Entity | ScoreboardIdentity | string): number | undefined;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns specific scores for this objective for all participants.
+     * @throws This function can throw errors.
+     */
     getScores(): ScoreboardScoreInfo[];
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns if the specified identity is a participant of the scoreboard objective.
+     * @throws This function can throw errors.
+     */
     hasParticipant(participant: Entity | ScoreboardIdentity | string): boolean;
+    /** @remarks Returns true if the ScoreboardObjective reference is still valid. */
     isValid(): boolean;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a participant from this scoreboard objective.
+     * 
+     * This function can't be called in read-only mode.
+     * @param participant Participant to remove from being tracked with this objective.
      * @throws This function can throw errors.
      */
     removeParticipant(participant: Entity | ScoreboardIdentity | string): boolean;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Sets a score for a participant.
+     * 
+     * This function can't be called in read-only mode.
+     * @param participant Identity of the participant.
+     * @param score New value of the score.
      * @throws This function can throw errors.
      */
     setScore(participant: Entity | ScoreboardIdentity | string, score: number): void;
@@ -2351,7 +2750,7 @@ export class ScreenDisplay {
      * 
      * @example
      * ```javascript
-     * import { world, system } from "@minecraft/server";
+     * import { world, system, TicksPerSecond } from "@minecraft/server";
      * const player = world.getAllPlayers()[0];
      * 
      * player.onScreenDisplay.setTitle("Get ready!", {
@@ -2367,11 +2766,11 @@ export class ScreenDisplay {
      *     player.onScreenDisplay.updateSubtitle(countdown.toString());
      * 
      *     if (countdown == 0) system.clearRun(interval);
-     * }, 20);
+     * }, 1 * TicksPerSecond);
      * ```
      * @example
      * ```javascript
-     * import { world, system } from "@minecraft/server";
+     * import { world, system, TicksPerSecond } from "@minecraft/server";
      * const player = world.getAllPlayers()[0];
      * 
      * player.onScreenDisplay.setTitle({ rawtext: [{ text: "Get ready!" }] }, {
@@ -2387,7 +2786,7 @@ export class ScreenDisplay {
      *     player.onScreenDisplay.updateSubtitle({ rawtext: [{ text: countdown.toString() }] });
      * 
      *     if (countdown == 0) system.clearRun(interval);
-     * }, 20);
+     * }, 1 * TicksPerSecond);
      * ```
      */
     updateSubtitle(subtitle: (RawMessage | string)[] | RawMessage | string): void;
@@ -3120,6 +3519,7 @@ export interface TitleDisplayOptions {
     /** 
      * @remarks
      * Fade-in duration for the title and subtitle, in ticks.
+     * 
      * There are 20 ticks per second.
      * Use {@link TicksPerSecond} constant to convert between ticks and seconds.
      */
@@ -3127,6 +3527,7 @@ export interface TitleDisplayOptions {
     /** 
      * @remarks
      * Fade-out time for the title and subtitle, in ticks.
+     * 
      * There are 20 ticks per second.
      * Use {@link TicksPerSecond} constant to convert between ticks and seconds.
      */
@@ -3134,6 +3535,7 @@ export interface TitleDisplayOptions {
     /** 
      * @remarks
      * Amount of time for the title and subtitle to stay in place, in ticks.
+     * 
      * There are 20 ticks per second.
      * Use {@link TicksPerSecond} constant to convert between ticks and seconds.
      */

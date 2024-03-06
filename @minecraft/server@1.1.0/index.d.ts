@@ -187,8 +187,27 @@ export class Dimension {
      * {@link LocationOutOfWorldBoundariesError}
      */
     getBlock(location: Vector3): Block | undefined;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns a set of entities based on a set of conditions defined via the EntityQueryOptions set of filter criteria.
+     * @param options Additional options that can be used to filter the set of entities returned.
+     * @returns An entity array.
+     * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * 
+     * const entities = overworld.getEntities({ type: "minecraft:pig" });
+     * console.warn(`Entities: ${entities.length}`);
+     * ```
+     */
     getEntities(options?: EntityQueryOptions): Entity[];
+    /** 
+     * @remarks Returns a set of entities at a particular location.
+     * @param location The location at which to return entities.
+     * @returns Zero or more entities at the specified location.
+     */
     getEntitiesAtBlockLocation(location: Vector3): Entity[];
     /** 
      * @remarks Returns a set of players based on a set of conditions defined via the EntityQueryOptions set of filter criteria.
@@ -252,11 +271,20 @@ export class Entity {
      * This property is accessible even if {@link Entity.isValid} is false.
      */
     readonly typeId: string;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns the current location of the head component of this entity.
+     * @throws This function can throw errors.
+     */
     getHeadLocation(): Vector3;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns the current velocity vector of the entity.
+     * @throws This function can throw errors.
+     */
     getVelocity(): Vector3;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns the current view direction of the entity.
+     * @throws This function can throw errors.
+     */
     getViewDirection(): Vector3;
     /** 
      * @remarks

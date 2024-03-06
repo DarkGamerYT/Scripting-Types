@@ -453,8 +453,27 @@ export class Dimension {
      * {@link LocationOutOfWorldBoundariesError}
      */
     getBlock(location: Vector3): Block | undefined;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns a set of entities based on a set of conditions defined via the EntityQueryOptions set of filter criteria.
+     * @param options Additional options that can be used to filter the set of entities returned.
+     * @returns An entity array.
+     * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * 
+     * const entities = overworld.getEntities({ type: "minecraft:pig" });
+     * console.warn(`Entities: ${entities.length}`);
+     * ```
+     */
     getEntities(options?: EntityQueryOptions): Entity[];
+    /** 
+     * @remarks Returns a set of entities at a particular location.
+     * @param location The location at which to return entities.
+     * @returns Zero or more entities at the specified location.
+     */
     getEntitiesAtBlockLocation(location: Vector3): Entity[];
     /** 
      * @remarks Returns a set of players based on a set of conditions defined via the EntityQueryOptions set of filter criteria.
@@ -541,50 +560,200 @@ export class Entity {
      */
     readonly typeId: string;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Adds a specified tag to an entity.
+     * 
+     * This function can't be called in read-only mode.
+     * @param tag Content of the tag to add. The tag must be less than 256 characters.
+     * @returns
+     * Returns true if the tag was added successfully.
+     * This can fail if the tag already exists on the entity.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const mobs = [ "minecraft:creeper", "minecraft:skeleton", "minecraft:sheep" ];
+     * 
+     * // Create some sample mob data
+     * for (let i = 0; i < 10; i++) {
+     *     const mobTypeId = mobs[i % mobs.length];
+     *     const location = { x: 1, y: 2, z: 3 };
+     * 
+     *     const entity = overworld.spawnEntity(mobTypeId, location);
+     *     entity.addTag("mobparty." + mobTypeId.replace("minecraft:", ""));
+     * };
+     * 
+     * const entities = overworld.getEntities({ tags: [ "mobparty.skeleton" ] });
+     * for (const entity of entities) entity.kill();
+     * ```
      */
     addTag(tag: string): boolean;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Applies a set of damage to an entity.
+     * 
+     * This function can't be called in read-only mode.
+     * @param amount Amount of damage to apply.
+     * @param options Additional options about the source of damage, which may add additional effects or spur additional behaviors on this entity.
+     * @returns
+     * Whether the entity takes any damage.
+     * This can return false if the entity is invulnerable or if the damage applied is less than or equal to 0.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const location = { x: 1, y: 2, z: 3 };
+     * 
+     * const skelly = overworld.spawnEntity("minecraft:skeleton", location);
+     * skelly.applyDamage(19); // Skeletons have max damage of 20 so this is a near-death skeleton
+     * ```
      */
     applyDamage(amount: number, options?: EntityApplyDamageByProjectileOptions | EntityApplyDamageOptions): boolean;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Applies impulse vector to the current velocity of the entity.
+     * 
+     * This function can't be called in read-only mode.
+     * @param vector Impulse vector.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const location = { x: 1, y: 2, z: 3 };
+     * 
+     * const zombie = overworld.spawnEntity("minecraft:zombie", location);
+     * zombie.clearVelocity();
+     * zombie.applyImpulse({ x: 0, y: 0.5, z: 0 }); // Throws the zombie up in the air
+     * ```
      */
     applyImpulse(vector: Vector3): void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Applies impulse vector to the current velocity of the entity.
+     * 
+     * This function can't be called in read-only mode.
+     * @param directionX X direction in horizontal plane.
+     * @param directionZ Z direction in horizontal plane.
+     * @param horizontalStrength Knockback strength for the horizontal vector.
+     * @param verticalStrength Knockback strength for the vertical vector.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const mobs = [ "minecraft:creeper", "minecraft:skeleton", "minecraft:sheep" ];
+     * 
+     * // create some sample mob data
+     * for (let i = 0; i < 10; i++) {
+     *     const mobTypeId = mobs[i % mobs.length];
+     *     const location = { x: 1, y: 2, z: 3 };
+     *     overworld.spawnEntity(mobTypeId, location);
+     * };
+     * 
+     * const entities = overworld.getEntities({ type: "skeleton" });
+     * for (const entity of entities) {
+     *     entity.applyKnockback(0, 0, 0, 1);
+     * };
+     * ```
      */
     applyKnockback(directionX: number, directionZ: number, horizontalStrength: number, verticalStrength: number): void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks
+     * Sets the current velocity of the Entity to zero.
+     * Note that this method may not have an impact on Players.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     clearVelocity(): void;
+    /** 
+     * @remarks Gets a component (that represents additional capabilities) for an entity.
+     * @param componentId
+     * The identifier of the component (e.g., 'minecraft:health'). If no namespace prefix is specified, 'minecraft:' is assumed.
+     * Available component IDs can be found as part of the {@link EntityComponentTypes} enum.
+     * @returns Returns the component if it exists on the entity, otherwise undefined.
+     * 
+     * @example
+     * ```javascript
+     * import { world, ItemStack} from "@minecraft/server";
+     * const player = world.getAllPlayers()[0];
+     * 
+     * const inventory = player.getComponent("inventory");
+     * const container = inventory.container;
+     * 
+     * const itemStack = new ItemStack("minecraft:dirt");
+     * container.addItem(itemStack);
+     * container.setItem(8, itemStack);
+     * ```
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const overworld = world.getDimension("overworld");
+     * const location = { x: 1, y: 2, z: 3 };
+     * 
+     * const skelly = overworld.spawnEntity("minecraft:skeleton", location);
+     * const health = skelly.getComponent("health");
+     * 
+     * // Resets health to it's default value
+     * health.resetToDefaultValue();
+     * 
+     * // Sets the entity's health to 1
+     * health.setCurrentValue(1);
+     * ```
+     */
     getComponent(componentId: string): EntityComponent | undefined;
+    /** @remarks Returns all components that are both present on this entity and supported by the API. */
     getComponents(): EntityComponent[];
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns the current location of the head component of this entity.
+     * @throws This function can throw errors.
+     */
     getHeadLocation(): Vector3;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns all tags associated with an entity.
+     * @throws This function can throw errors.
+     */
     getTags(): string[];
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns the current velocity vector of the entity.
+     * @throws This function can throw errors.
+     */
     getVelocity(): Vector3;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns the current view direction of the entity.
+     * @throws This function can throw errors.
+     */
     getViewDirection(): Vector3;
+    /** 
+     * @remarks Returns true if the specified component is present on this entity.
+     * @param componentId The identifier of the component (e.g., 'minecraft:rideable') to retrieve. If no namespace prefix is specified, 'minecraft:' is assumed.
+     */
     hasComponent(componentId: string): boolean;
-    /** @throws This function can throw errors. */
+    /** 
+     * @remarks Returns whether an entity has a particular tag.
+     * @param tag Identifier of the tag to test for.
+     * @throws This function can throw errors.
+     */
     hasTag(tag: string): boolean;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Kills this entity. The entity will drop loot as normal.
+     * 
+     * This function can't be called in read-only mode.
+     * @remarks Returns true if entity can be killed (even if it is already dead), otherwise it returns false.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     kill(): boolean;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a specified tag from an entity.
+     * 
+     * This function can't be called in read-only mode.
+     * @param tag Content of the tag to remove.
+     * @returns Returns whether the tag existed on the entity.
      * @throws This function can throw errors.
      */
     removeTag(tag: string): boolean;
@@ -1111,8 +1280,8 @@ export class ItemStack {
      * ```javascript
      * import { ItemStack } from "@minecraft/server";
      * 
-     * const item = new ItemStack("minecraft:iron_sword");
-     * const durability = item.getComponent("minecraft:durability");
+     * const itemStack = new ItemStack("minecraft:iron_sword");
+     * const durability = itemStack.getComponent("minecraft:durability");
      * console.warn(`Damage: ${durability.damage}`);
      * ```
      * @example
@@ -1120,16 +1289,16 @@ export class ItemStack {
      * import { world, ItemStack } from "@minecraft/server";
      * const player = world.getAllPlayers()[0];
      * 
-     * const item = new ItemStack("minecraft:ender_pearl");
-     * const cooldown = item.getComponent("minecraft:cooldown");
+     * const itemStack = new ItemStack("minecraft:ender_pearl");
+     * const cooldown = itemStack.getComponent("minecraft:cooldown");
      * cooldown.startCooldown(player);
      * ```
      * @example
      * ```javascript
      * import { ItemStack } from "@minecraft/server";
      * 
-     * const item = new ItemStack("minecraft:iron_sword");
-     * const enchantments = item.getComponent("minecraft:enchantable");
+     * const itemStack = new ItemStack("minecraft:iron_sword");
+     * const enchantments = itemStack.getComponent("minecraft:enchantable");
      * enchantments.addEnchantment({ type: "sharpness", level: 5 });
      * ```
      */
