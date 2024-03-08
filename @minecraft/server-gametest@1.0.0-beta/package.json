@@ -1,7 +1,7 @@
 {
     "name": "@minecraft/server-gametest",
     "version": "1.0.0-beta",
-    "description": "",
+    "description": "The `@minecraft/server-gametest` module provides scriptable APIs for scaffolding and testing content experiences in Minecraft.",
     "license": "MIT",
     "contributors": [
         {

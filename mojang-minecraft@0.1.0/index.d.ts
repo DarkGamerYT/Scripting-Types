@@ -967,16 +967,6 @@ export class EntityMarkVariantComponent extends IEntityComponent {
 }
 
 // @ts-ignore Class inheritance allowed for native defined classes
-export class EntityMountTamingComponent extends IEntityComponent {
-    private constructor();
-    /** 
-     * @remarks This function can't be called in read-only mode.
-     * @throws This function can throw errors.
-     */
-    setTamed(showParticles: boolean): void;
-}
-
-// @ts-ignore Class inheritance allowed for native defined classes
 export class EntityMovementAmphibiousComponent extends IEntityComponent {
     private constructor();
     /** @throws This property can throw when used. */
@@ -1254,6 +1244,16 @@ export class EntityTameableComponent extends IEntityComponent {
      * @throws This function can throw errors.
      */
     tame(): boolean;
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityTameMountComponent extends IEntityComponent {
+    private constructor();
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    tame(showParticles: boolean): void;
 }
 
 export class EntityType {

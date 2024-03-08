@@ -14,6 +14,13 @@
  * ```
  */
 import * as minecraftcommon from "@minecraft/common";
+/** The types of block components that are accessible via function {@link Block.getComponent} */
+export enum BlockComponentTypes {
+    Inventory = "minecraft:inventory",
+    Piston = "minecraft:piston",
+    Sign = "minecraft:sign",
+}
+
 /** An enumeration describing the state of a block piston. */
 export enum BlockPistonState {
     /** @remarks Whether the piston is fully expanded. */
@@ -121,6 +128,52 @@ export enum EasingType {
     OutQuint = "OutQuint",
     OutSine = "OutSine",
     Spring = "Spring",
+}
+
+/** The types of entity components that are accessible via function {@link Entity.getComponent} */
+export enum EntityComponentTypes {
+    CanClimb = "minecraft:can_climb",
+    CanFly = "minecraft:can_fly",
+    CanPowerJump = "minecraft:can_power_jump",
+    Color = "minecraft:color",
+    Equippable = "minecraft:equippable",
+    FireImmune = "minecraft:fire_immune",
+    FloatsInLiquid = "minecraft:floats_in_liquid",
+    FlyingSpeed = "minecraft:flying_speed",
+    FrictionModifier = "minecraft:friction_modifier",
+    GroundOffset = "minecraft:ground_offset",
+    Healable = "minecraft:healable",
+    Health = "minecraft:health",
+    Inventory = "minecraft:inventory",
+    IsBaby = "minecraft:is_baby",
+    IsCharged = "minecraft:is_charged",
+    IsChested = "minecraft:is_chested",
+    IsDyeable = "minecraft:is_dyeable",
+    IsHiddenWhenInvisible = "minecraft:is_hidden_when_invisible",
+    IsIgnited = "minecraft:is_ignited",
+    IsIllagerCaptain = "minecraft:is_illager_captain",
+    IsSaddled = "minecraft:is_saddled",
+    IsShaking = "minecraft:is_shaking",
+    IsSheared = "minecraft:is_sheared",
+    IsStackable = "minecraft:is_stackable",
+    IsStunned = "minecraft:is_stunned",
+    IsTamed = "minecraft:is_tamed",
+    Item = "minecraft:item",
+    MarkVariant = "minecraft:mark_variant",
+    MovementAmphibious = "minecraft:movement.amphibious",
+    MovementBasic = "minecraft:movement.basic",
+    MovementFly = "minecraft:movement.fly",
+    MovementGeneric = "minecraft:movement.generic",
+    MovementHover = "minecraft:movement.hover",
+    MovementJump = "minecraft:movement.jump",
+    MovementSkip = "minecraft:movement.skip",
+    OnFire = "minecraft:onfire",
+    Projectile = "minecraft:projectile",
+    PushThrough = "minecraft:push_through",
+    Scale = "minecraft:scale",
+    SkinId = "minecraft:skin_id",
+    Variant = "minecraft:variant",
+    WantsJockey = "minecraft:wants_jockey",
 }
 
 /** Describes the source of damage from an Entity. */
@@ -337,6 +390,14 @@ export enum GameMode {
      * Activities can, over time, chip away at player health and hunger bar.
      */
     survival = "survival",
+}
+
+/** The types of item components that are accessible via function {@link ItemStack.getComponent} */
+export enum ItemComponentTypes {
+    /** @remarks The minecraft:durability component. */
+    Durability = "minecraft:durability",
+    /** @remarks The minecraft:food component. */
+    Food = "minecraft:food",
 }
 
 /** Describes how an an item can be moved within a container. */
@@ -3214,11 +3275,130 @@ export class EntityMovementSkipComponent extends EntityBaseMovementComponent {
     static readonly componentId = "minecraft:movement.skip";
 }
 
+/** @beta When present on an entity, this entity is on fire. */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class EntityOnFireComponent extends EntityComponent {
     private constructor();
+    /** @remarks The number of ticks remaining before the fire goes out. */
     readonly onFireTicksRemaining: number;
     static readonly componentId = "minecraft:onfire";
+}
+
+/** 
+ * @beta 
+ * The projectile component controls the properties of a projectile entity and allows it to be shot in a given direction.
+ * This component is present when the entity has the `minecraft:projectile` component.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class EntityProjectileComponent extends EntityComponent {
+    private constructor();
+    /** 
+     * @remarks The fraction of the projectile's speed maintained every tick while traveling through air.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    airInertia: number;
+    /** 
+     * @remarks
+     * If true, the entity will be set on fire when hurt.
+     * The default burn duration is 5 seconds. This duration can be modified via the onFireTime property.
+     * The entity will not catch fire if immune or if the entity is wet.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    catchFireOnHurt: boolean;
+    /** 
+     * @remarks If true, the projectile will spawn crit particles when hit  by a player. E.g. Player attacking a Shulker bullet.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    critParticlesOnProjectileHurt: boolean;
+    /** 
+     * @remarks If true, the projectile will be destroyed when it takes damage. E.g. Player attacking a Shulker bullet.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    destroyOnProjectileHurt: boolean;
+    /** 
+     * @remarks
+     * The gravity applied to the projectile.
+     * When the entity is not on the ground, subtracts this amount from the projectile’s change in vertical position every tick.
+     * The higher the value, the faster the projectile falls.
+     * If negative, the entity will rise instead of fall.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    gravity: number;
+    /** 
+     * @remarks The sound that plays when the projectile hits an entity.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    hitEntitySound?: string;
+    /** 
+     * @remarks The sound that plays when the projectile hits a block.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    hitGroundSound?: string;
+    /** 
+     * @remarks The particle that spawns when the projectile hits something.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    hitParticle?: string;
+    /** 
+     * @remarks If true and the weather is thunder and the entity has line  of sight to the sky, the entity will be struck by lightning when hit. E.g. A thrown Trident with the Channeling enchantment.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    lightningStrikeOnHit: boolean;
+    /** 
+     * @remarks The fraction of the projectile's speed maintained every tick while traveling through a liquid.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    liquidInertia: number;
+    /** 
+     * @remarks Duration in seconds that the entity hit will be on fire for when catchFireOnHurt is set to true.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    onFireTime: number;
+    /** 
+     * @remarks
+     * The owner of the projectile.
+     * This is used to determine what the projectile can collide with and damage. It also determines which entity is assigned as the attacker.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    owner?: Entity;
+    /** 
+     * @remarks If true, the projectile will bounce off mobs when no damage is taken. E.g. A spawning wither.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    shouldBounceOnHit: boolean;
+    /** 
+     * @remarks If true, the projectile will stop moving when an entity is hit as thought it had been blocked. E.g. Thrown trident on hit behavior.
+     * 
+     * This property can't be edited in read-only mode.
+     */
+    stopOnHit: boolean;
+    static readonly componentId = "minecraft:projectile";
+    /** 
+     * @remarks
+     * Shoots the projectile with a given velocity.
+     * The projectile will be shot from its current location.
+     * 
+     * This function can't be called in read-only mode.
+     * @param velocity
+     * The velocity to fire the projectile.
+     * This controls both the speed and direction which which the projectile will be shot.
+     * @param options Optional configuration for the shoot.
+     * @throws Throws if the component or entity no longer exist.
+     */
+    shoot(velocity: Vector3, options?: ProjectileShootOptions): void;
 }
 
 /** Sets the distance through which the entity can push through. */
@@ -5750,6 +5930,8 @@ export class WorldAfterEvents {
     readonly tripWireTrip: TripWireTripAfterEventSignal;
     /** @remarks This event will be triggered when the weather changes within Minecraft. */
     readonly weatherChange: WeatherChangeAfterEventSignal;
+    /** @remarks This event fires when the script environment is initialized on a World. */
+    readonly worldInitialize: WorldInitializeAfterEventSignal;
 }
 
 /** 
@@ -5772,6 +5954,35 @@ export class WorldBeforeEvents {
     readonly playerBreakBlock: PlayerBreakBlockBeforeEventSignal;
     /** @remarks Fires when a player leaves the game. */
     readonly playerLeave: PlayerLeaveBeforeEventSignal;
+}
+
+/** 
+ * Contains information and methods that can be used at the initialization of the scripting environment for a World.
+ * Also, use the supplied propertyRegistry object to register any dynamic properties, within the scope of the World Initialize execution.
+ */
+export class WorldInitializeAfterEvent {
+    private constructor();
+}
+
+/** 
+ * Manages callbacks that are run at the initialization of the scripting environment for a World.
+ * Do note that this event may run multiple times within a session in the case that the /reload command is used.
+ */
+export class WorldInitializeAfterEventSignal {
+    private constructor();
+    /** 
+     * @remarks Adds a callback that will be called when the scripting environment is initialized for a World.
+     * 
+     * This function can't be called in read-only mode.
+     */
+    subscribe(callback: (arg: WorldInitializeAfterEvent) => void): (arg: WorldInitializeAfterEvent) => void;
+    /** 
+     * @remarks Removes a callback from being called the scripting environment is initialized for a World.
+     * 
+     * This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     */
+    unsubscribe(callback: (arg: WorldInitializeAfterEvent) => void): void;
 }
 
 /** Contains optional parameters for registering a block event. */
@@ -6069,6 +6280,10 @@ export interface PlayerSoundOptions {
     pitch?: number;
     /** @remarks Optional volume of the sound. */
     volume?: number;
+}
+
+export interface ProjectileShootOptions {
+    uncertainty?: number;
 }
 
 /** Defines a JSON structure that is used for more flexible. */
