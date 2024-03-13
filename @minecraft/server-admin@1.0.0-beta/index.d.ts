@@ -2,6 +2,7 @@
 // Project: https://github.com/DarkGamerYT/Scripting-Types
 // Definitions by: xKingDark <https://github.com/DarkGamerYT>
 /**
+ * @beta
  * @packageDocumentation
  * Contains types related to administering a Bedrock Dedicated Server.
  * These types allow for the configuration of variables and secrets in JSON files in the Bedrock Dedicated Server folder.
@@ -16,7 +17,7 @@
  * ```
  */
 import * as minecraftcommon from "@minecraft/common";
-/**
+/** 
  * This represents a placeholder object that represents a secret string.
  * The contents of that string are not available to script; this object is just a placeholder.
  */
@@ -29,11 +30,11 @@ export class ServerSecrets {
     private constructor();
     /** @remarks A list of available, configured server secrets. */
     readonly names: string[];
-    /**
+    /** 
      * @remarks
      * Returns a SecretString that is a placeholder for a secret configured in a JSON file.
      * In certain objects, like an HttpHeader, this Secret is resolved at the time of execution but is not made available to the script environment.
-     *
+     * 
      * This function can't be called in read-only mode.
      */
     get(name: string): SecretString | undefined;
@@ -44,9 +45,9 @@ export class ServerVariables {
     private constructor();
     /** @remarks A list of available, configured server variables. */
     readonly names: string[];
-    /**
+    /** 
      * @remarks Returns the value of variable that has been configured in a dedicated server configuration JSON file.
-     *
+     * 
      * This function can't be called in read-only mode.
      */
     get(name: string): any | undefined;

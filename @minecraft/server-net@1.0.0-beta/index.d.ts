@@ -2,6 +2,7 @@
 // Project: https://github.com/DarkGamerYT/Scripting-Types
 // Definitions by: xKingDark <https://github.com/DarkGamerYT>
 /**
+ * @beta
  * @packageDocumentation
  * The `@minecraft/server-net` module contains types for executing HTTP-based requests.
  * This module can only be used on Bedrock Dedicated Server.
@@ -17,32 +18,32 @@
 import * as minecraftcommon from "@minecraft/common";
 import * as minecraftserveradmin from "@minecraft/server-admin";
 export enum HttpRequestMethod {
-    /**
+    /** 
      * @remarks
      * Represents the method for an HTTP DELETE request.
      * DELETE requests are commonly used to delete a single resource that already exists in a resource collection.
      */
     Delete = "Delete",
-    /**
+    /** 
      * @remarks
      * Represents the method for an HTTP GET request.
      * GET requests are commonly used to retrieve information about a resource at the specified URI.
      */
     Get = "Get",
-    /**
+    /** 
      * @remarks
      * Represents the method for an HTTP HEAD request.
      * HEAD requests are similar to a GET request,
-     *  but are commonly used to retrieve just the HTTP response headers from the specified URI, and not the body contents.
+     * but are commonly used to retrieve just the HTTP response headers from the specified URI, and not the body contents.
      */
     Head = "Head",
-    /**
+    /** 
      * @remarks
      * Represents the method for an HTTP POST request.
      * POST requests are commonly used to create a new resource that is a subordinate of the specified URI.
      */
     Post = "Post",
-    /**
+    /** 
      * @remarks
      * Represents the method for an HTTP PUT request.
      * PUT requests are commonly used to update a single resource that already exists in a resource collection.
@@ -52,20 +53,19 @@ export enum HttpRequestMethod {
 
 export class HttpClient {
     private constructor();
-    /**
+    /** 
      * @remarks Cancels all pending requests.
-     *
+     * 
      * This function can't be called in read-only mode.
      */
     cancelAll(reason: string): void;
-    /**
+    /** 
      * @remarks Performs a simple HTTP get request.
-     *
+     * 
      * This function can't be called in read-only mode.
-     *
-     * @param uri
-     * URL to make an HTTP Request to.
+     * @param uri URL to make an HTTP Request to.
      * @returns An awaitable promise that contains the HTTP response.
+     * 
      * @example
      * ```javascript
      * import { http } from "@minecraft/server-net";
@@ -77,14 +77,13 @@ export class HttpClient {
      * ```
      */
     get(uri: string): Promise<HttpResponse>;
-    /**
+    /** 
      * @remarks Performs an HTTP request.
-     *
+     * 
      * This function can't be called in read-only mode.
-     *
-     * @param config
-     * Contains an HTTP Request object with configuration data on the HTTP request.
+     * @param config Contains an HTTP Request object with configuration data on the HTTP request.
      * @returns An awaitable promise that contains the HTTP response.
+     * 
      * @example
      * ```javascript
      * import { http, HttpRequest, HttpRequestMethod } from "@minecraft/server-net";
@@ -104,15 +103,15 @@ export class HttpClient {
 
 /** Represents an HTTP header - a key/value pair of meta-information about a request. */
 export class HttpHeader {
-    /**
+    /** 
      * @remarks Key of the HTTP header.
-     *
+     * 
      * This property can't be edited in read-only mode.
      */
     key: string;
-    /**
+    /** 
      * @remarks Value of the HTTP header.
-     *
+     * 
      * This property can't be edited in read-only mode.
      */
     value: minecraftserveradmin.SecretString | string;
@@ -121,39 +120,37 @@ export class HttpHeader {
 
 /** Main object for structuring a request. */
 export class HttpRequest {
-    /**
+    /** 
      * @remarks Content of the body of the HTTP request.
-     *
+     * 
      * This property can't be edited in read-only mode.
      */
     body: string;
-    /**
+    /** 
      * @remarks A collection of HTTP headers to add to the outbound request.
-     *
+     * 
      * This property can't be edited in read-only mode.
      */
     headers: HttpHeader[];
-    /**
+    /** 
      * @remarks HTTP method (e.g., GET or PUT or PATCH) to use for making the request.
-     *
+     * 
      * This property can't be edited in read-only mode.
-     *
      */
     method: HttpRequestMethod;
-    /**
+    /** 
      * @remarks Amount of time, in seconds, before the request times out and is abandoned.
-     *
+     * 
      * This property can't be edited in read-only mode.
-     *
      */
     timeout: number;
-    /**
+    /** 
      * @remarks The HTTP resource to access.
-     *
+     * 
      * This property can't be edited in read-only mode.
      */
     uri: string;
-    /**
+    /** 
      * @example
      * ```javascript
      * import { HttpRequest, HttpHeader, HttpRequestMethod } from "@minecraft/server-net";
@@ -168,27 +165,27 @@ export class HttpRequest {
      * ```
      */
     constructor(uri: string);
-    /**
+    /** 
      * @remarks Adds an additional header to the overall list of headers used in the corresponding HTTP request.
-     *
+     * 
      * This function can't be called in read-only mode.
      */
     addHeader(key: string, value: minecraftserveradmin.SecretString | string): HttpRequest;
-    /**
+    /** 
      * @remarks Updates the content of the body of the HTTP request.
-     *
+     * 
      * This function can't be called in read-only mode.
      */
     setBody(body: string): HttpRequest;
-    /**
+    /** 
      * @remarks Replaces and applies a set of HTTP Headers for the request.
-     *
+     * 
      * This function can't be called in read-only mode.
      */
     setHeaders(headers: HttpHeader[]): HttpRequest;
-    /**
+    /** 
      * @remarks Sets the desired HTTP method (e.g., GET or PUT or PATCH) to use for making the request.
-     *
+     * 
      * This function can't be called in read-only mode.
      */
     setMethod(method: HttpRequestMethod): HttpRequest;
@@ -205,7 +202,7 @@ export class HttpResponse {
     readonly headers: HttpHeader[];
     /** @remarks Information that was used to formulate the HTTP response that this object represents. */
     readonly request: HttpRequest;
-    /**
+    /** 
      * @remarks
      * HTTP response code for the request.
      * For example, 404 represents resource not found, and 500 represents an internal server error.
