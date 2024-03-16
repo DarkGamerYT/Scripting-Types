@@ -173,6 +173,14 @@ export class World {
     /** 
      * @remarks Returns an array of all active players within the world.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * 
+     * const players = world.getAllPlayers();
+     * console.warn(players.length);
+     * ```
      */
     getAllPlayers(): Player[];
     /** 

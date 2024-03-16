@@ -232,23 +232,24 @@ export class Block {
      * 
      * @example
      * ```javascript
-     * import { world, ItemStack } from "@minecraft/server";
+     * import { world, ItemStack, BlockInventoryComponent } from "@minecraft/server";
+     * const overworld = world.getDimension("minecraft:overworld");
      * 
      * // Get the block
-     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * const block = overworld.getBlock({ x: 1, y: 2, z: 3 });
+     * const container = block.getComponent(BlockInventoryComponent.componentId).container;
      * 
-     * const inventory = block.getComponent("inventory").container;
-     * inventory.addItem(new ItemStack("minecraft:dirt"));
+     * container.addItem(new ItemStack("minecraft:dirt"));
      * ```
      * @example
      * ```javascript
-     * import { world } from "@minecraft/server";
-     * 
+     * import { world, BlockSignComponent } from "@minecraft/server";
+     * const overworld = world.getDimension("minecraft:overworld");
      * // Get the block
-     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * const block = overworld.getBlock({ x: 1, y: 2, z: 3 });
+     * const signComponent = block.getComponent(BlockSignComponent.componentId);
      * 
-     * const sign = block.getComponent("sign");
-     * sign.setText("Hello! :D");
+     * signComponent.setText("Hello! :D");
      * ```
      */
     getComponent(componentId: string): BlockComponent | undefined;
@@ -262,6 +263,16 @@ export class Block {
      * {@link LocationInUnloadedChunkError}
      * 
      * {@link LocationOutOfWorldBoundariesError}
+     * 
+     * @example
+     * ```javascript
+     * import { world, BlockPermutation } from "@minecraft/server";
+     * 
+     * // Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * 
+     * block.setPermutation(BlockPermutation.resolve("minecraft:dirt"));
+     * ```
      */
     setPermutation(permutation: BlockPermutation): void;
 }
@@ -435,8 +446,7 @@ export class Container {
      * @remarks Clears all inventory items in the container.
      * 
      * This function can't be called in read-only mode.
-     * @returns Throws if the container is invalid.
-     * @throws This function can throw errors.
+     * @throws Throws if the container is invalid.
      */
     clearAll(): void;
     /** 
@@ -843,10 +853,10 @@ export class Entity {
      * 
      * @example
      * ```javascript
-     * import { world, ItemStack} from "@minecraft/server";
+     * import { world, ItemStack, EntityInventoryComponent } from "@minecraft/server";
      * const player = world.getAllPlayers()[0];
      * 
-     * const inventory = player.getComponent("inventory");
+     * const inventory = player.getComponent(EntityInventoryComponent.componentId);
      * const container = inventory.container;
      * 
      * const itemStack = new ItemStack("minecraft:dirt");
@@ -855,12 +865,12 @@ export class Entity {
      * ```
      * @example
      * ```javascript
-     * import { world } from "@minecraft/server";
+     * import { world, EntityHealthComponent } from "@minecraft/server";
      * const overworld = world.getDimension("overworld");
      * const location = { x: 1, y: 2, z: 3 };
      * 
      * const skelly = overworld.spawnEntity("minecraft:skeleton", location);
-     * const health = skelly.getComponent("health");
+     * const health = skelly.getComponent(EntityHealthComponent.componentId);
      * 
      * // Resets health to it's default value
      * health.resetToDefaultValue();
@@ -1728,27 +1738,27 @@ export class ItemStack {
      * 
      * @example
      * ```javascript
-     * import { ItemStack } from "@minecraft/server";
+     * import { ItemStack, ItemDurabilityComponent } from "@minecraft/server";
      * 
      * const itemStack = new ItemStack("minecraft:iron_sword");
-     * const durability = itemStack.getComponent("minecraft:durability");
+     * const durability = itemStack.getComponent(ItemDurabilityComponent.componentId);
      * console.warn(`Damage: ${durability.damage}`);
      * ```
      * @example
      * ```javascript
-     * import { world, ItemStack } from "@minecraft/server";
+     * import { world, ItemStack, ItemCooldownComponent } from "@minecraft/server";
      * const player = world.getAllPlayers()[0];
      * 
      * const itemStack = new ItemStack("minecraft:ender_pearl");
-     * const cooldown = itemStack.getComponent("minecraft:cooldown");
+     * const cooldown = itemStack.getComponent(ItemCooldownComponent.componentId);
      * cooldown.startCooldown(player);
      * ```
      * @example
      * ```javascript
-     * import { ItemStack } from "@minecraft/server";
+     * import { ItemStack, ItemEnchantableComponent } from "@minecraft/server";
      * 
      * const itemStack = new ItemStack("minecraft:iron_sword");
-     * const enchantments = itemStack.getComponent("minecraft:enchantable");
+     * const enchantments = itemStack.getComponent(ItemEnchantableComponent.componentId);
      * enchantments.addEnchantment({ type: "sharpness", level: 5 });
      * ```
      */
@@ -1844,6 +1854,16 @@ export class Player extends Entity {
      * This function can't be called in read-only mode.
      * @param soundOptions Additional optional options for the sound.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * 
+     * // Get the player
+     * const player = world.getAllPlayers()[0];
+     * 
+     * player.playSound("bucket.fill_water", { pitch: 1.0, volume: 1.0 });
+     * ```
      */
     playSound(soundId: string, soundOptions?: PlayerSoundOptions): void;
     /** 
@@ -1966,7 +1986,7 @@ export class System {
      * import { world, system, TicksPerSecond } from "@minecraft/server";
      * 
      * const run = system.runInterval(() => {
-     *     world.sendMessage("Hello World!");
+     *     world.sendMessage("Hello, World!");
      *  
      *     // Clears the run
      *     system.clearRun(run);
@@ -2009,7 +2029,7 @@ export class System {
      * 
      * // Runs every 5 seconds
      * system.runInterval(() => {
-     *     world.sendMessage("Hello World!");
+     *     world.sendMessage(`Current tick: ${system.currentTick}`);
      * }, 5 * TicksPerSecond);
      * ```
      */
@@ -2026,7 +2046,7 @@ export class System {
      * 
      * // Runs after 5 seconds
      * system.runTimeout(() => {
-     *     world.sendMessage("Hello World!");
+     *     world.sendMessage("Hello, World!");
      * }, 5 * TicksPerSecond);
      * ```
      */
@@ -2039,6 +2059,14 @@ export class World {
     /** 
      * @remarks Returns an array of all active players within the world.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * 
+     * const players = world.getAllPlayers();
+     * console.warn(players.length);
+     * ```
      */
     getAllPlayers(): Player[];
     /** 
@@ -2206,6 +2234,7 @@ export interface EntityApplyDamageByProjectileOptions {
 export interface EntityApplyDamageOptions {
     /** @remarks Underlying cause of the damage. */
     cause: EntityDamageCause;
+    /** @remarks Optional entity that caused the damage. */
     damagingEntity?: Entity;
 }
 

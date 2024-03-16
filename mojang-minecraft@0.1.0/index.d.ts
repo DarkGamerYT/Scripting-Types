@@ -1657,7 +1657,7 @@ export class Player extends Entity {
     /** @remarks This property can't be edited in read-only mode. */
     selectedSlot: number;
     /** @throws This function can throw errors. */
-    getItemCooldown(itemCategory: string): number;
+    getItemCooldown(cooldownCategory: string): number;
     /** 
      * @remarks This function can't be called in read-only mode.
      * @throws This function can throw errors.
@@ -1672,7 +1672,7 @@ export class Player extends Entity {
      * @remarks This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
-    startItemCooldown(itemCategory: string, tickDuration: number): void;
+    startItemCooldown(cooldownCategory: string, tickDuration: number): void;
 }
 
 export class PlayerInventoryComponentContainer {

@@ -533,23 +533,24 @@ export class Block {
      * 
      * @example
      * ```javascript
-     * import { world, ItemStack } from "@minecraft/server";
+     * import { world, ItemStack, BlockInventoryComponent } from "@minecraft/server";
+     * const overworld = world.getDimension("minecraft:overworld");
      * 
      * // Get the block
-     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * const block = overworld.getBlock({ x: 1, y: 2, z: 3 });
+     * const container = block.getComponent(BlockInventoryComponent.componentId).container;
      * 
-     * const inventory = block.getComponent("inventory").container;
-     * inventory.addItem(new ItemStack("minecraft:dirt"));
+     * container.addItem(new ItemStack("minecraft:dirt"));
      * ```
      * @example
      * ```javascript
-     * import { world } from "@minecraft/server";
-     * 
+     * import { world, BlockSignComponent } from "@minecraft/server";
+     * const overworld = world.getDimension("minecraft:overworld");
      * // Get the block
-     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * const block = overworld.getBlock({ x: 1, y: 2, z: 3 });
+     * const signComponent = block.getComponent(BlockSignComponent.componentId);
      * 
-     * const sign = block.getComponent("sign");
-     * sign.setText("Hello! :D");
+     * signComponent.setText("Hello! :D");
      * ```
      */
     getComponent(componentId: string): BlockComponent | undefined;
@@ -622,6 +623,16 @@ export class Block {
      * {@link LocationInUnloadedChunkError}
      * 
      * {@link LocationOutOfWorldBoundariesError}
+     * 
+     * @example
+     * ```javascript
+     * import { world, BlockPermutation } from "@minecraft/server";
+     * 
+     * // Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * 
+     * block.setPermutation(BlockPermutation.resolve("minecraft:dirt"));
+     * ```
      */
     setPermutation(permutation: BlockPermutation): void;
     /** 
@@ -813,10 +824,16 @@ export class BlockPistonComponent extends BlockComponent {
     getAttachedBlocksLocations(): Vector3[];
 }
 
+/** Represents a block that can display text on it. */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class BlockSignComponent extends BlockComponent {
     private constructor();
-    /** @throws This property can throw when used. */
+    /** 
+     * @remarks
+     * Whether or not players can edit the sign.
+     * This happens if a sign has had a honeycomb used on it or `setWaxed` was called on the sign.
+     * @throws This property can throw when used.
+     */
     readonly isWaxed: boolean;
     static readonly componentId = "minecraft:sign";
     /** 
@@ -828,11 +845,15 @@ export class BlockSignComponent extends BlockComponent {
      * 
      * @example
      * ```javascript
-     * import { SignSide } from "@minecraft/server";
+     * import { world, SignSide, BlockSignComponent } from "@minecraft/server";
+     * const overworld = world.getDimension("minecraft:overworld");
      * 
-     * const sign = block.getComponent("minecraft:sign");
-     * const text = sign.getRawText(SignSide.Front);
-     * console.warn(JSON.stringify(text)); // "{\"rawtext\":[{\"text\":\"Hello World\"}]}"
+     * // Get the block
+     * const block = overworld.getBlock({ x: 1, y: 2, z: 3 });
+     * const signComponent = block.getComponent(BlockSignComponent.componentId);
+     * 
+     * const text = signComponent.getRawText(SignSide.Front);
+     * console.warn(JSON.stringify(text)); // "{\"text\":\"Hello World\"}"
      * ```
      */
     getRawText(side?: SignSide): RawText | undefined;
@@ -845,11 +866,15 @@ export class BlockSignComponent extends BlockComponent {
      * 
      * @example
      * ```javascript
-     * import { SignSide } from "@minecraft/server";
+     * import { world, SignSide, BlockSignComponent } from "@minecraft/server";
+     * const overworld = world.getDimension("minecraft:overworld");
      * 
-     * const sign = block.getComponent("minecraft:sign");
-     * const text = sign.getText(SignSide.Front);
-     * console.warn(text);
+     * // Get the block
+     * const block = overworld.getBlock({ x: 1, y: 2, z: 3 });
+     * const signComponent = block.getComponent(BlockSignComponent.componentId);
+     * 
+     * const text = signComponent.getText(SignSide.Front);
+     * console.warn(text); // "Hello World"
      * ```
      */
     getText(side?: SignSide): string | undefined;
@@ -862,11 +887,15 @@ export class BlockSignComponent extends BlockComponent {
      * 
      * @example
      * ```javascript
-     * import { SignSide } from "@minecraft/server";
+     * import { world, SignSide, BlockSignComponent } from "@minecraft/server";
+     * const overworld = world.getDimension("minecraft:overworld");
      * 
-     * const sign = block.getComponent("minecraft:sign");
-     * const color = sign.getTextDyeColor(SignSide.Front);
-     * console.warn(color);
+     * // Get the block
+     * const block = overworld.getBlock({ x: 1, y: 2, z: 3 });
+     * const signComponent = block.getComponent(BlockSignComponent.componentId);
+     * 
+     * const color = signComponent.getTextDyeColor(SignSide.Front);
+     * console.warn(color); // "Lime"
      * ```
      */
     getTextDyeColor(side?: SignSide): DyeColor | undefined;
@@ -886,18 +915,25 @@ export class BlockSignComponent extends BlockComponent {
      * 
      * @example
      * ```javascript
-     * import { SignSide } from "@minecraft/server";
+     * import { world, SignSide, BlockSignComponent } from "@minecraft/server";
+     * const overworld = world.getDimension("minecraft:overworld");
      * 
-     * const sign = block.getComponent("sign");
-     * sign.setText("Hello World", SignSide.Front);
+     * // Get the block
+     * const block = overworld.getBlock({ x: 1, y: 2, z: 3 });
+     * const signComponent = block.getComponent(BlockSignComponent.componentId);
+     * 
+     * signComponent.setText("Hello World", SignSide.Front);
      * ```
      * @example
      * ```javascript
-     * import { SignSide } from "@minecraft/server";
+     * import { world, SignSide, BlockSignComponent } from "@minecraft/server";
+     * const overworld = world.getDimension("minecraft:overworld");
      * 
-     * const sign = block.getComponent("minecraft:sign");
-     * const helloWorldMessage = { rawtext: [{ text: "Hello World" }] };
-     * sign.setText(helloWorldMessage, SignSide.Front);
+     * // Get the block
+     * const block = overworld.getBlock({ x: 1, y: 2, z: 3 });
+     * const signComponent = block.getComponent(BlockSignComponent.componentId);
+     * 
+     * signComponent.setText({ text: "Hello World" }, SignSide.Front);
      * ```
      */
     setText(message: RawMessage | RawText | string, side?: SignSide): void;
@@ -913,10 +949,14 @@ export class BlockSignComponent extends BlockComponent {
      * 
      * @example
      * ```javascript
-     * import { DyeColor, SignSide } from "@minecraft/server";
+     * import { world, DyeColor, SignSide, BlockSignComponent } from "@minecraft/server";
+     * const overworld = world.getDimension("minecraft:overworld");
      * 
-     * const sign = block.getComponent("minecraft:sign");
-     * sign.setTextDyeColor(DyeColor.Lime, SignSide.Front);
+     * // Get the block
+     * const block = overworld.getBlock({ x: 1, y: 2, z: 3 });
+     * const signComponent = block.getComponent(BlockSignComponent.componentId);
+     * 
+     * signComponent.setTextDyeColor(DyeColor.Lime, SignSide.Front);
      * ```
      */
     setTextDyeColor(color?: DyeColor, side?: SignSide): void;
@@ -928,8 +968,14 @@ export class BlockSignComponent extends BlockComponent {
      * 
      * @example
      * ```javascript
-     * const sign = block.getComponent("minecraft:sign");
-     * sign.setWaxed(true);
+     * import { world, BlockSignComponent } from "@minecraft/server";
+     * const overworld = world.getDimension("minecraft:overworld");
+     * 
+     * // Get the block
+     * const block = overworld.getBlock({ x: 1, y: 2, z: 3 });
+     * const signComponent = block.getComponent(BlockSignComponent.componentId);
+     * 
+     * signComponent.setWaxed(true);
      * ```
      */
     setWaxed(waxed: boolean): void;
@@ -1125,8 +1171,7 @@ export class Container {
      * @remarks Clears all inventory items in the container.
      * 
      * This function can't be called in read-only mode.
-     * @returns Throws if the container is invalid.
-     * @throws This function can throw errors.
+     * @throws Throws if the container is invalid.
      */
     clearAll(): void;
     /** 
@@ -2143,10 +2188,10 @@ export class Entity {
      * 
      * @example
      * ```javascript
-     * import { world, ItemStack} from "@minecraft/server";
+     * import { world, ItemStack, EntityInventoryComponent } from "@minecraft/server";
      * const player = world.getAllPlayers()[0];
      * 
-     * const inventory = player.getComponent("inventory");
+     * const inventory = player.getComponent(EntityInventoryComponent.componentId);
      * const container = inventory.container;
      * 
      * const itemStack = new ItemStack("minecraft:dirt");
@@ -2155,12 +2200,12 @@ export class Entity {
      * ```
      * @example
      * ```javascript
-     * import { world } from "@minecraft/server";
+     * import { world, EntityHealthComponent } from "@minecraft/server";
      * const overworld = world.getDimension("overworld");
      * const location = { x: 1, y: 2, z: 3 };
      * 
      * const skelly = overworld.spawnEntity("minecraft:skeleton", location);
-     * const health = skelly.getComponent("health");
+     * const health = skelly.getComponent(EntityHealthComponent.componentId);
      * 
      * // Resets health to it's default value
      * health.resetToDefaultValue();
@@ -2709,10 +2754,10 @@ export class EntityEquippableComponent extends EntityComponent {
      * 
      * @example
      * ```javascript
-     * import { world, EquipmentSlot } from "@minecraft/server";
+     * import { world, EquipmentSlot, EntityEquippableComponent } from "@minecraft/server";
      * const player = world.getAllPlayers()[0];
      * 
-     * const equippable = player.getComponent("minecraft:equippable");
+     * const equippable = player.getComponent(EntityEquippableComponent.componentId);
      * const itemStack = equippable.getEquipment(EquipmentSlot.Mainhand);
      * 
      * console.warn(`Item: ${itemStack.typeId}`); // "minecraft:dirt"
@@ -2727,10 +2772,10 @@ export class EntityEquippableComponent extends EntityComponent {
      * 
      * @example
      * ```javascript
-     * import { world, EquipmentSlot } from "@minecraft/server";
+     * import { world, EquipmentSlot, EntityEquippableComponent } from "@minecraft/server";
      * const player = world.getAllPlayers()[0];
      * 
-     * const equippable = player.getComponent("minecraft:equippable");
+     * const equippable = player.getComponent(EntityEquippableComponent.componentId);
      * const slot = equippable.getEquipmentSlot(EquipmentSlot.Mainhand);
      * 
      * console.warn(`Item: ${slot.typeId}`); // "minecraft:dirt"
@@ -2749,10 +2794,10 @@ export class EntityEquippableComponent extends EntityComponent {
      * 
      * @example
      * ```javascript
-     * import { world, ItemStack, EquipmentSlot } from "@minecraft/server";
+     * import { world, ItemStack, EquipmentSlot, EntityEquippableComponent } from "@minecraft/server";
      * const player = world.getAllPlayers()[0];
      * 
-     * const equippable = player.getComponent("minecraft:equippable");
+     * const equippable = player.getComponent(EntityEquippableComponent.componentId);
      * const itemStack = new ItemStack("minecraft:dirt", 8);
      * 
      * equippable.setEquipment(EquipmentSlot.Mainhand, itemStack);
@@ -3214,7 +3259,7 @@ export class EntityMovementSkipComponent extends EntityBaseMovementComponent {
     static readonly componentId = "minecraft:movement.skip";
 }
 
-/** @beta When present on an entity, this entity is on fire. */
+/** When present on an entity, this entity is on fire. */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class EntityOnFireComponent extends EntityComponent {
     private constructor();
@@ -3563,19 +3608,30 @@ export class IPlayerSpawnAfterEventSignal {
     unsubscribe(callback: (arg: PlayerSpawnAfterEvent) => void): void;
 }
 
+/** Contains information related to a chargeable item completing being charged. */
 export class ItemCompleteUseAfterEvent {
     private constructor();
+    /** @remarks The impacted item that has completed charging. */
     readonly itemStack: ItemStack;
+    /** @remarks Returns the source entity that triggered this item event. */
     readonly source: Player;
+    /** @remarks Returns the time, in ticks, for the remaining duration left before the charge completes its cycle. */
     readonly useDuration: number;
 }
 
+/** Manages callbacks that are connected to the completion of charging for a chargeable item. */
 export class ItemCompleteUseAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Adds a callback that will be called when a chargeable item completes charging.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: ItemCompleteUseAfterEvent) => void): (arg: ItemCompleteUseAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a callback from being called when a chargeable item completes charging.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemCompleteUseAfterEvent) => void): void;
@@ -3615,13 +3671,20 @@ export class ItemDurabilityComponent extends ItemComponent {
      * 
      * @example
      * ```javascript
-     * const durability = itemStack.getComponent("durability");
+     * import { ItemStack, ItemDurabilityComponent } from "@minecraft/server";
+     * const itemStack = new ItemStack("minecraft:iron_sword");
+     * 
+     * const durability = itemStack.getComponent(ItemDurabilityComponent.componentId);
      * console.warn(`Damage chance: ${durability.getDamageChance(2)}`);
      * ```
      */
     getDamageChance(unbreakingEnchantmentLevel?: number): number;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks
+     * A range of numbers that is used to calculate the damage chance for an item.
+     * The damage chance will fall within this range.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     getDamageChanceRange(): minecraftcommon.NumberRange;
@@ -3657,19 +3720,30 @@ export class ItemFoodComponent extends ItemComponent {
     static readonly componentId = "minecraft:food";
 }
 
+/** Contains information related to a chargeable item when the player has finished using the item and released the build action. */
 export class ItemReleaseUseAfterEvent {
     private constructor();
+    /** @remarks The impacted item that triggered this item event. */
     readonly itemStack?: ItemStack;
+    /** @remarks Returns the source entity that triggered this item event. */
     readonly source: Player;
+    /** @remarks Returns the time, in ticks, for the remaining duration left before the charge completes its cycle. */
     readonly useDuration: number;
 }
 
+/** Manages callbacks that are connected to the releasing of charging for a chargeable item. */
 export class ItemReleaseUseAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Adds a callback that will be called when a chargeable item is released from charging.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: ItemReleaseUseAfterEvent) => void): (arg: ItemReleaseUseAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a callback from being called when a chargeable item is released from charging.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemReleaseUseAfterEvent) => void): void;
@@ -3780,27 +3854,27 @@ export class ItemStack {
      * 
      * @example
      * ```javascript
-     * import { ItemStack } from "@minecraft/server";
+     * import { ItemStack, ItemDurabilityComponent } from "@minecraft/server";
      * 
      * const itemStack = new ItemStack("minecraft:iron_sword");
-     * const durability = itemStack.getComponent("minecraft:durability");
+     * const durability = itemStack.getComponent(ItemDurabilityComponent.componentId);
      * console.warn(`Damage: ${durability.damage}`);
      * ```
      * @example
      * ```javascript
-     * import { world, ItemStack } from "@minecraft/server";
+     * import { world, ItemStack, ItemCooldownComponent } from "@minecraft/server";
      * const player = world.getAllPlayers()[0];
      * 
      * const itemStack = new ItemStack("minecraft:ender_pearl");
-     * const cooldown = itemStack.getComponent("minecraft:cooldown");
+     * const cooldown = itemStack.getComponent(ItemCooldownComponent.componentId);
      * cooldown.startCooldown(player);
      * ```
      * @example
      * ```javascript
-     * import { ItemStack } from "@minecraft/server";
+     * import { ItemStack, ItemEnchantableComponent } from "@minecraft/server";
      * 
      * const itemStack = new ItemStack("minecraft:iron_sword");
-     * const enchantments = itemStack.getComponent("minecraft:enchantable");
+     * const enchantments = itemStack.getComponent(ItemEnchantableComponent.componentId);
      * enchantments.addEnchantment({ type: "sharpness", level: 5 });
      * ```
      */
@@ -3944,74 +4018,140 @@ export class ItemStack {
     setLore(loreList?: string[]): void;
 }
 
+/** Contains information related to a chargeable item starting to be charged. */
 export class ItemStartUseAfterEvent {
     private constructor();
+    /** @remarks The impacted item that is starting to be charged. */
     readonly itemStack: ItemStack;
+    /** @remarks Returns the source entity that triggered this item event. */
     readonly source: Player;
+    /** @remarks Returns the time, in ticks, for the remaining duration left before the charge completes its cycle. */
     readonly useDuration: number;
 }
 
+/** Manages callbacks that are connected to the start of charging for a chargeable item. */
 export class ItemStartUseAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Adds a callback that will be called when a chargeable item starts charging.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: ItemStartUseAfterEvent) => void): (arg: ItemStartUseAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a callback from being called when a chargeable item starts charging.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemStartUseAfterEvent) => void): void;
 }
 
+/** 
+ * Contains information related to an item being used on a block.
+ * This event fires when a player presses the the Use Item / Place Block button to successfully use an item or place a block. 
+ * Fires for the first block that is interacted with when performing a build action.
+ * Note: This event cannot be used with Hoe or Axe items.
+ */
 export class ItemStartUseOnAfterEvent {
     private constructor();
+    /** @remarks The block that the item is used on. */
     readonly block: Block;
+    /** @remarks The face of the block that an item is being used on. */
     readonly blockFace: Direction;
+    /** 
+     * @remarks
+     * The impacted item stack that is starting to be used.
+     * Can be undefined in some gameplay scenarios like pushing a button with an empty hand.
+     */
     readonly itemStack?: ItemStack;
+    /** @remarks Returns the source entity that triggered this item event. */
     readonly source: Player;
 }
 
+/** Manages callbacks that are connected to an item starting being used on a block event. */
 export class ItemStartUseOnAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Adds a callback that will be called when an item starts being used on a block.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: ItemStartUseOnAfterEvent) => void): (arg: ItemStartUseOnAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a callback from being called when an item starts being used on a block.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemStartUseOnAfterEvent) => void): void;
 }
 
+/** 
+ * Contains information related to a chargeable item has finished an items use cycle,
+ * or when the player has released the use action with the item.
+ */
 export class ItemStopUseAfterEvent {
     private constructor();
+    /** 
+     * @remarks
+     * The impacted item stack that is stopping being charged.
+     * {@link ItemStopUseAfterEvent} can be called when teleporting to a different dimension and this can be undefined.
+     */
     readonly itemStack?: ItemStack;
+    /** @remarks Returns the source entity that triggered this item event. */
     readonly source: Player;
+    /** @remarks Returns the time, in ticks, for the remaining duration left before the charge completes its cycle. */
     readonly useDuration: number;
 }
 
+/** Manages callbacks that are connected to the stopping of charging for an item that has a registered `minecraft:chargeable` component. */
 export class ItemStopUseAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Adds a callback that will be called when a chargeable item stops charging.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: ItemStopUseAfterEvent) => void): (arg: ItemStopUseAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a callback from being called when a chargeable item stops charging.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemStopUseAfterEvent) => void): void;
 }
 
+/** 
+ * Contains information related to an item being used on a block.
+ * This event fires when a player presses the the Use Item / Place Block button to successfully use an item or place a block. 
+ * Fires for the first block that is interacted with when performing a build action.
+ * Note: This event cannot be used with Hoe or Axe items.
+ */
 export class ItemStopUseOnAfterEvent {
     private constructor();
+    /** @remarks The block that the item is used on. */
     readonly block: Block;
+    /** @remarks The impacted item stack that is being used on a block. */
     readonly itemStack?: ItemStack;
+    /** @remarks Returns the source entity that triggered this item event. */
     readonly source: Player;
 }
 
+/** Manages callbacks that are connected to an item stops used on a block event. */
 export class ItemStopUseOnAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Adds a callback that will be called when an item stops being used on a block.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: ItemStopUseOnAfterEvent) => void): (arg: ItemStopUseOnAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a callback from being called when an item is used on a block.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemStopUseOnAfterEvent) => void): void;
@@ -4024,72 +4164,119 @@ export class ItemType {
     readonly id: string;
 }
 
+/** 
+ * Contains information related to an item being used.
+ * This event fires when an item used by a player successfully triggers an interaction.
+ */
 export class ItemUseAfterEvent {
     private constructor();
+    /** @remarks The impacted item that is being used. */
     itemStack: ItemStack;
+    /** @remarks Returns the source entity that triggered this item event. */
     readonly source: Player;
 }
 
+/** Manages callbacks that fire when an item is used. */
 export class ItemUseAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Adds a callback that will be called when an item is used.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: ItemUseAfterEvent) => void): (arg: ItemUseAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a callback from being called when an item is used.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemUseAfterEvent) => void): void;
 }
 
+/** Contains information related to an item being used. */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class ItemUseBeforeEvent extends ItemUseAfterEvent {
     private constructor();
+    /** @remarks If set to true, this will cancel the item use behavior. */
     cancel: boolean;
 }
 
+/** Manages callbacks that fire before an item is used. */
 export class ItemUseBeforeEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Adds a callback that will be called before an item is used.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: ItemUseBeforeEvent) => void): (arg: ItemUseBeforeEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a callback from being called before an item is used.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemUseBeforeEvent) => void): void;
 }
 
+/** 
+ * Contains information related to an item being used on a block.
+ * This event fires when an item used by a player successfully triggers a block interaction.
+ */
 export class ItemUseOnAfterEvent {
     private constructor();
+    /** @remarks The block that the item is used on. */
     readonly block: Block;
+    /** @remarks The face of the block that an item is being used on. */
     readonly blockFace: Direction;
+    /** @remarks Location relative to the bottom north-west corner of the block where the item is used. */
     readonly faceLocation: Vector3;
+    /** @remarks The impacted item that is being used on a block. */
     readonly itemStack: ItemStack;
+    /** @remarks Returns the source entity that triggered this item event. */
     readonly source: Player;
 }
 
+/** Manages callbacks that fire when an item is used on a block. */
 export class ItemUseOnAfterEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Adds a callback that will be called when an item is used on a block.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: ItemUseOnAfterEvent) => void): (arg: ItemUseOnAfterEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a callback from being called when an item is used on a block.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemUseOnAfterEvent) => void): void;
 }
 
+/** Contains information related to an item being used on a block. */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class ItemUseOnBeforeEvent extends ItemUseOnAfterEvent {
     private constructor();
+    /** @remarks If set to true, this will cancel the item use behavior. */
     cancel: boolean;
 }
 
+/** Manages callbacks that fire before an item is used on a block. */
 export class ItemUseOnBeforeEventSignal {
     private constructor();
-    /** @remarks This function can't be called in read-only mode. */
+    /** 
+     * @remarks Adds a callback that will be called before an item is used on a block.
+     * 
+     * This function can't be called in read-only mode.
+     */
     subscribe(callback: (arg: ItemUseOnBeforeEvent) => void): (arg: ItemUseOnBeforeEvent) => void;
     /** 
-     * @remarks This function can't be called in read-only mode.
+     * @remarks Removes a callback from being called before an item is used on a block.
+     * 
+     * This function can't be called in read-only mode.
      * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemUseOnBeforeEvent) => void): void;
@@ -4358,6 +4545,17 @@ export class Player extends Entity {
      * Min/max bounds at -2^24 ~ 2^24
      * @returns Returns the current level of the Player.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * 
+     * // Get the player
+     * const player = world.getAllPlayers()[0];
+     * 
+     * const level = player.addLevels(1);
+     * console.warn(`Player's current level: ${level}`);
+     * ```
      */
     addLevels(amount: number): number;
     /** 
@@ -4376,6 +4574,16 @@ export class Player extends Entity {
      * This function can't be called in read-only mode.
      * @param soundOptions Additional optional options for the sound.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * 
+     * // Get the player
+     * const player = world.getAllPlayers()[0];
+     * 
+     * player.playSound("bucket.fill_water", { pitch: 1.0, volume: 1.0 });
+     * ```
      */
     playSound(soundId: string, soundOptions?: PlayerSoundOptions): void;
     /** 
@@ -4941,6 +5149,12 @@ export class Scoreboard {
      * 
      * This function can't be called in read-only mode.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * world.scoreboard.addObjective("test", "Hello World");
+     * ```
      */
     addObjective(objectiveId: string, displayName?: string): ScoreboardObjective;
     /** 
@@ -4952,6 +5166,15 @@ export class Scoreboard {
     /** 
      * @remarks Returns a specific objective (by id).
      * @param objectiveId Identifier of the objective.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * 
+     * // Get the objective
+     * const objective = world.scoreboard.getObjective("test");
+     * console.warn(objective.id);
+     * ```
      */
     getObjective(objectiveId: string): ScoreboardObjective | undefined;
     /** @remarks Returns an objective that occupies the specified display slot. */
@@ -4965,6 +5188,12 @@ export class Scoreboard {
      * 
      * This function can't be called in read-only mode.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * world.scoreboard.removeObjective("test");
+     * ```
      */
     removeObjective(objectiveId: ScoreboardObjective | string): boolean;
     /** 
@@ -5017,6 +5246,16 @@ export class ScoreboardObjective {
      * This function can't be called in read-only mode.
      * @param participant Participant to apply the scoreboard value addition to.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const player = world.getAllPlayers()[0];
+     * 
+     * // Get the objective
+     * const objective = world.scoreboard.getObjective("test");
+     * objective.addScore(player.scoreboardIdentity, 1);
+     * ```
      */
     addScore(participant: Entity | ScoreboardIdentity | string, scoreToAdd: number): number;
     /** 
@@ -5028,6 +5267,18 @@ export class ScoreboardObjective {
      * @remarks Returns a specific score for a participant.
      * @param participant Identifier of the participant to retrieve a score for.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const player = world.getAllPlayers()[0];
+     * 
+     * // Get the objective
+     * const objective = world.scoreboard.getObjective("test");
+     * const score = objective.getScore(player.scoreboardIdentity) ?? 0;
+     * 
+     * console.warn(`Score: ${score}`);
+     * ```
      */
     getScore(participant: Entity | ScoreboardIdentity | string): number | undefined;
     /** 
@@ -5038,6 +5289,16 @@ export class ScoreboardObjective {
     /** 
      * @remarks Returns if the specified identity is a participant of the scoreboard objective.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const player = world.getAllPlayers()[0];
+     * 
+     * // Get the objective
+     * const objective = world.scoreboard.getObjective("test");
+     * console.warn(`Is Participant: ${objective.hasParticipant(player.scoreboardIdentity)}`);
+     * ```
      */
     hasParticipant(participant: Entity | ScoreboardIdentity | string): boolean;
     /** @remarks Returns true if the ScoreboardObjective reference is still valid. */
@@ -5048,6 +5309,16 @@ export class ScoreboardObjective {
      * This function can't be called in read-only mode.
      * @param participant Participant to remove from being tracked with this objective.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const player = world.getAllPlayers()[0];
+     * 
+     * // Get the objective
+     * const objective = world.scoreboard.getObjective("test");
+     * objective.removeParticipant(player.scoreboardIdentity);
+     * ```
      */
     removeParticipant(participant: Entity | ScoreboardIdentity | string): boolean;
     /** 
@@ -5057,6 +5328,16 @@ export class ScoreboardObjective {
      * @param participant Identity of the participant.
      * @param score New value of the score.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * const player = world.getAllPlayers()[0];
+     * 
+     * // Get the objective
+     * const objective = world.scoreboard.getObjective("test");
+     * objective.setScore(player.scoreboardIdentity, 1);
+     * ```
      */
     setScore(participant: Entity | ScoreboardIdentity | string, score: number): void;
 }
@@ -5225,7 +5506,7 @@ export class System {
      * import { world, system, TicksPerSecond } from "@minecraft/server";
      * 
      * const run = system.runInterval(() => {
-     *     world.sendMessage("Hello World!");
+     *     world.sendMessage("Hello, World!");
      *  
      *     // Clears the run
      *     system.clearRun(run);
@@ -5268,7 +5549,7 @@ export class System {
      * 
      * // Runs every 5 seconds
      * system.runInterval(() => {
-     *     world.sendMessage("Hello World!");
+     *     world.sendMessage(`Current tick: ${system.currentTick}`);
      * }, 5 * TicksPerSecond);
      * ```
      */
@@ -5285,7 +5566,7 @@ export class System {
      * 
      * // Runs after 5 seconds
      * system.runTimeout(() => {
-     *     world.sendMessage("Hello World!");
+     *     world.sendMessage("Hello, World!");
      * }, 5 * TicksPerSecond);
      * ```
      */
@@ -5414,6 +5695,14 @@ export class World {
     /** 
      * @remarks Returns an array of all active players within the world.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * 
+     * const players = world.getAllPlayers();
+     * console.warn(players.length);
+     * ```
      */
     getAllPlayers(): Player[];
     /** 
@@ -5457,7 +5746,7 @@ export class World {
      * import { world } from "@minecraft/server";
      * 
      * // Get the property value
-     * const value = world.getDynamicProperty("test");
+     * const value = world.getDynamicProperty("test") ?? 0;
      * console.warn(`Dynamic Property value: ${value}`);
      * ```
      */
@@ -5900,6 +6189,7 @@ export interface EntityApplyDamageByProjectileOptions {
 export interface EntityApplyDamageOptions {
     /** @remarks Underlying cause of the damage. */
     cause: EntityDamageCause;
+    /** @remarks Optional entity that caused the damage. */
     damagingEntity?: Entity;
 }
 

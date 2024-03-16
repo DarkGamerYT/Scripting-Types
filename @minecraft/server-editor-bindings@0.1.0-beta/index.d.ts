@@ -15,6 +15,11 @@
  */
 import * as minecraftcommon from "@minecraft/common";
 import * as minecraftserver from "@minecraft/server";
+export enum BlockPaletteItemType {
+    Simple = 0,
+    Probability = 1,
+}
+
 /** An enumeration used by the 3D block cursor {@link Cursor} */
 export enum CursorControlMode {
     /** 
@@ -457,6 +462,20 @@ export class GraphicsSettings {
     setAll(properties: Record<string, boolean | number | string>): void;
 }
 
+export class IBlockPaletteItem {
+    private constructor();
+    getBlock(): minecraftserver.BlockType | undefined;
+    getDisplayName(): string;
+    getType(): BlockPaletteItemType;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     * 
+     * {@link Error}
+     */
+    setBlock(block: minecraftserver.BlockPermutation | minecraftserver.BlockType | string): void;
+}
+
 // @ts-ignore Class inheritance allowed for native defined classes
 export class LineWidget extends Widget {
     private constructor();
@@ -519,24 +538,6 @@ export class MinecraftEditor {
     readonly log: Logger;
     /** @remarks Allows querying and modifying some properties of the simulation. */
     readonly simulation: SimulationState;
-    /** 
-     * @remarks
-     * This is an internal command which interfaces with the native C++ extension bindings and should not be used by creators.
-     * Using this command directly will not provide any of the additional functionality and wrappings that the TypeScript layer will provide.
-     * Creators should use the TypeScript binding `registerEditorExtension` instead
-     * 
-     * This function can't be called in read-only mode.
-     * @param extensionName Unique name of the editor extension being registered
-     * @param activationFunction A code closure which is called during the activation process and is responsible for setting up all of the extension internal settings and UI definitions
-     * @param shutdownFunction A code closure which is called during the deactivation process (when the player disconnects) and is responsible for cleaning up any settings or allocations
-     * @param options {@link ExtensionOptionalParameters} describes an optional object which contains a number of optional parameters which is used to register an extension with additional information
-     */
-    registerExtension_Internal(
-        extensionName: string,
-        activationFunction: (arg: ExtensionContext) => void,
-        shutdownFunction: (arg: ExtensionContext) => void,
-        options?: ExtensionOptionalParameters,
-    ): Extension;
 }
 
 export class MinecraftEditorInternal {
@@ -546,6 +547,13 @@ export class MinecraftEditorInternal {
      * @throws This function can throw errors.
      */
     getDataStore(player: minecraftserver.Player): DataStore;
+    /** @remarks This function can't be called in read-only mode. */
+    registerExtension(
+        extensionName: string,
+        activationFunction: (arg: ExtensionContext) => void,
+        shutdownFunction: (arg: ExtensionContext) => void,
+        options?: ExtensionOptionalParameters,
+    ): Extension;
 }
 
 /** Contains information related to changes in player editor mode. */
@@ -601,6 +609,27 @@ export class PrimarySelectionChangeAfterEventSignal {
 export class PrimarySelectionChangedEvent {
     private constructor();
     readonly volume?: minecraftserver.CompoundBlockVolume;
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class ProbabilityBlockPaletteItem extends IBlockPaletteItem {
+    constructor(displayName?: string);
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     * 
+     * {@link Error}
+     */
+    addBlock(block: minecraftserver.BlockPermutation | minecraftserver.BlockType | string, weight: number): void;
+    /** 
+     * @remarks This function can't be called in read-only mode.
+     * @throws This function can throw errors.
+     * 
+     * {@link minecraftcommon.ArgumentOutOfBoundsError}
+     * 
+     * {@link Error}
+     */
+    removeBlockAt(index: number): void;
 }
 
 /** 
@@ -777,6 +806,11 @@ export class SettingsManager {
     private constructor();
     /** @remarks Manages graphics settings properties. */
     readonly graphics: GraphicsSettings;
+}
+
+// @ts-ignore Class inheritance allowed for native defined classes
+export class SimpleBlockPaletteItem extends IBlockPaletteItem {
+    constructor(displayName?: string);
 }
 
 /** Responsible for querying and modifying various properties of the simulation. */

@@ -79,6 +79,16 @@ export class Block {
      * {@link LocationInUnloadedChunkError}
      * 
      * {@link LocationOutOfWorldBoundariesError}
+     * 
+     * @example
+     * ```javascript
+     * import { world, BlockPermutation } from "@minecraft/server";
+     * 
+     * // Get the block
+     * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+     * 
+     * block.setPermutation(BlockPermutation.resolve("minecraft:dirt"));
+     * ```
      */
     setPermutation(permutation: BlockPermutation): void;
 }
@@ -422,7 +432,7 @@ export class System {
      * import { world, system, TicksPerSecond } from "@minecraft/server";
      * 
      * const run = system.runInterval(() => {
-     *     world.sendMessage("Hello World!");
+     *     world.sendMessage("Hello, World!");
      *  
      *     // Clears the run
      *     system.clearRun(run);
@@ -465,7 +475,7 @@ export class System {
      * 
      * // Runs every 5 seconds
      * system.runInterval(() => {
-     *     world.sendMessage("Hello World!");
+     *     world.sendMessage(`Current tick: ${system.currentTick}`);
      * }, 5 * TicksPerSecond);
      * ```
      */
@@ -482,7 +492,7 @@ export class System {
      * 
      * // Runs after 5 seconds
      * system.runTimeout(() => {
-     *     world.sendMessage("Hello World!");
+     *     world.sendMessage("Hello, World!");
      * }, 5 * TicksPerSecond);
      * ```
      */
@@ -495,6 +505,14 @@ export class World {
     /** 
      * @remarks Returns an array of all active players within the world.
      * @throws This function can throw errors.
+     * 
+     * @example
+     * ```javascript
+     * import { world } from "@minecraft/server";
+     * 
+     * const players = world.getAllPlayers();
+     * console.warn(players.length);
+     * ```
      */
     getAllPlayers(): Player[];
     /** 
